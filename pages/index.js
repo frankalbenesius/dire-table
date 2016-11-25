@@ -23,10 +23,15 @@ export default class Index extends React.Component {
     return (
       <Provider store={this.store}>
         <Wrapper>
-          <Map></Map>
-          <Chat></Chat>
+          <Map />
+          <Chat />
         </Wrapper>
       </Provider>
     )
   }
+}
+
+Index.propTypes = {
+  initialState: React.PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  isServer: React.PropTypes.bool,
 }

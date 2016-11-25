@@ -1,14 +1,7 @@
 import React from 'react'
 import css from 'next/css'
 
-export default () => {
-  return (
-    <div className={style}>
-    </div>
-  )
-}
-
-const chatWidth = '300px';
+const chatWidth = '300px'
 const style = css({
   backgroundColor: 'SlateGrey',
   flex: `0 1 ${chatWidth}`,
@@ -16,3 +9,7 @@ const style = css({
     display: 'none',
   },
 })
+
+export default () => (
+  <div className={style} />
+)

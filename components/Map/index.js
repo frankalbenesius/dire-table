@@ -16,9 +16,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(Actions, dispatch),
 })
 
-const calcBoardPixels = ( cellSize, boardSize ) => {
-  return cellSize * boardSize + 1;
-}
+const calcBoardPixels = (cellSize, boardSize) => (cellSize * boardSize) + 1
 
 const Map = ({ settings }) => {
   const boardSizePx = calcBoardPixels(settings.cellSize, settings.boardSize)
@@ -32,6 +30,12 @@ const Map = ({ settings }) => {
       </Board>
     </Frame>
   )
+}
+Map.propTypes = {
+  settings: React.PropTypes.shape({
+    cellSize: React.PropTypes.number,
+    boardSize: React.PropTypes.number,
+  }),
 }
 
 export default connect(
