@@ -9,6 +9,7 @@ import Grid from './Grid'
 
 const mapStateToProps = state => ({
   areas: state.areas,
+  settings: state.settings,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -19,24 +20,19 @@ const calcBoardPixels = ( cellSize, boardSize ) => {
   return cellSize * boardSize + 1;
 }
 
-const Map = ({ cellSize, boardSize }) => {
-  const boardSizePx = calcBoardPixels(cellSize, boardSize)
+const Map = ({ settings }) => {
+  const boardSizePx = calcBoardPixels(settings.cellSize, settings.boardSize)
   return (
     <Frame boardSizePx={boardSizePx}>
       <Board boardSizePx={boardSizePx}>
         {/* <Areas /> */}
         {/* <Tokens /> */}
         {/* <Fog /> */}
-        <Grid cellSize={cellSize} />
+        <Grid cellSize={settings.cellSize} />
       </Board>
     </Frame>
   )
 }
-
-Map.defaultProps = {
-  cellSize: 20,
-  boardSize: 30,
-};
 
 export default connect(
   mapStateToProps,
