@@ -73,11 +73,12 @@ Map.defaultProps = {
 
 const style = {
   main: css({
-    backgroundColor: 'SlateGrey',
+    backgroundColor: 'AliceBlue',
     flex: '1',
     overflow: 'auto',
   }),
   svg: css({
+    margin: '0 auto', // still need to find a way to center board vertically at small board sizes
     display: 'block', // necessary to get rid of extra space from inline elements
   }),
   board: css({
