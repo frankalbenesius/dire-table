@@ -14,8 +14,8 @@ class Frame extends React.Component {
     // center the board to the middle of the mapWindow for intuitive scrolling
     const mapWindowHeightPx = this.mapWindow.offsetHeight
     const mapWindowWidthPx = this.mapWindow.offsetWidth
-    this.mapWindow.scrollTop = (this.props.boardSizePx / 2) - (mapWindowHeightPx / 2)
-    this.mapWindow.scrollLeft = (this.props.boardSizePx / 2) - (mapWindowWidthPx / 2)
+    this.mapWindow.scrollTop = this.props.centerPx - (mapWindowHeightPx / 2)
+    this.mapWindow.scrollLeft = this.props.centerPx - (mapWindowWidthPx / 2)
   }
   render() {
     return (
@@ -26,7 +26,7 @@ class Frame extends React.Component {
   }
 }
 Frame.propTypes = {
-  boardSizePx: React.PropTypes.number,
+  centerPx: React.PropTypes.number,
   children: React.PropTypes.element,
 }
 

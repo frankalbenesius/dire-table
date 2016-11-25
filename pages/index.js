@@ -30,7 +30,6 @@ export default class Index extends React.Component {
     )
   }
 }
-
 Index.propTypes = {
   initialState: React.PropTypes.object, // eslint-disable-line react/forbid-prop-types
   isServer: React.PropTypes.bool,

@@ -23,7 +23,7 @@ const Grid = ({ cellSize }) => (
   </g>
 )
 Grid.propTypes = {
-  cellSize: React.ProptTypes.number,
+  cellSize: React.PropTypes.number,
 }
 
 export default Grid

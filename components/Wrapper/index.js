@@ -17,7 +17,7 @@ const Wrapper = ({ children }) => (
   </div>
 )
 Wrapper.propTypes = {
-  children: React.PropTypes.element,
+  children: React.PropTypes.any, // eslint-disable-line react/forbid-prop-types
 }
 
 export default Wrapper

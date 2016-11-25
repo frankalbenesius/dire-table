@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as Actions from '../../store/actions'
 
+import Areas from './Areas'
 import Board from './Board'
 import Frame from './Frame'
 import Grid from './Grid'
@@ -18,12 +19,13 @@ const mapDispatchToProps = dispatch => ({
 
 const calcBoardPixels = (cellSize, boardSize) => (cellSize * boardSize) + 1
 
-const Map = ({ settings }) => {
+const Map = ({ areas, settings }) => {
   const boardSizePx = calcBoardPixels(settings.cellSize, settings.boardSize)
+  const centerPx = boardSizePx / 2
   return (
-    <Frame boardSizePx={boardSizePx}>
+    <Frame centerPx={centerPx}>
       <Board boardSizePx={boardSizePx}>
-        {/* <Areas /> */}
+        <Areas areas={areas} centerPx={centerPx} cellSize={settings.cellSize} />
         {/* <Tokens /> */}
         {/* <Fog /> */}
         <Grid cellSize={settings.cellSize} />
@@ -32,6 +34,7 @@ const Map = ({ settings }) => {
   )
 }
 Map.propTypes = {
+  areas: React.PropTypes.arrayOf(React.PropTypes.array),
   settings: React.PropTypes.shape({
     cellSize: React.PropTypes.number,
     boardSize: React.PropTypes.number,

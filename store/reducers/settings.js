@@ -1,7 +1,7 @@
 // import { ADD_AREA  } from '../constants/ActionTypes'
 
 const defaultState = {
-  cellSize: 75,
+  cellSize: 74,
   boardSize: 30,
 }
 
