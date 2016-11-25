@@ -20,12 +20,7 @@ const Grid = ({ cellSize }) => {
   );
 }
 
-const Board = ({ children, cellSize, boardSize}) => {
-  // putting in some real effort here trying to center this board
-  // will eventually only want to begin with the board centered
-  // hopefully 'dragging' the board will only need to set x & y offsets
-  const pixelWidth = cellSize * boardSize + 1; // +1px for final cell stroke
-  const translateBoard = width => `translate(${width/-2},${width/-2})`;
+const Board = ({ children, cellSize, boardWidthPx}) => {
   const originMarkerPath = (width) => {
     const center = width / 2;
     return [
@@ -36,35 +31,51 @@ const Board = ({ children, cellSize, boardSize}) => {
     ].join(' ');
   };
   return (
-    <g transform={translateBoard(pixelWidth)}>
-      <svg x='50%' y='50%' width={pixelWidth} height={pixelWidth}>
-        <rect id='boardBackground' width='100%' height='100%' className={style.board} ></rect>
-        { children }
-        <path d={originMarkerPath(pixelWidth)} fill='none' stroke='#000' strokeWidth='1' strokeOpacity='0.5'/>
-      </svg>
-    </g>
+    <svg width={boardWidthPx} height={boardWidthPx} className={style.svg}>
+      <rect id='boardBackground' width='100%' height='100%' className={style.board} ></rect>
+      { children }
+      <path d={originMarkerPath(boardWidthPx)} fill='none' stroke='#000' strokeWidth='1' strokeOpacity='0.5'/>
+    </svg>
   );
 }
 
-export default ({ cellSize = 75, boardSize = 50 }) => {
-  return (
-    <div className={style.svgWrapper}>
-      <svg width='100%' height='100%' className={style.svg}>
-        <Board cellSize={cellSize} boardSize={boardSize} >
+export default class Map extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      boardWidthPx: props.boardSize * props.cellSize + 1 // +1px for final cell stroke
+    };
+  }
+  componentDidMount() {
+    // center the board to the middle of the mapWindow for intuitive scrolling
+    const mapWindowHeightPx = this.refs.mapWindow.offsetHeight;
+    const mapWindowWidthPx = this.refs.mapWindow.offsetWidth;
+    this.refs.mapWindow.scrollTop = (this.state.boardWidthPx / 2) - (mapWindowHeightPx / 2);
+    this.refs.mapWindow.scrollLeft = (this.state.boardWidthPx / 2) - (mapWindowWidthPx / 2);
+  }
+  render() {
+    return (
+      <div ref='mapWindow' className={style.main}>
+        <Board cellSize={this.props.cellSize} boardWidthPx={this.state.boardWidthPx} >
           {/* <Areas /> */}
           {/* <Tokens /> */}
           {/* <Fog /> */}
-          <Grid cellSize={cellSize} />
+          <Grid cellSize={this.props.cellSize} />
         </Board>
-      </svg>
-    </div>
-  )
+      </div>
+    )
+  }
 }
+Map.defaultProps = {
+  cellSize: 75,
+  boardSize: 30,
+};
 
 const style = {
-  svgWrapper: css({
+  main: css({
     backgroundColor: 'SlateGrey',
     flex: '1',
+    overflow: 'auto',
   }),
   svg: css({
     display: 'block', // necessary to get rid of extra space from inline elements
