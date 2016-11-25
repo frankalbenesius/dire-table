@@ -1,9 +1,10 @@
 import React from 'react'
 import css from 'next/css'
+import { colors } from '../../constants'
 
 const style = {
   main: css({
-    fill: 'Gainsboro',
+    fill: colors.background,
     display: 'block',
     margin: '0 auto',
   }),

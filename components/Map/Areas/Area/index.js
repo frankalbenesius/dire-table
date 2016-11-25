@@ -1,4 +1,5 @@
 import React from 'react'
+import { colors } from '../../../constants'
 
 // we can move all of these calculations to a utility function
 // that Map will important since the only thing Area needs to know
@@ -19,7 +20,7 @@ const Area = ({ coords, centerPx, cellSize }) => {
   return (
     <polygon
       points={outlinePoints(outlinePxCoords)}
-      fill="PaleVioletRed"
+      fill={colors.foreground}
     />
   )
 }

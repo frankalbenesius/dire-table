@@ -1,11 +1,13 @@
 import React from 'react'
 import css from 'next/css'
+import { colors, zIndexes } from '../../constants'
 
 const style = {
   main: css({
-    backgroundColor: 'AliceBlue',
+    backgroundColor: colors.void,
     flex: '1',
     overflow: 'auto',
+    zIndex: zIndexes.map,
   }),
 }
 
