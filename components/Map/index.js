@@ -1,5 +1,23 @@
 import React from 'react'
 import css from 'next/css'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import * as Actions from '../../store/actions'
+
+const style = {
+  main: css({
+    backgroundColor: 'AliceBlue',
+    flex: '1',
+    overflow: 'auto',
+  }),
+  svg: css({
+    margin: '0 auto', // still need to find a way to center board vertically at small board sizes
+    display: 'block', // necessary to get rid of extra space from inline elements
+  }),
+  board: css({
+    fill: 'Gainsboro',
+  }),
+};
 
 const gridPath = cellSize => [
     'M', cellSize, 0,
@@ -39,7 +57,15 @@ const Board = ({ children, cellSize, boardWidthPx}) => {
   );
 }
 
-export default class Map extends React.Component {
+const mapStateToProps = state => ({
+  areas: state.areas,
+})
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(Actions, dispatch),
+})
+
+class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,6 +73,7 @@ export default class Map extends React.Component {
     };
   }
   componentDidMount() {
+    console.log(this.props)
     // center the board to the middle of the mapWindow for intuitive scrolling
     const mapWindowHeightPx = this.refs.mapWindow.offsetHeight;
     const mapWindowWidthPx = this.refs.mapWindow.offsetWidth;
@@ -66,22 +93,13 @@ export default class Map extends React.Component {
     )
   }
 }
+
 Map.defaultProps = {
   cellSize: 75,
   boardSize: 30,
 };
 
-const style = {
-  main: css({
-    backgroundColor: 'AliceBlue',
-    flex: '1',
-    overflow: 'auto',
-  }),
-  svg: css({
-    margin: '0 auto', // still need to find a way to center board vertically at small board sizes
-    display: 'block', // necessary to get rid of extra space from inline elements
-  }),
-  board: css({
-    fill: 'Gainsboro',
-  }),
-};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Map)
