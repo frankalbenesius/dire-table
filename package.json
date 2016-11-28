@@ -4,15 +4,17 @@
   "description": "a tabletop app",
   "main": "index.js",
   "scripts": {
+    "build": "next build",
     "dev": "next",
     "lint": "./node_modules/.bin/eslint .",
+    "start": "next start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Frank Albenesius",
   "license": "UNLICENSED",
   "dependencies": {
     "next": "^1.1.0",
-    "react": "^15.3.2",
+    "now": "latest",
     "react-redux": "^4.4.6",
     "redux": "^3.6.0"
   },
