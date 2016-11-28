@@ -21,6 +21,8 @@ const Area = ({ coords, centerPx, cellSize }) => {
     <polygon
       points={outlinePoints(outlinePxCoords)}
       fill={colors.foreground}
+      stroke={colors.background}
+      strokeWidth="8px"
     />
   )
 }
