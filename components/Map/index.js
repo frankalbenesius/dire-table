@@ -27,9 +27,10 @@ const Map = ({ areas, settings }) => {
     <Frame centerPx={centerPx}>
       <Board boardSizePx={boardSizePx}>
         <Areas paths={areas.map(toPath(centerPx, settings.cellSize))} />
-        {/* <Tokens /> */}
+        {/* <Map Elements /> */}
         {/* <Fog /> */}
         <Grid cellSize={settings.cellSize} />
+        {/* <Tokens /> */}
       </Board>
     </Frame>
   )
