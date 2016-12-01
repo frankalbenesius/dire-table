@@ -2,22 +2,18 @@ import React from 'react'
 
 import Area from './Area'
 
-const Areas = ({ centerPx, areas, cellSize }) => (
+const Areas = ({ paths }) => (
   <g>
-    {areas.map((coords, i) => (
+    {paths.map((path, i) => (
       <Area
         key={i}
-        coords={coords}
-        centerPx={centerPx}
-        cellSize={cellSize}
+        path={path}
       />
     ))}
   </g>
 )
 Areas.propTypes = {
-  centerPx: React.PropTypes.number,
-  cellSize: React.PropTypes.number,
-  areas: React.PropTypes.arrayOf(React.PropTypes.array),
+  paths: React.PropTypes.arrayOf(React.PropTypes.string),
 }
 
 export default Areas

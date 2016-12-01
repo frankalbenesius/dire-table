@@ -2,6 +2,7 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as Actions from '../../store/actions'
+import { toPath } from './mapping'
 
 import Areas from './Areas'
 import Board from './Board'
@@ -25,7 +26,7 @@ const Map = ({ areas, settings }) => {
   return (
     <Frame centerPx={centerPx}>
       <Board boardSizePx={boardSizePx}>
-        <Areas areas={areas} centerPx={centerPx} cellSize={settings.cellSize} />
+        <Areas paths={areas.map(toPath(centerPx, settings.cellSize))} />
         {/* <Tokens /> */}
         {/* <Fog /> */}
         <Grid cellSize={settings.cellSize} />
