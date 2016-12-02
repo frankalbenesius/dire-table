@@ -8,7 +8,7 @@ const Area = ({ path }) => (
     fill={colors.foreground}
     stroke={colors.background}
     strokeLinecap="square"
-    strokeWidth="8"
+    strokeWidth="9"
   />
 )
 
