@@ -5,6 +5,7 @@ export const colors = {
   chat: 'Gainsboro',
   void: 'AliceBlue',
   shadow: '#333',
+  fog: '#2c3339', //http://www.color-hex.com/color/708090
 }
 
 // sizes
