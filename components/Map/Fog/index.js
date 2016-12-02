@@ -31,7 +31,7 @@ const Fog = ({ path, fogOpacity }) => (
           className={styles.dashedPath}
           d={path}
           fill="#000"
-          stroke="white"
+          stroke="#000"
           strokeWidth="4"
           strokeDasharray={dashLength}
         />
