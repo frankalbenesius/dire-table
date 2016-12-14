@@ -19,4 +19,5 @@ export const sizes = {
 export const zIndexes = {
   map: 0,
   chat: 1,
+  hover: 2,
 }

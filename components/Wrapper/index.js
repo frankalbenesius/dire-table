@@ -12,6 +12,7 @@ const Wrapper = ({ children }) => (
   <div className={style}>
     <Head>
       <link rel="stylesheet" href="static/css/index.css" />
+      <title>Dire Tools: Map</title>
     </Head>
     {children}
   </div>

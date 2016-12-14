@@ -3,6 +3,7 @@ import { Provider } from 'react-redux'
 import initStore from '../store'
 import reducer from '../store/reducers'
 
+import PettyNotice from '../components/PettyNotice'
 import Wrapper from '../components/Wrapper'
 import Map from '../components/Map'
 import Chat from '../components/Chat'
@@ -23,6 +24,7 @@ export default class Index extends React.Component {
     return (
       <Provider store={this.store}>
         <Wrapper>
+          <PettyNotice />
           <Map />
           <Chat />
         </Wrapper>
