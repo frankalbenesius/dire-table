@@ -1,9 +1,9 @@
 // import { ADD_AREA  } from '../constants/ActionTypes'
 
 const defaultState = {
-  cellSize: 74,
-  boardSize: 30,
-  fogOpacity: 0.75,
+  cellSize: 74, // for zooming controls
+  boardSize: 30, // for expanding map
+  fogOpacity: 0.75, // replace with playerType and have it determine opacity
 }
 
 export default function reducer(state = defaultState, action) {

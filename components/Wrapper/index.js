@@ -11,8 +11,9 @@ const style = css({
 const Wrapper = ({ children }) => (
   <div className={style}>
     <Head>
-      <link rel="stylesheet" href="static/css/index.css" />
       <title>Dire Tools: Map</title>
+      <link rel="stylesheet" href="static/css/index.css" />
+      <script src="https://cdn.linearicons.com/free/1.0.0/svgembedder.min.js" />
     </Head>
     {children}
   </div>
