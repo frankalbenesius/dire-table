@@ -13,6 +13,8 @@ export const sizes = {
   borderRadius: '5px',
   shadow: '15px',
   chatWidth: '300px',
+  fogStroke: '4px',
+  areaStroke: '9px',
 }
 
 // z-index

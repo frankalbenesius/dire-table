@@ -1,5 +1,5 @@
 import React from 'react'
-import { colors } from '../../../constants'
+import { colors, sizes } from '../../../constants'
 
 const Area = ({ path }) => (
   <path
@@ -8,7 +8,7 @@ const Area = ({ path }) => (
     fill={colors.foreground}
     stroke={colors.background}
     strokeLinecap="square"
-    strokeWidth="9"
+    strokeWidth={sizes.areaStroke}
   />
 )
 

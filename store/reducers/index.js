@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux'
 import areas from './areas'
-import fog from './fog'
+import fogs from './fogs'
 import settings from './settings'
 
 const rootReducer = combineReducers({
   areas,
-  fog,
+  fogs,
   settings,
 })
 
