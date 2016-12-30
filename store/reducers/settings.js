@@ -3,7 +3,7 @@
 const defaultState = {
   cellSize: 74, // for zooming controls
   boardSize: 30, // for expanding map
-  fogOpacity: 0.75, // replace with playerType and have it determine opacity
+  fogOpacity: 1, // replace with playerType and have it determine opacity
 }
 
 export default function reducer(state = defaultState, action) {

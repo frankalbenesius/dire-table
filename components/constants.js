@@ -22,7 +22,7 @@ export const colors = {
 }
 
 // sizes
-const baseStroke = 4
+const baseStroke = 4 // should be 18% of cell size
 export const sizes = {
   borderRadius: '5px',
   shadow: '15px',

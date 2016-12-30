@@ -13,7 +13,7 @@ const Token = ({ player, icon, circle }) => (
 )
 
 Token.propTypes = {
-  player: React.PropTypes.string,
+  player: React.PropTypes.number,
   icon: React.PropTypes.string,
   circle: React.PropTypes.shape({
     cx: React.PropTypes.number,

@@ -5,7 +5,7 @@ import * as Actions from '../../store/actions'
 
 import Areas from './Areas'
 import Board from './Board'
-import Fogs from './Fogs'
+// import Fogs from './Fogs'
 import Frame from './Frame'
 import Grid from './Grid'
 import Tokens from './Tokens'
@@ -23,7 +23,7 @@ const mapDispatchToProps = dispatch => ({
 
 const calcBoardPixels = (cellSize, boardSize) => (cellSize * boardSize) + 1
 
-const Map = ({ areas, fogs, settings, tokens }) => {
+const Map = ({ areas, settings, tokens }) => {
   const boardPx = calcBoardPixels(settings.cellSize, settings.boardSize)
   const sizes = {
     boardPx,
@@ -34,17 +34,16 @@ const Map = ({ areas, fogs, settings, tokens }) => {
     <Frame {...sizes}>
       <Board {...sizes}>
         <Areas areas={areas} />
+        {/* <Fogs fogs={fogs} opacity={settings.fogOpacity} /> */}
         <Grid cellSize={settings.cellSize} />
-        {/* NPC Tokens */}
-        <Fogs fogs={fogs} opacity={settings.fogOpacity} />
         <Tokens tokens={tokens} />
       </Board>
     </Frame>
   )
 }
 Map.propTypes = {
+  // fogs: React.PropTypes.arrayOf(React.PropTypes.array),
   areas: React.PropTypes.arrayOf(React.PropTypes.array),
-  fogs: React.PropTypes.arrayOf(React.PropTypes.array),
   tokens: React.PropTypes.arrayOf(React.PropTypes.object),
   settings: React.PropTypes.shape({
     cellSize: React.PropTypes.number,
