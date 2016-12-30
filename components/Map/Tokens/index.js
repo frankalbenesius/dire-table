@@ -7,7 +7,7 @@ const Tokens = ({ tokens, mapUtils }) => (
       <Token
         key={i}
         circle={mapUtils.toCircle(token.location, token.size)}
-        color="#e33d27" // some way to show player
+        player={token.player}
         icon={token.icon}
       />
     ))}

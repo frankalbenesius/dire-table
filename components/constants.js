@@ -1,16 +1,26 @@
 import palette from './palette'
 
 // colors
+const scheme = 'gray'
 export const colors = {
   brand: palette.base,
-  foreground: 'Gainsboro',
-  background: 'SlateGrey',
-  chat: 'Gainsboro',
+  foreground: palette[scheme][2],
+  background: palette[scheme][7],
+  chat: palette[scheme][2],
+  fog: palette[scheme][9],
   void: palette.black,
   shadow: palette.black,
-  fog: '#2c3339', //http://www.color-hex.com/color/708090
+  player: [
+    palette.gray[0],
+    palette.red[5], // red (currently "brand", also)
+    palette.blue[6],
+    palette.green[7],
+    palette.orange[5],
+    palette.fuschia[6],
+    palette.cyan[5],
+  ],
 }
-// brand: e33d27
+
 // sizes
 const baseStroke = 4
 export const sizes = {
