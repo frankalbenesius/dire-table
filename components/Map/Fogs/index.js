@@ -13,7 +13,7 @@ const styles = {
   }),
 }
 
-const Fogs = ({ paths, fogOpacity }) => (
+const Fogs = ({ fogs, opacity, mapUtils }) => (
   <g>
     <defs>
       <mask id="fogWindow"> {/* mask: white = yes, black = no */}
@@ -24,11 +24,11 @@ const Fogs = ({ paths, fogOpacity }) => (
           mask="url(#fogWindow)"
         />
         <g>
-          {paths.map((path, i) => (
+          {fogs.map((fog, i) => (
             <path
               key={i}
               className={styles.dashedPath}
-              d={path}
+              d={mapUtils.toPath(fog)}
               fillRule="evenodd"
               fill="#000"
               stroke="#000"
@@ -42,15 +42,15 @@ const Fogs = ({ paths, fogOpacity }) => (
     <rect
       width="100%"
       height="100%"
-      opacity={fogOpacity}
+      opacity={opacity}
       fill={colors.fog}
       mask="url(#fogWindow)"
     />
   </g>
 )
 Fogs.propTypes = {
-  fogOpacity: React.PropTypes.number,
-  paths: React.PropTypes.arrayOf(React.PropTypes.string),
+  opacity: React.PropTypes.number,
+  fogs: React.PropTypes.arrayOf(React.PropTypes.array),
 }
 
 export default Fogs

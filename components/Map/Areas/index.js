@@ -2,18 +2,21 @@ import React from 'react'
 
 import Area from './Area'
 
-const Areas = ({ paths }) => (
+const Areas = ({ areas, mapUtils }) => (
   <g>
-    {paths.map((path, i) => (
+    {areas.map((area, i) => (
       <Area
         key={i}
-        path={path}
+        path={mapUtils.toPath(area)}
       />
     ))}
   </g>
 )
 Areas.propTypes = {
-  paths: React.PropTypes.arrayOf(React.PropTypes.string),
+  areas: React.PropTypes.arrayOf(React.PropTypes.array),
+  mapUtils: React.PropTypes.shape({
+    toPath: React.PropTypes.func,
+  }),
 }
 
 export default Areas
