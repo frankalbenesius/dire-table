@@ -12,12 +12,6 @@ const defaultState = [
     size: 1,
   },
   {
-    player: 0,
-    icon: 'mustache',
-    location: [5, 2],
-    size: 2,
-  },
-  {
     player: 1,
     icon: 'mustache',
     location: [-0.5, 3.5],
@@ -38,7 +32,7 @@ const defaultState = [
   {
     player: 4,
     icon: 'mustache',
-    location: [2.5, 3.5],
+    location: [4.5, 1.5],
     size: 1,
   },
   {
@@ -52,6 +46,12 @@ const defaultState = [
     icon: 'mustache',
     location: [4.5, 3.5],
     size: 1,
+  },
+  {
+    player: 0,
+    icon: 'mustache',
+    location: [5, 2],
+    size: 2,
   },
 ]
 
