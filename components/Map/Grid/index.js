@@ -1,4 +1,5 @@
 import React from 'react'
+import { colors } from '../../constants'
 
 const gridPath = cellSize => [
   'M', cellSize, 0,
@@ -13,7 +14,7 @@ const Grid = ({ cellSize }) => (
         <path
           d={gridPath(cellSize)}
           fill="none"
-          stroke="#000"
+          stroke={colors.black}
           strokeWidth="1"
           strokeOpacity="0.5"
         />

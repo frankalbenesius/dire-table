@@ -13,6 +13,7 @@
   "author": "Frank Albenesius",
   "license": "UNLICENSED",
   "dependencies": {
+    "martinez-polygon-clipping": "^0.1.5",
     "next": "^1.1.0",
     "now": "latest",
     "react-redux": "^4.4.6",
