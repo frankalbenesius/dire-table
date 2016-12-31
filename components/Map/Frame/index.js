@@ -4,7 +4,7 @@ import { colors, zIndexes } from '../../constants'
 
 const style = {
   main: css({
-    backgroundColor: colors.void,
+    backgroundColor: colors.black,
     flex: '1',
     overflow: 'auto',
     zIndex: zIndexes.map,

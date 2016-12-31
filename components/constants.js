@@ -4,12 +4,13 @@ import palette from './palette'
 const scheme = 'gray'
 export const colors = {
   brand: palette.base,
+  black: palette.black,
   foreground: palette[scheme][2],
   background: palette[scheme][7],
-  chat: palette[scheme][2],
   fog: palette[scheme][9],
-  void: palette.black,
-  shadow: palette.black,
+  chat: palette.gray[2],
+  tools: palette.gray[2],
+  selected: palette.cyan[2],
   player: [
     palette.gray[0],
     palette.red[5], // red (currently "brand", also)

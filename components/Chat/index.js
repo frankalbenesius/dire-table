@@ -6,7 +6,7 @@ const style = css({
   backgroundColor: colors.chat,
   flex: `0 1 ${sizes.chatWidth}`,
   zIndex: zIndexes.chat,
-  boxShadow: `0 0 ${sizes.shadow} ${colors.shadow}`,
+  boxShadow: `0 0 ${sizes.shadow} ${colors.black}`,
   '@media(max-width: 850px)': {
     display: 'none',
   },

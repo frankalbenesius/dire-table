@@ -6,6 +6,7 @@ import reducer from '../store/reducers'
 import Wrapper from '../components/Wrapper'
 import Map from '../components/Map'
 import Chat from '../components/Chat'
+import Tools from '../components/Tools'
 
 export default class Index extends React.Component {
   static getInitialProps({ req }) {
@@ -24,6 +25,7 @@ export default class Index extends React.Component {
       <Provider store={this.store}>
         <Wrapper>
           <Map />
+          <Tools />
           <Chat />
         </Wrapper>
       </Provider>
