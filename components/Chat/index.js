@@ -1,17 +1,29 @@
 import React from 'react'
-import css from 'next/css'
-import { colors, sizes, zIndexes } from '../constants'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import * as Actions from '../../store/actions'
+import Wrapper from './Wrapper'
+import Messages from './Messages'
 
-const style = css({
-  backgroundColor: colors.chat,
-  flex: `0 1 ${sizes.chatWidth}`,
-  zIndex: zIndexes.chat,
-  boxShadow: `0 0 ${sizes.shadow} ${colors.black}`,
-  '@media(max-width: 850px)': {
-    display: 'none',
-  },
+const mapStateToProps = state => ({
+  chat: state.chat,
 })
 
-export default () => (
-  <div className={style} />
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(Actions, dispatch),
+})
+
+const Chat = ({ chat }) => (
+  <Wrapper>
+    <Messages messages={chat} />
+    {/* <ChatInput /> */}
+  </Wrapper>
 )
+Chat.propTypes = {
+  chat: React.PropTypes.arrayOf(React.PropTypes.object),
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Chat)

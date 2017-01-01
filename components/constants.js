@@ -26,12 +26,12 @@ export const colors = {
 // sizes
 const baseStroke = 4 // should be 18% of cell size
 export const sizes = {
-  borderRadius: '5px',
-  shadow: '15px',
-  chatWidth: '300px',
+  shadow: '1rem',
+  chatWidth: '20rem',
   fogStroke: `${baseStroke}px`,
   areaStroke: `${baseStroke * 2}px`,
   tokenPadding: `${baseStroke + 3}px`,
+  text: '0.8rem',
 }
 
 // z-index
