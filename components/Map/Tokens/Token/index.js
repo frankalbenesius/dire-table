@@ -1,15 +1,16 @@
 import React from 'react'
 import { style } from 'next/css'
 import { colors, sizes, noPx } from '../../../constants'
+import Icon from '../../../Icon'
 
 const styles = {
   token: style({
     cursor: 'pointer',
+    fill: '#000000',
   }),
 }
 
 const Token = ({ player, icon, circle }) => {
-  const iconLink = `static/icon/${icon}.svg`
   const iconRadius = circle.r * 0.7
   return (
     <g className={styles.token}>
@@ -20,13 +21,15 @@ const Token = ({ player, icon, circle }) => {
         r={circle.r - noPx(sizes.tokenPadding)}
         fill={colors.player[player]}
       />
-      <image
+      <svg
         className={styles.icon}
         x={circle.cx - iconRadius}
         y={circle.cy - iconRadius}
         width={iconRadius * 2}
-        xlinkHref={iconLink}
-      />
+        height={iconRadius * 2}
+      >
+        <Icon icon={icon} />
+      </svg>
     </g>
   )
 }

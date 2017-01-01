@@ -1,15 +1,14 @@
 import React from 'react'
 import Head from 'next/head'
-import css from 'next/css'
+import { style } from 'next/css'
 
-const style = css({
+const styles = style({
   height: '100%',
   display: 'flex',
 })
 
-
 const Wrapper = ({ children }) => (
-  <div className={style}>
+  <div className={styles}>
     <Head>
       <title>Dire Tools: Map</title>
       <link rel="stylesheet" href="static/css/index.css" />

@@ -5,6 +5,7 @@ const scheme = 'gray'
 export const colors = {
   brand: palette.base,
   black: palette.black,
+  white: palette.gray[0],
   foreground: palette[scheme][2],
   background: palette[scheme][7],
   fog: palette[scheme][9],

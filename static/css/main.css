@@ -5,6 +5,10 @@ html, body {
   font-size: 16px;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 #__next {
   height: 100%;
 }

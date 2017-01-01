@@ -1,5 +1,6 @@
 import React from 'react'
 import { style } from 'next/css'
+import Icon from '../Icon'
 import { colors, sizes } from '../constants'
 
 const styles = {
@@ -11,11 +12,14 @@ const styles = {
     justifyContent: 'center',
   }),
   tools: style({
+    fill: '#000',
     boxShadow: `0 0 ${sizes.shadow} ${colors.black}`,
     backgroundColor: colors.tools,
     border: `2px solid ${colors.black}`,
   }),
   tool: style({
+    padding: '5px',
+    fill: colors.black,
     width: '50px',
     height: '50px',
     textAlign: 'center',
@@ -43,13 +47,16 @@ const Tools = () => (
   <div className={styles.wrapper}>
     <div className={styles.tools}>
       <div className={`${styles.tool} ${styles.selected}`}>
-        <img className={styles.icon} alt="tool" src="static/icon/smile.svg" />
+        <Icon icon="smile" />
       </div>
       <div className={styles.tool}>
-        <img className={styles.icon} alt="tool" src="static/icon/smile.svg" />
+        <Icon icon="smile" />
       </div>
       <div className={styles.tool}>
-        <img className={styles.icon} alt="tool" src="static/icon/smile.svg" />
+        <Icon icon="smile" />
+      </div>
+      <div className={styles.tool}>
+        <Icon icon="smile" />
       </div>
     </div>
   </div>
