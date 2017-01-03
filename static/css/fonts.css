@@ -9,3 +9,14 @@
     font-weight: 400;
     font-style: normal;
 }
+@font-face {
+    font-family: 'Vulf Mono Bold';
+    src:    url('../fonts/Vulf_Mono-Bold_web.eot');
+    src:    url('../fonts/Vulf_Mono-Bold_web.eot?#iefix') format('embedded-opentype'),
+            url('../fonts/Vulf_Mono-Bold_web.woff') format('woff'),
+            url('../fonts/Vulf_Mono-Bold_web.woff2') format('woff2'),
+            url('../fonts/Vulf_Mono-Bold_web.ttf') format('truetype'),
+            url('../fonts/Vulf_Mono-Bold_web.svg#svgFontName') format('svg');
+    font-weight: 700;
+    font-style: normal;
+}

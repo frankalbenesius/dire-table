@@ -26,13 +26,13 @@ const defaultState = [
   },
   {
     player: 2,
-    timestamp: 1483293078527,
+    timestamp: 1483293078521,
     type: 'text',
     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras pellentesque libero sit amet leo placerat, sed dignissim nisi blandit. Nunc dictum ligula in faucibus tincidunt. Quisque ornare eu magna sed semper. Maecenas mi nunc, semper ut sapien sit amet, imperdiet feugiat enim. Ut sed massa est.',
   },
   {
     player: 0,
-    timestamp: 1483293100183,
+    timestamp: 1483293100182,
     type: 'text',
     content: 'Nulla ac sagittis felis, mollis commodo massa.',
   },
@@ -44,14 +44,38 @@ const defaultState = [
   },
   {
     player: 4,
-    timestamp: 1483293100183,
+    timestamp: 1483293100184,
     type: 'text',
     content: 'Apple butter scotch tape cupcake. Tenacity.',
   },
   {
     player: 3,
-    timestamp: 1483408020973,
+    timestamp: 1483408020975,
     type: 'text',
+    content: 'Praesent pulvinar magna quis sapien suscipit egestas. In sit amet porta erat. Duis convallis aliquam nisi eget molestie. Donec nec nisl purus.',
+  },
+  {
+    player: 3,
+    timestamp: 1483408020976,
+    type: 'text',
+    content: 'Praesent pulvinar magna quis sapien suscipit egestas. In sit amet porta erat. Duis convallis aliquam nisi eget molestie. Donec nec nisl purus.',
+  },
+  {
+    player: 5,
+    timestamp: 1483408020977,
+    type: 'text',
+    content: 'Praesent pulvinar magna quis sapien suscipit egestas. In sit amet porta erat. Duis convallis aliquam nisi eget molestie. Donec nec nisl purus.',
+  },
+  {
+    player: 5,
+    timestamp: 1483408020978,
+    type: 'text',
+    content: 'Yes. I know nothing moves yet. I\'ve mostly been working on getting the thingies displaying. I will likely change this font, too. :(',
+  },
+  {
+    player: 6,
+    timestamp: 1483408020979,
+    type: 'roll',
     content: 'Praesent pulvinar magna quis sapien suscipit egestas. In sit amet porta erat. Duis convallis aliquam nisi eget molestie. Donec nec nisl purus.',
   },
 ]

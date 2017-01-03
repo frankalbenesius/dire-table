@@ -1,10 +1,12 @@
 import React from 'react'
 import { style } from 'next/css'
+import { padEnd } from 'lodash'
+import formatDate from 'date-fns/format'
 import { colors } from '../../../constants'
 
 const styles = {
   message: style({
-    marginTop: '0.5rem',
+    margin: '0.5rem 0',
   }),
   roll: style({
     padding: '1rem',
@@ -18,7 +20,7 @@ const styles = {
 
 const playerHeaderStyles = i => style({
   color: colors.player[i],
-  margin: '1em 0 0.5em',
+  margin: '1em 0',
 })
 
 const Roll = () => (
@@ -26,10 +28,10 @@ const Roll = () => (
 )
 
 const Message = ({ showHeader, content, player, timestamp, type }) => (
-  <div className={styles.message}>
+  <div title={formatDate(timestamp, 'M/D/YY h:mm A')} className={styles.message}>
     {
       showHeader ? (
-        <div className={playerHeaderStyles(player)}>Player {player}</div>
+        <div className={playerHeaderStyles(player)}>{padEnd(` Player ${player} `, 30, '-')}</div>
       ) : null
     }
 
