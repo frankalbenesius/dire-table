@@ -10,9 +10,9 @@ const Tokens = ({ tokens, mapUtils }) => (
       <Token
         key={i}
         id={token.id}
-        circle={mapUtils.toCircle(token.location, token.size)}
         player={token.player}
         icon={token.icon}
+        {...mapUtils.toCircle(token.location, token.size)}
       />
     ))}
   </g>

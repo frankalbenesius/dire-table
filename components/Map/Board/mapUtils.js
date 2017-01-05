@@ -29,7 +29,7 @@ export const toCircle = (center, unit) => (coord, size) => {
   return {
     cx: pxCoord[0],
     cy: pxCoord[1],
-    r: (size / 2) * unit,
+    radius: (size / 2) * unit,
   }
 }
 
