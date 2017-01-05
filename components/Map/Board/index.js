@@ -20,7 +20,12 @@ const Board = ({ children, centerPx, boardPx, unitPx }) => {
     }),
   )
   return (
-    <svg id="boardSvg" width={boardPx} height={boardPx} className={style.main}>
+    <svg
+      id="boardSvg"
+      width={boardPx}
+      height={boardPx}
+      className={style.main}
+    >
       <rect id="boardBackground" width="100%" height="100%" />
       <DropShadowDefinition />
       { childrenWithProps }

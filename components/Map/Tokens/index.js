@@ -6,18 +6,19 @@ const bySize = (a, b) => b.size - a.size
 
 const Tokens = ({ tokens, mapUtils }) => (
   <g>
-    {tokens.sort(bySize).map((token, i) => (
+    {Object.values(tokens).sort(bySize).map((token, i) => (
       <Token
         key={i}
+        id={token.id}
         circle={mapUtils.toCircle(token.location, token.size)}
         player={token.player}
         icon={token.icon}
       />
     ))}
   </g>
-)
+  )
 Tokens.propTypes = {
-  tokens: React.PropTypes.arrayOf(React.PropTypes.object),
+  tokens: React.PropTypes.object, // eslint-disable-line react/forbid-prop-types
   mapUtils: React.PropTypes.shape({
     toCircle: React.PropTypes.func,
   }),

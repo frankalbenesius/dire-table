@@ -1,5 +1,3 @@
-// import { ADD_AREA  } from '../constants/ActionTypes'
-
 const defaultState = {
   cellSize: 74, // for zooming controls
   boardSize: 30, // for expanding map
@@ -8,7 +6,6 @@ const defaultState = {
 
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
-    // case ADD_AREA: return state
     default: return state
   }
 }

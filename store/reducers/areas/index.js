@@ -1,5 +1,4 @@
 import m from 'martinez-polygon-clipping'
-import { ADD_AREA } from '../constants/ActionTypes'
 
 const areaExisting = [
   [[-5, 8], [-2, 8], [-2, 5], [-5, 5], [-5, 8]],
@@ -51,7 +50,6 @@ const defaultAreas = [
 
 export default function reducer(state = defaultAreas, action) {
   switch (action.type) {
-    case ADD_AREA: return state
     default: return state
   }
 }

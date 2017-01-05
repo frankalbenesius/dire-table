@@ -1,4 +1,4 @@
-import * as types from '../constants/ActionTypes'
+import * as types from '../actionTypes'
 
-/* eslint-disable import/prefer-default-export */
-export const addArea = () => ({ type: types.ADD_AREA })
+export const dragTokenStart = tokenId => ({ type: types.DRAG_TOKEN_START, tokenId })
+export const dragTokenEnd = () => ({ type: types.DRAG_TOKEN_END })

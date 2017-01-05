@@ -35,6 +35,7 @@ const Token = ({ player, icon, circle }) => {
 }
 
 Token.propTypes = {
+  // id: React.PropTypes.number,
   player: React.PropTypes.number,
   icon: React.PropTypes.string,
   circle: React.PropTypes.shape({
