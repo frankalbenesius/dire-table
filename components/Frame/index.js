@@ -1,6 +1,6 @@
 import React from 'react'
 import css from 'next/css'
-import { colors, zIndexes } from '../../constants'
+import { colors, zIndexes } from '../constants'
 
 const style = {
   main: css({

@@ -1,6 +1,6 @@
 import React from 'react'
 import { style, keyframes } from 'next/css'
-import { colors, sizes } from './../../../components/constants'
+import { colors, sizes } from '../../components/constants'
 
 const dashLength = 10
 const dashedAnimation = keyframes({

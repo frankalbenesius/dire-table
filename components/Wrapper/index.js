@@ -1,5 +1,4 @@
 import React from 'react'
-import Head from 'next/head'
 import { style } from 'next/css'
 
 const styles = style({
@@ -9,10 +8,6 @@ const styles = style({
 
 const Wrapper = ({ children }) => (
   <div className={styles}>
-    <Head>
-      <title>Dire Tools: Map</title>
-      <link rel="stylesheet" href="static/css/index.css" />
-    </Head>
     {children}
   </div>
 )

@@ -1,6 +1,6 @@
 import React from 'react'
 import { style } from 'next/css'
-import { colors, sizes, zIndexes } from '../../constants'
+import { colors, sizes, zIndexes } from '../constants'
 
 const styles = {
   wrapper: style({

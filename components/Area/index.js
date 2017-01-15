@@ -1,5 +1,5 @@
 import React from 'react'
-import { colors, sizes } from '../../../constants'
+import { colors, sizes } from '../constants'
 
 const Area = ({ path }) => (
   <path

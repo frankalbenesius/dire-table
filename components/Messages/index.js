@@ -1,6 +1,6 @@
 import React from 'react'
 import { style } from 'next/css'
-import { sizes } from '../../constants'
+import { sizes } from '../constants'
 import Message from './Message'
 
 const styles = {

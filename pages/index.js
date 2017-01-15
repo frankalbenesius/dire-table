@@ -1,11 +1,14 @@
 import React from 'react'
 import { Provider } from 'react-redux'
+import Head from 'next/head'
+
 import initStore from '../store'
 import reducer from '../store/reducers'
 
+import Map from '../containers/Map'
+import Chat from '../containers/Chat'
+
 import Wrapper from '../components/Wrapper'
-import Map from '../components/Map'
-import Chat from '../components/Chat'
 import Tools from '../components/Tools'
 
 export default class Index extends React.Component {
@@ -24,6 +27,10 @@ export default class Index extends React.Component {
     return (
       <Provider store={this.store}>
         <Wrapper>
+          <Head>
+            <title>Dire Tools: Map</title>
+            <link rel="stylesheet" href="static/css/index.css" />
+          </Head>
           <Map />
           <Tools />
           <Chat />

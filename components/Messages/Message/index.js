@@ -2,7 +2,7 @@ import React from 'react'
 import { style } from 'next/css'
 import { padEnd } from 'lodash'
 import formatDate from 'date-fns/format'
-import { colors } from '../../../constants'
+import { colors } from '../../constants'
 
 const styles = {
   message: style({
