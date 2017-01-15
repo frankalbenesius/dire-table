@@ -1,65 +1,23 @@
 import React from 'react'
-import { style } from 'next/css'
-import Icon from '../../components/Icon'
-import { colors, sizes } from '../../components/constants'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import * as Actions from '../../store/actions'
 
-const styles = {
-  wrapper: style({
-    display: 'flex',
-    position: 'absolute',
-    left: '30px',
-    top: '30px',
-    justifyContent: 'center',
-  }),
-  tools: style({
-    fill: '#000',
-    boxShadow: `0 0 ${sizes.shadow} ${colors.black}`,
-    backgroundColor: colors.tools,
-    border: `2px solid ${colors.black}`,
-  }),
-  tool: style({
-    padding: '5px',
-    fill: colors.black,
-    width: '50px',
-    height: '50px',
-    textAlign: 'center',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottom: `2px solid ${colors.black}`,
-    ':last-child': {
-      borderBottom: '0',
-    },
-    ':hover': {
-      backgroundColor: colors.selected,
-      cursor: 'pointer',
-    },
-  }),
-  selected: style({
-    backgroundColor: colors.selected,
-  }),
-  icon: style({
-    width: '80%',
-  }),
-}
+import Toolbar from '../../components/Toolbar'
+
+const mapStateToProps = state => ({
+  tool: state.tool,
+})
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(Actions, dispatch),
+})
 
 const Tools = () => (
-  <div className={styles.wrapper}>
-    <div className={styles.tools}>
-      <div className={`${styles.tool} ${styles.selected}`}>
-        <Icon icon="smile" />
-      </div>
-      <div className={styles.tool}>
-        <Icon icon="smile" />
-      </div>
-      <div className={styles.tool}>
-        <Icon icon="smile" />
-      </div>
-      <div className={styles.tool}>
-        <Icon icon="smile" />
-      </div>
-    </div>
-  </div>
+  <Toolbar />
 )
 
-export default Tools
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Tools)
