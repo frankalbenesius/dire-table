@@ -13,7 +13,7 @@ import Token from '../../components/Token'
 const mapStateToProps = state => ({
   areas: state.areas,
   board: state.board,
-  tokens: state.tokens,
+  tokens: Object.keys(state.tokens).map(id => state.tokens[id]),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -22,39 +22,45 @@ const mapDispatchToProps = dispatch => ({
 
 const bySize = (a, b) => b.size - a.size
 
-const Map = ({ areas, board, tokens }) => {
-  const boardPx = (board.squarePx * board.size) + 1
-  const centerPx = boardPx / 2
-  const mapUtils = createMapUtils(centerPx, board.squarePx)
-  return (
-    <Frame centerPx={centerPx}>
-      <Board boardPx={boardPx}>
-        {areas.map((area, i) => (
-          <Area
-            key={i}
-            path={mapUtils.toPath(area)}
-          />
-        ))}
-        <Grid squarePx={board.squarePx} />
-        {Object.keys(tokens).map(id => tokens[id]).sort(bySize).map((token, i) => (
-          <Token
-            key={i}
-            id={token.id}
-            player={token.player}
-            icon={token.icon}
-            {...mapUtils.toCircle(token.location, token.size)}
-          />
-        ))}
-      </Board>
-    </Frame>
-  )
+class Map extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
+  render() {
+    const boardPx = (this.props.board.squarePx * this.props.board.size) + 1
+    const centerPx = boardPx / 2
+    const mapUtils = createMapUtils(centerPx, this.props.board.squarePx)
+    return (
+      <Frame centerPx={centerPx}>
+        <Board boardPx={boardPx}>
+          {this.props.areas.map((area, i) => (
+            <Area
+              key={i}
+              path={mapUtils.toPath(area)}
+            />
+          ))}
+          <Grid squarePx={this.props.board.squarePx} />
+          {this.props.tokens.sort(bySize).map((token, i) => (
+            <Token
+              key={i}
+              id={token.id}
+              player={token.player}
+              icon={token.icon}
+              {...mapUtils.toCircle(token.location, token.size)}
+            />
+          ))}
+        </Board>
+      </Frame>
+    )
+  }
 }
 Map.propTypes = {
   areas: React.PropTypes.arrayOf(React.PropTypes.array),
-  tokens: React.PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  tokens: React.PropTypes.arrayOf(React.PropTypes.object),
   board: React.PropTypes.shape({
     squarePx: React.PropTypes.number,
-    boardWidth: React.PropTypes.number,
+    size: React.PropTypes.number,
   }),
 }
 
