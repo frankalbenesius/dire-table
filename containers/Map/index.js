@@ -21,40 +21,30 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const bySize = (a, b) => b.size - a.size
-const calcBoardPixels = (cellSize, boardSize) => (cellSize * boardSize) + 1
 
 const Map = ({ areas, board, tokens }) => {
-  const boardPx = calcBoardPixels(board.cellSize, board.boardSize)
-  const sizes = {
-    boardPx,
-    centerPx: boardPx / 2,
-    unitPx: board.cellSize,
-  }
-  const mapUtils = createMapUtils(sizes.centerPx, sizes.unitPx)
+  const boardPx = (board.squarePx * board.size) + 1
+  const centerPx = boardPx / 2
+  const mapUtils = createMapUtils(centerPx, board.squarePx)
   return (
-    <Frame {...sizes}>
-      <Board {...sizes}>
-        {
-          // AREAS
-          areas.map((area, i) => (
-            <Area
-              key={i}
-              path={mapUtils.toPath(area)}
-            />
-          ))
-        }
-        <Grid cellSize={board.cellSize} />
-        {
-          Object.values(tokens).sort(bySize).map((token, i) => (
-            <Token
-              key={i}
-              id={token.id}
-              player={token.player}
-              icon={token.icon}
-              {...mapUtils.toCircle(token.location, token.size)}
-            />
-          ))
-        }
+    <Frame centerPx={centerPx}>
+      <Board boardPx={boardPx}>
+        {areas.map((area, i) => (
+          <Area
+            key={i}
+            path={mapUtils.toPath(area)}
+          />
+        ))}
+        <Grid squarePx={board.squarePx} />
+        {Object.keys(tokens).map(id => tokens[id]).sort(bySize).map((token, i) => (
+          <Token
+            key={i}
+            id={token.id}
+            player={token.player}
+            icon={token.icon}
+            {...mapUtils.toCircle(token.location, token.size)}
+          />
+        ))}
       </Board>
     </Frame>
   )
@@ -63,8 +53,8 @@ Map.propTypes = {
   areas: React.PropTypes.arrayOf(React.PropTypes.array),
   tokens: React.PropTypes.object, // eslint-disable-line react/forbid-prop-types
   board: React.PropTypes.shape({
-    cellSize: React.PropTypes.number,
-    boardSize: React.PropTypes.number,
+    squarePx: React.PropTypes.number,
+    boardWidth: React.PropTypes.number,
   }),
 }
 

@@ -15,7 +15,7 @@
   "dependencies": {
     "date-fns": "^1.22.0",
     "martinez-polygon-clipping": "^0.1.5",
-    "next": "^1.1.0",
+    "next": "^1.2.3",
     "now": "latest",
     "react-redux": "^4.4.6",
     "redux": "^3.6.0"

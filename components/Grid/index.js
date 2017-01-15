@@ -1,18 +1,18 @@
 import React from 'react'
 import { colors } from '../constants'
 
-const gridPath = cellSize => [
-  'M', cellSize, 0,
+const gridPath = squarePx => [
+  'M', squarePx, 0,
   'L', 0, 0,
-  'L', 0, cellSize,
+  'L', 0, squarePx,
 ].join(' ')
 
-const Grid = ({ cellSize }) => (
+const Grid = ({ squarePx }) => (
   <g>
     <defs>
-      <pattern id="gridPattern" width={cellSize} height={cellSize} patternUnits="userSpaceOnUse">
+      <pattern id="gridPattern" width={squarePx} height={squarePx} patternUnits="userSpaceOnUse">
         <path
-          d={gridPath(cellSize)}
+          d={gridPath(squarePx)}
           fill="none"
           stroke={colors.black}
           strokeWidth="1"
@@ -24,7 +24,7 @@ const Grid = ({ cellSize }) => (
   </g>
 )
 Grid.propTypes = {
-  cellSize: React.PropTypes.number,
+  squarePx: React.PropTypes.number,
 }
 
 export default Grid

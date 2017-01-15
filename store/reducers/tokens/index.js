@@ -20,7 +20,6 @@ const defaultState = {
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
     case DRAG_TOKEN_START: {
-      console.log('tokens reducer DRAG_TOKEN_START tokenId:', action.tokenId)
       return state
     }
     default: return state

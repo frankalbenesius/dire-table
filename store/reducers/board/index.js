@@ -1,6 +1,6 @@
 const defaultState = {
-  cellSize: 74, // for zooming controls
-  boardSize: 30, // for expanding map
+  squarePx: 74, // for zooming controls
+  size: 30, // for expanding map
   fogOpacity: 1, // replace with playerType and have it determine opacity
 }
 
