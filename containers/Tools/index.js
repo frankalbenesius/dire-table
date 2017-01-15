@@ -1,7 +1,7 @@
 import React from 'react'
 import { style } from 'next/css'
-import Icon from '../Icon'
-import { colors, sizes } from '../constants'
+import Icon from '../../components/Icon'
+import { colors, sizes } from '../../components/constants'
 
 const styles = {
   wrapper: style({

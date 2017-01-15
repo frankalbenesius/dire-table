@@ -7,9 +7,9 @@ import reducer from '../store/reducers'
 
 import Map from '../containers/Map'
 import Chat from '../containers/Chat'
+import Tools from '../containers/Tools'
 
 import Wrapper from '../components/Wrapper'
-import Tools from '../components/Tools'
 
 export default class Index extends React.Component {
   static getInitialProps({ req }) {
