@@ -20,7 +20,8 @@ const styles = {
 
 const playerHeaderStyles = i => style({
   color: colors.player[i],
-  margin: '1em 0',
+  marginTop: '1em',
+  fontFamily: 'Vulf Mono Bold',
 })
 
 const Roll = () => (
@@ -31,7 +32,7 @@ const Message = ({ showHeader, content, player, timestamp, type }) => (
   <div title={formatDate(timestamp, 'M/D/YY h:mm A')} className={styles.message}>
     {
       showHeader ? (
-        <div className={playerHeaderStyles(player)}>{padEnd(` Player ${player} `, 30, '-')}</div>
+        <div className={playerHeaderStyles(player)}>{padEnd(` PLAYER ${player} `, 30, '-')}</div>
       ) : null
     }
 

@@ -6,7 +6,8 @@ import Message from './Message'
 const styles = {
   messages: style({
     fontSize: sizes.text,
-    fontFamily: 'Vulf Mono Regular',
+    fontFamily: 'Vulf Mono Light',
+    lineHeight: '1.618em',
     padding: '0 1rem',
     overflowY: 'scroll',
     height: '100%',
