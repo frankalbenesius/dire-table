@@ -10,18 +10,15 @@ const styles = {
     left: '30px',
     top: '30px',
     justifyContent: 'center',
-  }),
-  tools: css({
-    fill: '#000',
-    boxShadow: `0 0 ${sizes.shadow} ${colors.black}`,
-    backgroundColor: colors.tools,
     border: `2px solid ${colors.black}`,
+    boxShadow: `0 0 ${sizes.shadow} ${colors.black}`,
+    fill: '#000',
   }),
 }
 
 const Tools = ({ children }) => (
   <div className={styles.wrapper}>
-    <div className={styles.tools}>
+    <div>
       { children }
     </div>
   </div>

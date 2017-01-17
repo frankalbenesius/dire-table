@@ -18,6 +18,7 @@ const toolStyles = {
   borderRight: '0',
   borderBottom: `2px solid ${colors.black}`,
   outline: '0',
+  backgroundColor: colors.tools,
   ':last-child': {
     borderBottom: '0',
   },
