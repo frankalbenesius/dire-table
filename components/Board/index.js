@@ -9,21 +9,26 @@ const styles = css({
   margin: '0 auto',
 })
 
-const Board = ({ children, boardPx }) => (
+const Board = ({ children, boardPx, onMouseMove }) => (
   <svg
     id="boardSvg"
     width={boardPx}
     height={boardPx}
     className={styles}
+    onMouseMove={onMouseMove}
   >
     <rect id="boardBackground" width="100%" height="100%" />
     <DropShadowDefinition />
     { children }
   </svg>
-)
+  )
 Board.propTypes = {
   children: React.PropTypes.any, // eslint-disable-line react/forbid-prop-types
   boardPx: React.PropTypes.number,
+  onMouseMove: React.PropTypes.func,
+}
+Board.defaultProps = {
+  onMouseMove: () => null,
 }
 
 export default Board
