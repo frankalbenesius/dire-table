@@ -39,8 +39,11 @@ class Map extends React.Component {
   }
 
   tokenSort(a, b) {
+    if (a.size !== b.size) {
+      return (b.size - a.size)
+    }
     if (a.id === this.state.draggingTokenId) return 1
-    return (b.size - a.size)
+    return 0
   }
 
   handleMouseMove(e) {
