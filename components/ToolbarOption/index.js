@@ -8,6 +8,7 @@ const toolStyles = {
   width: '50px',
   height: '50px',
   textAlign: 'center',
+  outline: 0,
   display: 'flex',
   borderTop: '0',
   borderLeft: '0',
