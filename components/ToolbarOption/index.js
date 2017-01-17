@@ -5,19 +5,14 @@ import Icon from '../Icon'
 import { colors } from '../constants'
 
 const toolStyles = {
-  padding: '5px',
-  fill: '#000',
   width: '50px',
   height: '50px',
   textAlign: 'center',
   display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
   borderTop: '0',
   borderLeft: '0',
   borderRight: '0',
   borderBottom: `2px solid ${colors.black}`,
-  outline: '0',
   backgroundColor: colors.tools,
   ':last-child': {
     borderBottom: '0',
