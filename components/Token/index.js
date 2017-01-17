@@ -12,9 +12,6 @@ const styles = {
 
 /*
   TODO:
-  - move token dragging state to <Board />
-  - handleMouseDown should tell <Board /> what is being dragged
-  - move onMouseMove && onMouseUp logic to <Board />
   - mouseUp -> dispatches TOKEN_MOVE action to make the move official
   - add "drag css" (cursor && bigger shadow)
   - figure out where to drop new token based on final position => grid coordinated
@@ -51,6 +48,7 @@ Token.propTypes = {
   onMouseUp: React.PropTypes.func,
   onMouseDown: React.PropTypes.func,
   player: React.PropTypes.number,
+  dragging: React.PropTypes.bool,
   icon: React.PropTypes.string,
   radius: React.PropTypes.number,
   cx: React.PropTypes.number,

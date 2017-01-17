@@ -20,8 +20,6 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(Actions, dispatch),
 })
 
-const sortBySize = (a, b) => b.size - a.size
-
 class Map extends React.Component {
   constructor(props) {
     super(props)
@@ -34,6 +32,12 @@ class Map extends React.Component {
     this.handleMouseMove = this.handleMouseMove.bind(this)
     this.handleTokenDragStart = this.handleTokenDragStart.bind(this)
     this.handleTokenDragEnd = this.handleTokenDragEnd.bind(this)
+    this.tokenSort = this.tokenSort.bind(this)
+  }
+
+  tokenSort(a, b) {
+    if (a.id === this.state.draggingTokenId) return 1
+    return (b.size - a.size)
   }
 
   handleMouseMove(e) {
@@ -75,14 +79,11 @@ class Map extends React.Component {
             />
           ))}
           <Grid squarePx={this.props.board.squarePx} />
-          {this.props.tokens.sort(sortBySize).map((token, i) => {
+          {this.props.tokens.sort(this.tokenSort).map((token, i) => {
             const circle = mapUtils.toCircle(token.location, token.size)
-            let cx = circle.cx
-            let cy = circle.cy
-            if (token.id === this.state.draggingTokenId) {
-              cx = this.state.cursor.x
-              cy = this.state.cursor.y
-            }
+            const dragging = (token.id === this.state.draggingTokenId)
+            const cx = dragging ? this.state.cursor.x : circle.cx
+            const cy = dragging ? this.state.cursor.y : circle.cy
             return (
               <Token
                 key={i}
@@ -92,6 +93,7 @@ class Map extends React.Component {
                 cx={cx}
                 cy={cy}
                 radius={circle.radius}
+                dragging={dragging}
                 onMouseDown={this.handleTokenDragStart(token.id)}
                 onMouseUp={this.handleTokenDragEnd}
               />
