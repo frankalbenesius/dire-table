@@ -1,7 +1,6 @@
 import React from 'react'
 import { css } from 'next/css'
 
-import ToolbarOption from '../ToolbarOption'
 import { colors, sizes } from '../constants'
 
 const styles = {
@@ -20,15 +19,15 @@ const styles = {
   }),
 }
 
-const Tools = () => (
+const Tools = ({ children }) => (
   <div className={styles.wrapper}>
     <div className={styles.tools}>
-      <ToolbarOption />
-      <ToolbarOption />
-      <ToolbarOption />
-      <ToolbarOption />
+      { children }
     </div>
   </div>
 )
+Tools.propTypes = {
+  children: React.PropTypes.node,
+}
 
 export default Tools

@@ -1,4 +1,4 @@
-import { DRAG_TOKEN_START } from '../../actionTypes'
+import { MOVE_TOKEN } from '../../actionTypes'
 
 const defaultState = {
   0: {
@@ -19,7 +19,7 @@ const defaultState = {
 
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
-    case DRAG_TOKEN_START: {
+    case MOVE_TOKEN: {
       return state
     }
     default: return state

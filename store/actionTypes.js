@@ -1,2 +1,2 @@
-export const DRAG_TOKEN_START = 'DRAG_TOKEN_START'
-export const DRAG_TOKEN_END = 'DRAG_TOKEN_END'
+export const MOVE_TOKEN = 'MOVE_TOKEN'
+export const SELECT_TOOL = 'SELECT_TOOL'

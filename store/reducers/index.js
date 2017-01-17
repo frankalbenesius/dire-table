@@ -4,6 +4,7 @@ import board from './board'
 import chat from './chat'
 import fogs from './fogs'
 import tokens from './tokens'
+import tool from './tool'
 
 const rootReducer = combineReducers({
   areas,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   chat,
   fogs,
   tokens,
+  tool,
 })
 
 export default rootReducer
