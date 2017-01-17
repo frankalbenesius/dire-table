@@ -15,12 +15,33 @@ const defaultState = {
     location: [-0.5, 3.5],
     size: 1,
   },
+  2: {
+    id: 2,
+    player: 4,
+    icon: 'smile',
+    location: [2, 2],
+    size: 2,
+  },
+  3: {
+    id: 3,
+    player: 3,
+    icon: 'neutral',
+    location: [-4.5, -2.5],
+    size: 3,
+  },
 }
 
 export default function reducer(state = defaultState, action) {
-  switch (action.type) {
+  const { type, payload } = action
+  switch (type) {
     case MOVE_TOKEN: {
-      return state
+      return {
+        ...state,
+        [payload.id]: {
+          ...state[payload.id],
+          location: payload.location,
+        },
+      }
     }
     default: return state
   }

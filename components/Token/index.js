@@ -48,7 +48,6 @@ Token.propTypes = {
   onMouseUp: React.PropTypes.func,
   onMouseDown: React.PropTypes.func,
   player: React.PropTypes.number,
-  dragging: React.PropTypes.bool,
   icon: React.PropTypes.string,
   radius: React.PropTypes.number,
   cx: React.PropTypes.number,
