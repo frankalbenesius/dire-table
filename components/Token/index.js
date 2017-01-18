@@ -8,9 +8,6 @@ const styles = {
     cursor: 'pointer',
     fill: '#000000',
   }),
-  pointer: style({
-    cursor: 'pointer',
-  }),
 }
 
 const Token = (props) => {
@@ -22,7 +19,6 @@ const Token = (props) => {
       onMouseUp={props.onMouseUp}
     >
       <circle
-        className={styles.pointer}
         draggable="true"
         filter="url(#dropshadow)"
         cx={props.cx}
@@ -31,7 +27,6 @@ const Token = (props) => {
         fill={colors.player[props.player]}
       />
       <svg
-        className={styles.pointer}
         x={props.cx - iconRadius}
         y={props.cy - iconRadius}
         width={iconRadius * 2}

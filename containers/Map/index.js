@@ -60,14 +60,16 @@ class Map extends React.Component {
   }
 
   handleTokenDragStart(tokenId) {
-    return () => {
+    return (e) => {
       this.setState({
         draggingTokenId: tokenId,
       })
+      e.preventDefault()
+      e.stopPropagation()
     }
   }
 
-  handleTokenDragEnd() {
+  handleTokenDragEnd(e) {
     this.props.actions.moveToken(
       this.state.draggingTokenId,
       toCoordinate(
@@ -79,6 +81,8 @@ class Map extends React.Component {
     this.setState({
       draggingTokenId: null,
     })
+    e.preventDefault()
+    e.stopPropagation()
   }
 
   render() {
