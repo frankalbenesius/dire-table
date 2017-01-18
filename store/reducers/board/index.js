@@ -9,3 +9,12 @@ export default function reducer(state = defaultState, action) {
     default: return state
   }
 }
+
+export const getBoard = (state) => {
+  const boardPx = (state.squarePx * state.size) + 1
+  return {
+    ...state,
+    boardPx,
+    centerPx: boardPx / 2,
+  }
+}

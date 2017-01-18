@@ -46,3 +46,8 @@ export default function reducer(state = defaultState, action) {
     default: return state
   }
 }
+
+export const getTokens = state => ({
+  byId: state,
+  list: Object.keys(state).map(key => state[key]),
+})

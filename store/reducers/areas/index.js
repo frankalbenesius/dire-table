@@ -53,3 +53,5 @@ export default function reducer(state = defaultAreas, action) {
     default: return state
   }
 }
+
+export const getAreas = state => ([...state])

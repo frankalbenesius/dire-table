@@ -1,8 +1,11 @@
 import React from 'react'
+
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as Actions from '../../store/actions'
-import { toCoord, toPath, toCircle } from './mapUtils'
+import { getBoard } from '../../store/reducers/board'
+import { getAreas } from '../../store/reducers/areas'
+import { getTokens } from '../../store/reducers/tokens'
 
 import Area from '../../components/Area'
 import Board from '../../components/Board'
@@ -10,11 +13,12 @@ import Frame from '../../components/Frame'
 import Grid from '../../components/Grid'
 import Token from '../../components/Token'
 
+import { toCoordinate, toPath, toCircle } from './utils'
+
 const mapStateToProps = state => ({
-  areas: state.areas,
-  board: state.board,
-  tokens: state.tokens,
-  tokensArray: Object.keys(state.tokens).map(id => state.tokens[id]),
+  areas: getAreas(state.areas),
+  board: getBoard(state.board),
+  tokens: getTokens(state.tokens),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -25,8 +29,6 @@ class Map extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      boardPx: (props.board.squarePx * props.board.size) + 1,
-      centerPx: ((props.board.squarePx * props.board.size) + 1) / 2,
       cursor: {
         x: 0,
         y: 0,
@@ -68,11 +70,10 @@ class Map extends React.Component {
   handleTokenDragEnd() {
     this.props.actions.moveToken(
       this.state.draggingTokenId,
-      toCoord(
-        this.state.centerPx,
-        this.props.board.squarePx,
+      toCoordinate(
+        this.props.board,
         [this.state.cursor.x, this.state.cursor.y],
-        this.props.tokens[this.state.draggingTokenId].size,
+        this.props.tokens.byId[this.state.draggingTokenId].size,
       ),
     )
     this.setState({
@@ -82,21 +83,21 @@ class Map extends React.Component {
 
   render() {
     return (
-      <Frame centerPx={this.state.centerPx}>
-        <Board boardPx={this.state.boardPx} onMouseMove={this.handleMouseMove}>
+      <Frame centerPx={this.props.board.centerPx}>
+        <Board boardPx={this.props.board.boardPx} onMouseMove={this.handleMouseMove}>
           {this.props.areas.map((area, i) => (
             <Area
               key={i}
-              path={toPath(this.state.centerPx, this.props.board.squarePx, area)}
+              path={toPath(this.props.board, area)}
             />
           ))}
           <Grid squarePx={this.props.board.squarePx} />
-          {this.props.tokensArray.sort(this.tokenSort).map((token, i) => {
+          {this.props.tokens.list.sort(this.tokenSort).map((token, i) => {
             const circle = toCircle(
-              this.state.centerPx,
-              this.props.board.squarePx,
+              this.props.board,
               token.location,
-              token.size)
+              token.size,
+            )
             const dragging = (token.id === this.state.draggingTokenId)
             const cx = dragging ? this.state.cursor.x : circle.cx
             const cy = dragging ? this.state.cursor.y : circle.cy
@@ -122,8 +123,9 @@ class Map extends React.Component {
 Map.propTypes = {
   areas: React.PropTypes.arrayOf(React.PropTypes.array),
   tokens: React.PropTypes.object,
-  tokensArray: React.PropTypes.arrayOf(React.PropTypes.object),
   board: React.PropTypes.shape({
+    boardPx: React.PropTypes.number,
+    centerPx: React.PropTypes.number,
     squarePx: React.PropTypes.number,
     size: React.PropTypes.number,
   }),
