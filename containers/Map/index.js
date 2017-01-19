@@ -39,6 +39,7 @@ class Map extends React.Component {
       },
       draggingTokenId: -1,
     }
+    this.handleBoardClick = this.handleBoardClick.bind(this)
     this.handleMouseMove = this.handleMouseMove.bind(this)
     this.handleTokenDragStart = this.handleTokenDragStart.bind(this)
     this.handleTokenDragEnd = this.handleTokenDragEnd.bind(this)
@@ -64,6 +65,15 @@ class Map extends React.Component {
     e.preventDefault()
   }
 
+  handleBoardClick(e) {
+    if (this.props.tool === 'token') {
+      const location = toCoordinate(this.props.board, this.state.cursor)
+      this.props.actions.addToken(location)
+    }
+    e.stopPropagation()
+    e.preventDefault()
+  }
+
   handleTokenDragStart(tokenId) {
     return (e) => {
       this.setState({
@@ -76,13 +86,10 @@ class Map extends React.Component {
 
   handleTokenDragEnd(e) {
     if (this.state.draggingTokenId > -1) {
+      const movingToken = this.props.tokens.byId[this.state.draggingTokenId].size
       this.props.actions.moveToken(
         this.state.draggingTokenId,
-        toCoordinate(
-          this.props.board,
-          [this.state.cursor.x, this.state.cursor.y],
-          this.props.tokens.byId[this.state.draggingTokenId].size,
-        ),
+        toCoordinate(this.props.board, this.state.cursor, movingToken),
       )
       this.setState({
         draggingTokenId: -1,
@@ -95,7 +102,11 @@ class Map extends React.Component {
   render() {
     return (
       <Frame centerPx={this.props.board.centerPx}>
-        <Board boardPx={this.props.board.boardPx} onMouseMove={this.handleMouseMove}>
+        <Board
+          boardPx={this.props.board.boardPx}
+          onMouseMove={this.handleMouseMove}
+          onClick={this.handleBoardClick}
+        >
           {this.props.areas.map((area, i) => (
             <Area
               key={i}
@@ -141,6 +152,7 @@ class Map extends React.Component {
 }
 Map.propTypes = {
   actions: React.PropTypes.shape({
+    addToken: React.PropTypes.func,
     moveToken: React.PropTypes.func,
   }),
   areas: React.PropTypes.arrayOf(React.PropTypes.array),

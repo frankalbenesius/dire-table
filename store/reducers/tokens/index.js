@@ -1,4 +1,5 @@
-import { MOVE_TOKEN } from '../../actionTypes'
+import { max } from 'lodash'
+import { ADD_TOKEN, MOVE_TOKEN } from '../../actionTypes'
 
 const defaultState = {
   0: {
@@ -34,6 +35,19 @@ const defaultState = {
 export default function reducer(state = defaultState, action) {
   const { type, payload } = action
   switch (type) {
+    case ADD_TOKEN: {
+      const id = max(Object.keys(state).map(x => parseInt(x, 10))) + 1
+      return {
+        ...state,
+        [id]: {
+          id,
+          player: 0,
+          icon: 'neutral',
+          location: payload.location,
+          size: 1,
+        },
+      }
+    }
     case MOVE_TOKEN: {
       return {
         ...state,

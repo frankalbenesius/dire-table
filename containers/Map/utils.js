@@ -18,10 +18,10 @@ export const toPosition = board => coordinate => (
 
 const roundToHalvesOnly = n => Math.round(n - 0.5) + 0.5
 const roundToWhole = n => Math.round(n)
-export const toCoordinate = (board, position, tokenSize) => {
+export const toCoordinate = (board, position, tokenSize = 1) => {
   const sizeIsOdd = tokenSize % 2 === 1
   const round = sizeIsOdd ? roundToHalvesOnly : roundToWhole
-  return position.map((positionPart, i) => {
+  return [position.x, position.y].map((positionPart, i) => {
     const modifier = i === 1 ? -1 : 1 // -1 on y, 1 on x
     const pxFromCenter = positionPart - board.centerPx
     const unitsFromCenter = (pxFromCenter / board.squarePx) * modifier
