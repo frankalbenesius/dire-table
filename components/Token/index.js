@@ -19,6 +19,11 @@ const styles = {
     ...tokenStyles,
     cursor: 'grabbing',
   }),
+  stamp: style({
+    ...tokenStyles,
+    cursor: 'none',
+    opacity: '0.5',
+  }),
 }
 
 const Token = (props) => {
@@ -26,6 +31,9 @@ const Token = (props) => {
   let tokenClass = styles.undraggable
   if (props.draggable) {
     tokenClass = props.dragging ? styles.dragging : styles.draggable
+  }
+  if (props.stamp) {
+    tokenClass = styles.stamp
   }
   return (
     <g
@@ -60,6 +68,7 @@ Token.propTypes = {
   radius: React.PropTypes.number,
   draggable: React.PropTypes.bool,
   dragging: React.PropTypes.bool,
+  stamp: React.PropTypes.bool,
   cx: React.PropTypes.number,
   cy: React.PropTypes.number,
 }

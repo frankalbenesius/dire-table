@@ -40,7 +40,7 @@ const toSimplePath = (positionList) => {
 export const toPath = (board, coordinateLists) =>
   coordinateLists.map(toPositionList(board)).map(toSimplePath).join('')
 
-export const toCircle = (board, coordinate, tokenSize) => {
+export const toCircle = (board, coordinate, tokenSize = 1) => {
   const position = toPosition(board)(coordinate)
   return {
     cx: position[0],

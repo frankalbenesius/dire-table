@@ -34,8 +34,8 @@ class Map extends React.Component {
     super(props)
     this.state = {
       cursor: {
-        x: 0,
-        y: 0,
+        x: -100,
+        y: -100,
       },
       draggingTokenId: -1,
     }
@@ -100,6 +100,23 @@ class Map extends React.Component {
   }
 
   render() {
+    let tokenCursor = null
+    if (this.props.tool === 'token') {
+      const circle = toCircle(
+        this.props.board,
+        toCoordinate(this.props.board, this.state.cursor),
+      )
+      tokenCursor = (
+        <Token
+          player={0}
+          icon="neutral"
+          cx={this.state.cursor.x}
+          cy={this.state.cursor.y}
+          radius={circle.radius}
+          stamp
+        />
+      )
+    }
     return (
       <Frame centerPx={this.props.board.centerPx}>
         <Board
@@ -145,6 +162,7 @@ class Map extends React.Component {
               />
             )
           })}
+          {tokenCursor}
         </Board>
       </Frame>
     )
