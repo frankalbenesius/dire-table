@@ -1,8 +1,8 @@
 import { SELECT_TOOL } from '../../actionTypes'
 
 const options = {
-  hand: {
-    id: 'hand',
+  cursor: {
+    id: 'cursor',
     icon: 'smile',
   },
   token: {
@@ -20,7 +20,8 @@ const options = {
 }
 export const tools = Object.keys(options).map(o => options[o])
 
-export default function reducer(state = options.hand.id, action) {
+const defaultToolId = options.cursor.id
+export default function reducer(state = defaultToolId, action) {
   const { type, payload } = action
   switch (type) {
     case SELECT_TOOL: {
@@ -29,3 +30,5 @@ export default function reducer(state = options.hand.id, action) {
     default: return state
   }
 }
+
+export const getTool = state => state

@@ -5,7 +5,9 @@ import { connect } from 'react-redux'
 import * as Actions from '../../store/actions'
 import { getBoard } from '../../store/reducers/board'
 import { getAreas } from '../../store/reducers/areas'
+import { getPlayer } from '../../store/reducers/player'
 import { getTokens } from '../../store/reducers/tokens'
+import { getTool } from '../../store/reducers/tool'
 
 import Area from '../../components/Area'
 import Board from '../../components/Board'
@@ -18,7 +20,9 @@ import { toCoordinate, toPath, toCircle } from './utils'
 const mapStateToProps = state => ({
   areas: getAreas(state.areas),
   board: getBoard(state.board),
+  player: getPlayer(state.player),
   tokens: getTokens(state.tokens),
+  tool: getTool(state.tool),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -33,6 +37,7 @@ class Map extends React.Component {
         x: 0,
         y: 0,
       },
+      draggingTokenId: -1,
     }
     this.handleMouseMove = this.handleMouseMove.bind(this)
     this.handleTokenDragStart = this.handleTokenDragStart.bind(this)
@@ -70,19 +75,21 @@ class Map extends React.Component {
   }
 
   handleTokenDragEnd(e) {
-    this.props.actions.moveToken(
-      this.state.draggingTokenId,
-      toCoordinate(
-        this.props.board,
-        [this.state.cursor.x, this.state.cursor.y],
-        this.props.tokens.byId[this.state.draggingTokenId].size,
-      ),
-    )
-    this.setState({
-      draggingTokenId: null,
-    })
-    e.preventDefault()
-    e.stopPropagation()
+    if (this.state.draggingTokenId > -1) {
+      this.props.actions.moveToken(
+        this.state.draggingTokenId,
+        toCoordinate(
+          this.props.board,
+          [this.state.cursor.x, this.state.cursor.y],
+          this.props.tokens.byId[this.state.draggingTokenId].size,
+        ),
+      )
+      this.setState({
+        draggingTokenId: -1,
+      })
+      e.preventDefault()
+      e.stopPropagation()
+    }
   }
 
   render() {
@@ -102,6 +109,12 @@ class Map extends React.Component {
               token.location,
               token.size,
             )
+            const draggable = this.props.tool === 'cursor' && (
+              this.props.player.id === 0 ||
+              this.props.player.id === token.player
+            )
+            const onMouseDown = draggable ? this.handleTokenDragStart(token.id) : null
+            const onMouseUp = draggable ? this.handleTokenDragEnd : null
             const dragging = (token.id === this.state.draggingTokenId)
             const cx = dragging ? this.state.cursor.x : circle.cx
             const cy = dragging ? this.state.cursor.y : circle.cy
@@ -113,9 +126,11 @@ class Map extends React.Component {
                 icon={token.icon}
                 cx={cx}
                 cy={cy}
+                draggable={draggable}
+                dragging={dragging}
                 radius={circle.radius}
-                onMouseDown={this.handleTokenDragStart(token.id)}
-                onMouseUp={this.handleTokenDragEnd}
+                onMouseDown={onMouseDown}
+                onMouseUp={onMouseUp}
               />
             )
           })}
@@ -125,17 +140,21 @@ class Map extends React.Component {
   }
 }
 Map.propTypes = {
+  actions: React.PropTypes.shape({
+    moveToken: React.PropTypes.func,
+  }),
   areas: React.PropTypes.arrayOf(React.PropTypes.array),
-  tokens: React.PropTypes.object,
   board: React.PropTypes.shape({
     boardPx: React.PropTypes.number,
     centerPx: React.PropTypes.number,
     squarePx: React.PropTypes.number,
     size: React.PropTypes.number,
   }),
-  actions: React.PropTypes.shape({
-    moveToken: React.PropTypes.func,
+  player: React.PropTypes.shape({
+    id: React.PropTypes.number,
   }),
+  tokens: React.PropTypes.object,
+  tool: React.PropTypes.string,
 }
 
 export default connect(

@@ -17,7 +17,7 @@ const defaultState = {
   },
   2: {
     id: 2,
-    player: 4,
+    player: 0,
     icon: 'smile',
     location: [2, 2],
     size: 2,

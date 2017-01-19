@@ -3,18 +3,33 @@ import { style } from 'next/css'
 import { colors, sizes, noPx } from '../constants'
 import Icon from '../Icon'
 
+const tokenStyles = {
+  fill: '#000000',
+}
 const styles = {
-  token: style({
+  undraggable: style({
+    ...tokenStyles,
+    cursor: 'default',
+  }),
+  draggable: style({
+    ...tokenStyles,
     cursor: 'pointer',
-    fill: '#000000',
+  }),
+  dragging: style({
+    ...tokenStyles,
+    cursor: 'grabbing',
   }),
 }
 
 const Token = (props) => {
   const iconRadius = props.radius * 0.7
+  let tokenClass = styles.undraggable
+  if (props.draggable) {
+    tokenClass = props.dragging ? styles.dragging : styles.draggable
+  }
   return (
     <g
-      className={styles.token}
+      className={tokenClass}
       onMouseDown={props.onMouseDown}
       onMouseUp={props.onMouseUp}
     >
@@ -43,6 +58,8 @@ Token.propTypes = {
   player: React.PropTypes.number,
   icon: React.PropTypes.string,
   radius: React.PropTypes.number,
+  draggable: React.PropTypes.bool,
+  dragging: React.PropTypes.bool,
   cx: React.PropTypes.number,
   cy: React.PropTypes.number,
 }
