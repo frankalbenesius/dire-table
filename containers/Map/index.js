@@ -46,6 +46,18 @@ class Map extends React.Component {
     this.tokenSort = this.tokenSort.bind(this)
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.tool !== this.props.tool) {
+      // don't want to have the cursor on board during tool changes
+      this.setState({
+        cursor: {
+          x: -100,
+          y: -100,
+        },
+      })
+    }
+  }
+
   tokenSort(a, b) {
     if (a.size !== b.size) {
       return (b.size - a.size)
