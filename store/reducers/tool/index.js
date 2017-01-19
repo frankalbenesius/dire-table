@@ -3,19 +3,19 @@ import { SELECT_TOOL } from '../../actionTypes'
 const options = {
   cursor: {
     id: 'cursor',
-    icon: 'smile',
+    icon: 'pointerUp',
   },
   token: {
     id: 'token',
-    icon: 'neutral',
+    icon: 'plusCircle',
   },
   add: {
     id: 'add',
-    icon: 'sad',
+    icon: 'combine',
   },
   remove: {
     id: 'remove',
-    icon: 'mustache',
+    icon: 'subtract',
   },
 }
 export const tools = Object.keys(options).map(o => options[o])
