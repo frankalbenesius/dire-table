@@ -8,6 +8,7 @@ const defaultState = {
     icon: 'sad', // <svg class="lnr lnr-mustache"><use xlink:href="#lnr-mustache"></use></svg>
     location: [1.5, 1.5], // center of circle
     size: 1, // diameter of token by cell count
+    lastUpdated: 1484803641888,
   },
   1: {
     id: 1,
@@ -15,6 +16,7 @@ const defaultState = {
     icon: 'mustache',
     location: [-0.5, 3.5],
     size: 1,
+    lastUpdated: 1484803641889,
   },
   2: {
     id: 2,
@@ -22,6 +24,7 @@ const defaultState = {
     icon: 'smile',
     location: [2, 2],
     size: 2,
+    lastUpdated: 1484803641890,
   },
   3: {
     id: 3,
@@ -29,6 +32,7 @@ const defaultState = {
     icon: 'neutral',
     location: [-4.5, -2.5],
     size: 3,
+    lastUpdated: 1484803641891,
   },
 }
 
@@ -45,6 +49,7 @@ export default function reducer(state = defaultState, action) {
           icon: 'neutral',
           location: payload.location,
           size: 1,
+          lastUpdated: Date.now(),
         },
       }
     }
@@ -54,6 +59,7 @@ export default function reducer(state = defaultState, action) {
         [payload.id]: {
           ...state[payload.id],
           location: payload.location,
+          lastUpdated: Date.now(),
         },
       }
     }

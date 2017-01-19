@@ -51,7 +51,8 @@ class Map extends React.Component {
       return (b.size - a.size)
     }
     if (a.id === this.state.draggingTokenId) return 1
-    return 0
+    if (b.id === this.state.draggingTokenId) return -1
+    return (a.lastUpdated - b.lastUpdated)
   }
 
   handleMouseMove(e) {
