@@ -13,14 +13,10 @@ import Area from '../../components/Area'
 import Board from '../../components/Board'
 import Frame from '../../components/Frame'
 import Grid from '../../components/Grid'
-import Token from '../../components/Token'
+import TokenLayer from '../../components/TokenLayer'
+import TokenCursor from '../../components/TokenCursor'
 
-import { toCoordinate, toPath, toCircle, toArea } from './utils'
-
-const handleEvent = (e) => {
-  e.preventDefault()
-  e.stopPropagation()
-}
+import { toCoordinate, toPath, toArea } from '../../utilities/map'
 
 const mapStateToProps = state => ({
   areas: getAreas(state.areas),
@@ -47,9 +43,7 @@ class Map extends React.Component {
     this.handleBoardMouseDown = this.handleBoardMouseDown.bind(this)
     this.handleBoardMouseUp = this.handleBoardMouseUp.bind(this)
     this.handleMouseMove = this.handleMouseMove.bind(this)
-    this.handleTokenDragStart = this.handleTokenDragStart.bind(this)
-    this.handleTokenDragEnd = this.handleTokenDragEnd.bind(this)
-    this.tokenSort = this.tokenSort.bind(this)
+    this.handleTokenDrag = this.handleTokenDrag.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -58,15 +52,9 @@ class Map extends React.Component {
     }
   }
 
-  tokenSort(a, b) {
-    if (a.size !== b.size) return (b.size - a.size) // size is highest priority
-    if (a.id === this.state.draggingTokenId) return 1 // dragging is next highest priority
-    if (b.id === this.state.draggingTokenId) return -1
-    return (a.lastUpdated - b.lastUpdated) // last priority is most recently touched
-  }
-
   handleMouseMove(e) {
-    handleEvent(e)
+    e.preventDefault()
+    e.stopPropagation()
     this.setState({
       cursor: {
         x: e.nativeEvent.offsetX,
@@ -76,18 +64,28 @@ class Map extends React.Component {
   }
 
   handleBoardMouseDown(e) {
-    handleEvent(e)
+    e.preventDefault()
+    e.stopPropagation()
     const location = toCoordinate(this.props.board, this.state.cursor)
     switch (this.props.tool) {
-      case 'token':
+      case 'token': {
         this.props.actions.addToken(location)
         break
+      }
       default: break
     }
   }
 
+  handleTokenDrag(tokenId) {
+    this.props.actions.moveToken(
+      tokenId,
+      toCoordinate(this.props.board, this.state.cursor, this.props.tokens.byId[tokenId].size),
+    )
+  }
+
   handleBoardMouseUp(e) {
-    handleEvent(e)
+    e.preventDefault()
+    e.stopPropagation()
     switch (this.props.tool) {
       case 'add':
         this.props.actions.addArea(
@@ -98,45 +96,7 @@ class Map extends React.Component {
     }
   }
 
-  handleTokenDragStart(tokenId) {
-    return (e) => {
-      handleEvent(e)
-      this.setState({ draggingTokenId: tokenId })
-      e.preventDefault()
-      e.stopPropagation()
-    }
-  }
-
-  handleTokenDragEnd(e) {
-    handleEvent(e)
-    if (this.state.draggingTokenId > -1) {
-      const movingToken = this.props.tokens.byId[this.state.draggingTokenId].size
-      this.props.actions.moveToken(
-        this.state.draggingTokenId,
-        toCoordinate(this.props.board, this.state.cursor, movingToken),
-      )
-      this.setState({ draggingTokenId: -1 })
-    }
-  }
-
   render() {
-    let tokenCursor = null
-    if (this.props.tool === 'token') {
-      const circle = toCircle(
-        this.props.board,
-        toCoordinate(this.props.board, this.state.cursor),
-      )
-      tokenCursor = (
-        <Token
-          player={0}
-          icon="neutral"
-          cx={this.state.cursor.x}
-          cy={this.state.cursor.y}
-          radius={circle.radius}
-          replaceCursor
-        />
-      )
-    }
     return (
       <Frame centerPx={this.props.board.centerPx}>
         <Board
@@ -152,38 +112,19 @@ class Map extends React.Component {
             />
           ))}
           <Grid squarePx={this.props.board.squarePx} />
-          {this.props.tokens.list.sort(this.tokenSort).map((token, i) => {
-            const circle = toCircle(
-              this.props.board,
-              token.location,
-              token.size,
-            )
-            const draggable = this.props.tool === 'cursor' && (
-              this.props.player.id === 0 ||
-              this.props.player.id === token.player
-            )
-            const onMouseDown = draggable ? this.handleTokenDragStart(token.id) : null
-            const onMouseUp = draggable ? this.handleTokenDragEnd : null
-            const dragging = (token.id === this.state.draggingTokenId)
-            const cx = dragging ? this.state.cursor.x : circle.cx
-            const cy = dragging ? this.state.cursor.y : circle.cy
-            return (
-              <Token
-                key={i}
-                id={token.id}
-                player={token.player}
-                icon={token.icon}
-                cx={cx}
-                cy={cy}
-                draggable={draggable}
-                dragging={dragging}
-                radius={circle.radius}
-                onMouseDown={onMouseDown}
-                onMouseUp={onMouseUp}
-              />
-            )
-          })}
-          {tokenCursor}
+          <TokenLayer
+            active={this.props.tool === 'cursor'}
+            board={this.props.board}
+            cursor={this.state.cursor}
+            onDrag={this.handleTokenDrag}
+            playerId={this.props.player.id}
+            tokens={this.props.tokens.list}
+          />
+          <TokenCursor
+            active={this.props.tool === 'token'}
+            board={this.props.board}
+            cursor={this.state.cursor}
+          />
         </Board>
       </Frame>
     )
