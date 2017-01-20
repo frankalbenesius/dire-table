@@ -9,7 +9,7 @@ import { getPlayer } from '../../store/reducers/player'
 import { getTokens } from '../../store/reducers/tokens'
 import { getTool } from '../../store/reducers/tool'
 
-import Area from '../../components/Area'
+import AreaLayer from '../../components/AreaLayer'
 import Board from '../../components/Board'
 import Frame from '../../components/Frame'
 import Grid from '../../components/Grid'
@@ -38,10 +38,10 @@ class Map extends React.Component {
         x: -100,
         y: -100,
       },
-      draggingTokenId: -1,
+      startCoord: null,
     }
-    this.handleBoardMouseDown = this.handleBoardMouseDown.bind(this)
-    this.handleBoardMouseUp = this.handleBoardMouseUp.bind(this)
+    this.handleMouseDown = this.handleMouseDown.bind(this)
+    this.handleMouseUp = this.handleMouseUp.bind(this)
     this.handleMouseMove = this.handleMouseMove.bind(this)
     this.handleTokenDrag = this.handleTokenDrag.bind(this)
   }
@@ -63,13 +63,31 @@ class Map extends React.Component {
     })
   }
 
-  handleBoardMouseDown(e) {
+  handleMouseDown(e) {
     e.preventDefault()
     e.stopPropagation()
-    const location = toCoordinate(this.props.board, this.state.cursor)
+    const clickedCoordinate = toCoordinate(this.props.board, this.state.cursor)
     switch (this.props.tool) {
       case 'token': {
-        this.props.actions.addToken(location)
+        this.props.actions.addToken(clickedCoordinate)
+        break
+      }
+      case 'add': {
+        this.setState({ startCoord: toCoordinate(this.props.board, this.state.cursor) })
+        break
+      }
+      default: break
+    }
+  }
+
+  handleMouseUp(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    switch (this.props.tool) {
+      case 'add': {
+        const stopCoord = toCoordinate(this.props.board, this.state.cursor)
+        this.props.actions.addArea(toArea(this.state.startCoord, stopCoord))
+        this.setState({ startCoord: null })
         break
       }
       default: break
@@ -83,34 +101,23 @@ class Map extends React.Component {
     )
   }
 
-  handleBoardMouseUp(e) {
-    e.preventDefault()
-    e.stopPropagation()
-    switch (this.props.tool) {
-      case 'add':
-        this.props.actions.addArea(
-          toArea(toCoordinate(this.props.board, this.state.cursor)),
-        )
-        break
-      default: break
-    }
-  }
-
   render() {
     return (
       <Frame centerPx={this.props.board.centerPx}>
         <Board
           boardPx={this.props.board.boardPx}
           onMouseMove={this.handleMouseMove}
-          onMouseDown={this.handleBoardMouseDown}
-          onMouseUp={this.handleBoardMouseUp}
+          onMouseDown={this.handleMouseDown}
+          onMouseUp={this.handleMouseUp}
         >
-          {this.props.areas.map((area, i) => (
-            <Area
-              key={i}
-              path={toPath(this.props.board, area)}
-            />
-          ))}
+          <AreaLayer
+            adding={this.props.tool === 'add'}
+            areas={this.props.areas}
+            board={this.props.board}
+            cursor={this.state.cursor}
+            onDrag={this.handleTokenDrag}
+            startCoord={this.state.startCoord}
+          />
           <Grid squarePx={this.props.board.squarePx} />
           <TokenLayer
             active={this.props.tool === 'cursor'}
