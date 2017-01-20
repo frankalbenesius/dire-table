@@ -1,4 +1,4 @@
-import { SELECT_TOOL } from '../../actionTypes'
+import { SELECT_TOOL } from '../../constants/actions'
 
 const options = {
   cursor: {

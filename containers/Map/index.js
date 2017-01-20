@@ -1,7 +1,7 @@
 import React from 'react'
-
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+
 import * as Actions from '../../store/actions'
 import { getBoard } from '../../store/reducers/board'
 import { getAreas } from '../../store/reducers/areas'
@@ -15,7 +15,12 @@ import Frame from '../../components/Frame'
 import Grid from '../../components/Grid'
 import Token from '../../components/Token'
 
-import { toCoordinate, toPath, toCircle } from './utils'
+import { toCoordinate, toPath, toCircle, toArea } from './utils'
+
+const handleEvent = (e) => {
+  e.preventDefault()
+  e.stopPropagation()
+}
 
 const mapStateToProps = state => ({
   areas: getAreas(state.areas),
@@ -39,7 +44,8 @@ class Map extends React.Component {
       },
       draggingTokenId: -1,
     }
-    this.handleBoardClick = this.handleBoardClick.bind(this)
+    this.handleBoardMouseDown = this.handleBoardMouseDown.bind(this)
+    this.handleBoardMouseUp = this.handleBoardMouseUp.bind(this)
     this.handleMouseMove = this.handleMouseMove.bind(this)
     this.handleTokenDragStart = this.handleTokenDragStart.bind(this)
     this.handleTokenDragEnd = this.handleTokenDragEnd.bind(this)
@@ -48,67 +54,68 @@ class Map extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.tool !== this.props.tool) {
-      // don't want to have the cursor on board during tool changes
-      this.setState({
-        cursor: {
-          x: -100,
-          y: -100,
-        },
-      })
+      this.setState({ cursor: { x: -100, y: -100 } }) // moves cursor away from toolbar
     }
   }
 
   tokenSort(a, b) {
-    if (a.size !== b.size) {
-      return (b.size - a.size)
-    }
-    if (a.id === this.state.draggingTokenId) return 1
+    if (a.size !== b.size) return (b.size - a.size) // size is highest priority
+    if (a.id === this.state.draggingTokenId) return 1 // dragging is next highest priority
     if (b.id === this.state.draggingTokenId) return -1
-    return (a.lastUpdated - b.lastUpdated)
+    return (a.lastUpdated - b.lastUpdated) // last priority is most recently touched
   }
 
   handleMouseMove(e) {
+    handleEvent(e)
     this.setState({
       cursor: {
         x: e.nativeEvent.offsetX,
         y: e.nativeEvent.offsetY,
       },
     })
-    e.stopPropagation()
-    e.preventDefault()
   }
 
-  handleBoardClick(e) {
-    if (this.props.tool === 'token') {
-      const location = toCoordinate(this.props.board, this.state.cursor)
-      this.props.actions.addToken(location)
+  handleBoardMouseDown(e) {
+    handleEvent(e)
+    const location = toCoordinate(this.props.board, this.state.cursor)
+    switch (this.props.tool) {
+      case 'token':
+        this.props.actions.addToken(location)
+        break
+      default: break
     }
-    e.stopPropagation()
-    e.preventDefault()
+  }
+
+  handleBoardMouseUp(e) {
+    handleEvent(e)
+    switch (this.props.tool) {
+      case 'add':
+        this.props.actions.addArea(
+          toArea(toCoordinate(this.props.board, this.state.cursor)),
+        )
+        break
+      default: break
+    }
   }
 
   handleTokenDragStart(tokenId) {
     return (e) => {
-      this.setState({
-        draggingTokenId: tokenId,
-      })
+      handleEvent(e)
+      this.setState({ draggingTokenId: tokenId })
       e.preventDefault()
       e.stopPropagation()
     }
   }
 
   handleTokenDragEnd(e) {
+    handleEvent(e)
     if (this.state.draggingTokenId > -1) {
       const movingToken = this.props.tokens.byId[this.state.draggingTokenId].size
       this.props.actions.moveToken(
         this.state.draggingTokenId,
         toCoordinate(this.props.board, this.state.cursor, movingToken),
       )
-      this.setState({
-        draggingTokenId: -1,
-      })
-      e.preventDefault()
-      e.stopPropagation()
+      this.setState({ draggingTokenId: -1 })
     }
   }
 
@@ -126,7 +133,7 @@ class Map extends React.Component {
           cx={this.state.cursor.x}
           cy={this.state.cursor.y}
           radius={circle.radius}
-          stamp
+          replaceCursor
         />
       )
     }
@@ -135,7 +142,8 @@ class Map extends React.Component {
         <Board
           boardPx={this.props.board.boardPx}
           onMouseMove={this.handleMouseMove}
-          onClick={this.handleBoardClick}
+          onMouseDown={this.handleBoardMouseDown}
+          onMouseUp={this.handleBoardMouseUp}
         >
           {this.props.areas.map((area, i) => (
             <Area
@@ -183,8 +191,9 @@ class Map extends React.Component {
 }
 Map.propTypes = {
   actions: React.PropTypes.shape({
-    addToken: React.PropTypes.func,
     moveToken: React.PropTypes.func,
+    addToken: React.PropTypes.func,
+    addArea: React.PropTypes.func,
   }),
   areas: React.PropTypes.arrayOf(React.PropTypes.array),
   board: React.PropTypes.shape({

@@ -9,14 +9,15 @@ const styles = css({
   margin: '0 auto',
 })
 
-const Board = ({ children, boardPx, onMouseMove, onClick }) => (
+const Board = ({ children, boardPx, onMouseMove, onMouseDown, onMouseUp }) => (
   <svg
     id="boardSvg"
     width={boardPx}
     height={boardPx}
     className={styles}
     onMouseMove={onMouseMove}
-    onClick={onClick}
+    onMouseDown={onMouseDown}
+    onMouseUp={onMouseUp}
   >
     <rect id="boardBackground" width="100%" height="100%" />
     <DropShadowDefinition />
@@ -26,7 +27,8 @@ const Board = ({ children, boardPx, onMouseMove, onClick }) => (
 Board.propTypes = {
   children: React.PropTypes.any, // eslint-disable-line react/forbid-prop-types
   boardPx: React.PropTypes.number,
-  onClick: React.PropTypes.func,
+  onMouseDown: React.PropTypes.func,
+  onMouseUp: React.PropTypes.func,
   onMouseMove: React.PropTypes.func,
 }
 

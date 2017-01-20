@@ -9,25 +9,39 @@
   Path = SVG string representaiton of a path with potential holes (multiple combined shapes)
 */
 
-export const toPosition = board => coordinate => (
-  coordinate.map((coordinatePart, i) => {
-    const modifier = i === 1 ? -1 : 1 // -1 on y, 1 on x
-    return board.centerPx + (modifier * (coordinatePart * board.squarePx))
-  })
-)
+export const toArea = (coordA, coordB = coordA) => {
+  const left = Math.min(coordA[0], coordB[0]) - 0.5
+  const right = Math.max(coordA[0], coordB[0]) + 0.5
+  const bottom = Math.min(coordA[1], coordB[1]) - 0.5
+  const top = Math.max(coordA[1], coordB[1]) + 0.5
+  return [[
+    [left, bottom],
+    [left, top],
+    [right, top],
+    [right, bottom],
+    [left, bottom],
+  ]]
+}
 
 const roundToHalvesOnly = n => Math.round(n - 0.5) + 0.5
 const roundToWhole = n => Math.round(n)
-export const toCoordinate = (board, position, tokenSize = 1) => {
+export const toCoordinate = (board, boardPosition, tokenSize = 1) => {
   const sizeIsOdd = tokenSize % 2 === 1
   const round = sizeIsOdd ? roundToHalvesOnly : roundToWhole
-  return [position.x, position.y].map((positionPart, i) => {
+  return [boardPosition.x, boardPosition.y].map((positionPart, i) => {
     const modifier = i === 1 ? -1 : 1 // -1 on y, 1 on x
     const pxFromCenter = positionPart - board.centerPx
     const unitsFromCenter = (pxFromCenter / board.squarePx) * modifier
     return round(unitsFromCenter)
   })
 }
+
+export const toPosition = board => coordinate => (
+  coordinate.map((coordinatePart, i) => {
+    const modifier = i === 1 ? -1 : 1 // -1 on y, 1 on x
+    return board.centerPx + (modifier * (coordinatePart * board.squarePx))
+  })
+)
 
 const toPositionList = board => coordinateList => coordinateList.map(toPosition(board))
 const toSimplePath = (positionList) => {
