@@ -11,11 +11,21 @@ import Shape from 'clipper-js' // clipping library
   Path = SVG string representaiton of a path with potential holes (multiple combined shapes)
 */
 
+const scaler = 1000 // scalling allows adjacent areas to avoid merging
+const scaleUp = coords => coords.map(c => ({ x: c.x * scaler, y: c.y * scaler }))
+const scaleDown = coords => coords.map(c => ({ x: c.x / scaler, y: c.y / scaler }))
+export const mergeArea = (areas, newArea) => {
+  const areasShapes = new Shape(areas.map(scaleUp), true, true)
+  const newAreasShapes = new Shape([newArea].map(scaleUp), true, true)
+  return areasShapes.union(newAreasShapes).mapToLower().map(scaleDown)
+}
+
+const easement = 1 / scaler // the amount of area put between areas
 export const toArea = (coordA, coordB = coordA) => {
-  const left = Math.min(coordA.x, coordB.x) - 0.5
-  const right = Math.max(coordA.x, coordB.x) + 0.49
-  const bottom = Math.min(coordA.y, coordB.y) - 0.5
-  const top = Math.max(coordA.y, coordB.y) + 0.49
+  const left = Math.min(coordA.x, coordB.x) - (0.5 - easement)
+  const bottom = Math.min(coordA.y, coordB.y) - (0.5 - easement)
+  const right = Math.max(coordA.x, coordB.x) + (0.5 - easement)
+  const top = Math.max(coordA.y, coordB.y) + (0.5 - easement)
   return [
     { x: left, y: bottom },
     { x: left, y: top },
@@ -23,14 +33,6 @@ export const toArea = (coordA, coordB = coordA) => {
     { x: right, y: bottom },
     { x: left, y: bottom },
   ]
-}
-
-const scaleUp = coords => coords.map(c => ({ x: c.x * 100, y: c.y * 100 }))
-const scaleDown = coords => coords.map(c => ({ x: c.x / 100, y: c.y / 100 }))
-export const mergeArea = (areas, newArea) => {
-  const areasShapes = new Shape(areas.map(scaleUp), true, true)
-  const newAreasShapes = new Shape([newArea].map(scaleUp), true, true)
-  return areasShapes.union(newAreasShapes).mapToLower().map(scaleDown)
 }
 
 const roundToHalvesOnly = n => Math.round(n - 0.5) + 0.5
