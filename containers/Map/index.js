@@ -16,7 +16,7 @@ import Grid from '../../components/Grid'
 import TokenLayer from '../../components/TokenLayer'
 import TokenCursor from '../../components/TokenCursor'
 
-import { toCoordinate, toPath, toArea } from '../../utilities/map'
+import { toCoordinate, toArea } from '../../utilities/map'
 
 const mapStateToProps = state => ({
   areas: getAreas(state.areas),
@@ -85,7 +85,7 @@ class Map extends React.Component {
     e.stopPropagation()
     switch (this.props.tool) {
       case 'add': {
-        const stopCoord = toCoordinate(this.props.board, this.state.cursor)
+        const stopCoord = toCoordinate(this.props.board, this.state.cursor, 1, true)
         this.props.actions.addArea(toArea(this.state.startCoord, stopCoord))
         this.setState({ startCoord: null })
         break

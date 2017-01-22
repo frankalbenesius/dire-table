@@ -6,7 +6,7 @@ const defaultState = {
     id: 0,
     player: 0, // either id or none? can determine if PC or NPC from this
     icon: 'sad', // <svg class="lnr lnr-mustache"><use xlink:href="#lnr-mustache"></use></svg>
-    location: [3.5, 3.5], // center of circle
+    location: { x: 3.5, y: 3.5 }, // center of circle
     size: 1, // diameter of token by cell count
     lastUpdated: 1484803641888,
   },
@@ -14,7 +14,7 @@ const defaultState = {
     id: 1,
     player: 1,
     icon: 'mustache',
-    location: [-0.5, 3.5],
+    location: { x: -0.5, y: 3.5 },
     size: 1,
     lastUpdated: 1484803641889,
   },

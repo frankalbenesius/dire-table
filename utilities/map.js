@@ -10,44 +10,40 @@
 */
 
 export const toArea = (coordA, coordB = coordA) => {
-  const left = Math.min(coordA[0], coordB[0]) - 0.5
-  const right = Math.max(coordA[0], coordB[0]) + 0.5
-  const bottom = Math.min(coordA[1], coordB[1]) - 0.5
-  const top = Math.max(coordA[1], coordB[1]) + 0.5
+  const left = Math.min(coordA.x, coordB.x) - 0.5
+  const right = Math.max(coordA.x, coordB.x) + 0.5
+  const bottom = Math.min(coordA.y, coordB.y) - 0.5
+  const top = Math.max(coordA.y, coordB.y) + 0.5
   return [[
-    [left, bottom],
-    [left, top],
-    [right, top],
-    [right, bottom],
-    [left, bottom],
+    { x: left, y: bottom },
+    { x: left, y: top },
+    { x: right, y: top },
+    { x: right, y: bottom },
+    { x: left, y: bottom },
   ]]
 }
 
 const roundToHalvesOnly = n => Math.round(n - 0.5) + 0.5
 const roundToWhole = n => Math.round(n)
-export const toCoordinate = (board, boardPosition, tokenSize = 1) => {
+export const toCoordinate = (board, position, tokenSize = 1) => {
   const sizeIsOdd = tokenSize % 2 === 1
   const round = sizeIsOdd ? roundToHalvesOnly : roundToWhole
-  return [boardPosition.x, boardPosition.y].map((positionPart, i) => {
-    const modifier = i === 1 ? -1 : 1 // -1 on y, 1 on x
-    const pxFromCenter = positionPart - board.centerPx
-    const unitsFromCenter = (pxFromCenter / board.squarePx) * modifier
-    return round(unitsFromCenter)
-  })
+  return {
+    x: round(((position.x - board.centerPx) / board.squarePx)),
+    y: round(((position.y - board.centerPx) / board.squarePx) * -1),
+  }
 }
 
-export const toPosition = board => coordinate => (
-  coordinate.map((coordinatePart, i) => {
-    const modifier = i === 1 ? -1 : 1 // -1 on y, 1 on x
-    return board.centerPx + (modifier * (coordinatePart * board.squarePx))
-  })
-)
+export const toPosition = board => coordinate => ({
+  x: board.centerPx + (coordinate.x * board.squarePx),
+  y: board.centerPx + (coordinate.y * board.squarePx * -1),
+})
 
 const toPositionList = board => coordinateList => coordinateList.map(toPosition(board))
 const toSimplePath = (positionList) => {
   const str = positionList.reduce((acc, position, i) => {
     const command = i === 0 ? 'M' : 'L'
-    return `${acc}${command} ${position[0]},${position[1]} `
+    return `${acc}${command} ${position.x},${position.y} `
   }, '')
   return `${str} Z `
 }
@@ -57,8 +53,8 @@ export const toPath = (board, coordinateLists) =>
 export const toCircle = (board, coordinate, tokenSize = 1) => {
   const position = toPosition(board)(coordinate)
   return {
-    cx: position[0],
-    cy: position[1],
+    cx: position.x,
+    cy: position.y,
     radius: (tokenSize / 2) * board.squarePx,
   }
 }

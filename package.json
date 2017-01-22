@@ -14,7 +14,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "date-fns": "^1.22.0",
-    "martinez-polygon-clipping": "^0.1.5",
+    "js-clipper": "^1.0.1",
     "next": "^1.2.3",
     "now": "latest",
     "react-redux": "^4.4.6",

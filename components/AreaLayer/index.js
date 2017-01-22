@@ -10,7 +10,7 @@ import { toPath, toCoordinate, toArea } from '../../utilities/map'
 //   }
 // }
 
-const TokenLayer = (props) => {
+const AreaLayer = (props) => {
   let areas = [...props.areas]
   if (props.adding && props.startCoord) { // means we are dragging an area
     const cursorCoordinate = toCoordinate(props.board, props.cursor)
@@ -28,7 +28,7 @@ const TokenLayer = (props) => {
     </g>
   )
 }
-TokenLayer.propTypes = {
+AreaLayer.propTypes = {
   adding: React.PropTypes.bool,
   areas: React.PropTypes.array,
   board: React.PropTypes.object,
@@ -37,8 +37,8 @@ TokenLayer.propTypes = {
     y: React.PropTypes.number,
   }),
   // onDrag: React.PropTypes.func,
-  startCoord: React.PropTypes.array,
+  startCoord: React.PropTypes.object,
   // removing: React.PropTypes.bool,
 }
 
-export default TokenLayer
+export default AreaLayer
