@@ -1,6 +1,6 @@
 import React from 'react'
 import Area from '../../components/Area'
-import { toPath, toCoordinate, toArea } from '../../utilities/map'
+import { toPath, toCoordinate, toArea, mergeArea } from '../../utilities/map'
 
 // const handleDragStop(e) {
 //   e.preventDefault()
@@ -15,7 +15,7 @@ const AreaLayer = (props) => {
   if (props.adding && props.startCoord) { // means we are dragging an area
     const cursorCoordinate = toCoordinate(props.board, props.cursor)
     const draggedArea = toArea(props.startCoord, cursorCoordinate)
-    areas = [...areas, draggedArea]
+    areas = mergeArea(areas, draggedArea)
   }
   return (
     <g>

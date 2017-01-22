@@ -1,3 +1,5 @@
+import Shape from 'clipper-js' // clipping library
+
 /*
   GLOSSARY (cause this crap is confusing)
   Coordinate = the state representation of position on the game board
@@ -11,16 +13,24 @@
 
 export const toArea = (coordA, coordB = coordA) => {
   const left = Math.min(coordA.x, coordB.x) - 0.5
-  const right = Math.max(coordA.x, coordB.x) + 0.5
+  const right = Math.max(coordA.x, coordB.x) + 0.49
   const bottom = Math.min(coordA.y, coordB.y) - 0.5
-  const top = Math.max(coordA.y, coordB.y) + 0.5
-  return [[
+  const top = Math.max(coordA.y, coordB.y) + 0.49
+  return [
     { x: left, y: bottom },
     { x: left, y: top },
     { x: right, y: top },
     { x: right, y: bottom },
     { x: left, y: bottom },
-  ]]
+  ]
+}
+
+const scaleUp = coords => coords.map(c => ({ x: c.x * 100, y: c.y * 100 }))
+const scaleDown = coords => coords.map(c => ({ x: c.x / 100, y: c.y / 100 }))
+export const mergeArea = (areas, newArea) => {
+  const areasShapes = new Shape(areas.map(scaleUp), true, true)
+  const newAreasShapes = new Shape([newArea].map(scaleUp), true, true)
+  return areasShapes.union(newAreasShapes).mapToLower().map(scaleDown)
 }
 
 const roundToHalvesOnly = n => Math.round(n - 0.5) + 0.5
@@ -47,8 +57,10 @@ const toSimplePath = (positionList) => {
   }, '')
   return `${str} Z `
 }
-export const toPath = (board, coordinateLists) =>
-  coordinateLists.map(toPositionList(board)).map(toSimplePath).join('')
+export const toPath = (board, coordinateList) =>
+  toSimplePath(toPositionList(board)(coordinateList))
+// export const toPath = (board, coordinateLists) =>
+//   coordinateLists.map(toPositionList(board)).map(toSimplePath).join('')
 
 export const toCircle = (board, coordinate, tokenSize = 1) => {
   const position = toPosition(board)(coordinate)
