@@ -11,16 +11,28 @@ import Shape from 'clipper-js' // clipping library
   Path = SVG string representaiton of a path with potential holes (multiple combined shapes)
 */
 
-const scaler = 1000 // scalling allows adjacent areas to avoid merging
-const scaleUp = coords => coords.map(c => ({ x: c.x * scaler, y: c.y * scaler }))
-const scaleDown = coords => coords.map(c => ({ x: c.x / scaler, y: c.y / scaler }))
+const scale = 1000 // scalling allows adjacent areas to avoid merging
+const tinyHoleThreshold = 0.002
+const removeTinyHoles = (shapes) => {
+  shapes.forEach((shape) => {
+    if (shape.paths.length > 1) {
+      const shapeAreas = shape.areas()
+      // eslint-disable-next-line no-param-reassign
+      shape.paths = shape.paths.filter((s, i) => Math.abs(shapeAreas[i]) > tinyHoleThreshold)
+    }
+  })
+  return shapes
+}
 export const mergeArea = (areas, newArea) => {
-  const areasShapes = new Shape(areas.map(scaleUp), true, true)
-  const newAreasShapes = new Shape([newArea].map(scaleUp), true, true)
-  return areasShapes.union(newAreasShapes).mapToLower().map(scaleDown)
+  const existingShapes = areas.map(area => new Shape(area, true, true).scaleUp(scale))
+  const existingShape = existingShapes.reduce((acc, shape) => acc.join(shape), new Shape())
+  const newAreaShape = new Shape([newArea], true, true).scaleUp(scale)
+  const mergedShapes = existingShape.union(newAreaShape).scaleDown(scale).seperateShapes()
+  const result = removeTinyHoles(mergedShapes).map(shape => (shape.mapToLower()))
+  return result
 }
 
-const easement = 1 / scaler // the amount of area put between areas
+const easement = 1 / scale // the amount of area put between areas
 export const toArea = (coordA, coordB = coordA) => {
   const left = Math.min(coordA.x, coordB.x) - (0.5 - easement)
   const bottom = Math.min(coordA.y, coordB.y) - (0.5 - easement)
@@ -59,10 +71,10 @@ const toSimplePath = (positionList) => {
   }, '')
   return `${str} Z `
 }
-export const toPath = (board, coordinateList) =>
-  toSimplePath(toPositionList(board)(coordinateList))
-// export const toPath = (board, coordinateLists) =>
-//   coordinateLists.map(toPositionList(board)).map(toSimplePath).join('')
+// export const toPath = (board, coordinateList) =>
+//   toSimplePath(toPositionList(board)(coordinateList))
+export const toPath = (board, coordinateLists) =>
+  coordinateLists.map(toPositionList(board)).map(toSimplePath).join('')
 
 export const toCircle = (board, coordinate, tokenSize = 1) => {
   const position = toPosition(board)(coordinate)

@@ -2,14 +2,6 @@ import React from 'react'
 import Area from '../../components/Area'
 import { toPath, toCoordinate, toArea, mergeArea } from '../../utilities/map'
 
-// const handleDragStop(e) {
-//   e.preventDefault()
-//   e.stopPropagation()
-//   if (props.active) {
-//     props.onDrag(this.state.dragCoord, toCoordinate(props.board, props.cursor))
-//   }
-// }
-
 const AreaLayer = (props) => {
   let areas = [...props.areas]
   if (props.adding && props.startCoord) { // means we are dragging an area

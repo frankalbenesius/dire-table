@@ -3,7 +3,6 @@ import { colors, sizes } from '../constants'
 
 const Area = ({ path }) => (
   <path
-    fillRule="evenodd"
     d={path}
     fill={colors.foreground}
     stroke={colors.background}
