@@ -43,7 +43,6 @@ export const toArea = (coordA, coordB = coordA) => {
     { x: left, y: top },
     { x: right, y: top },
     { x: right, y: bottom },
-    { x: left, y: bottom },
   ]
 }
 
