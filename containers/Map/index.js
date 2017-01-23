@@ -64,33 +64,37 @@ class Map extends React.Component {
   }
 
   handleMouseDown(e) {
-    e.preventDefault()
-    e.stopPropagation()
-    const clickedCoordinate = toCoordinate(this.props.board, this.state.cursor)
-    switch (this.props.tool) {
-      case 'token': {
-        this.props.actions.addToken(clickedCoordinate)
-        break
+    if (e.nativeEvent.which === 1) {
+      e.preventDefault()
+      e.stopPropagation()
+      const clickedCoordinate = toCoordinate(this.props.board, this.state.cursor)
+      switch (this.props.tool) {
+        case 'token': {
+          this.props.actions.addToken(clickedCoordinate)
+          break
+        }
+        case 'add': {
+          this.setState({ startCoord: toCoordinate(this.props.board, this.state.cursor) })
+          break
+        }
+        default: break
       }
-      case 'add': {
-        this.setState({ startCoord: toCoordinate(this.props.board, this.state.cursor) })
-        break
-      }
-      default: break
     }
   }
 
   handleMouseUp(e) {
-    e.preventDefault()
-    e.stopPropagation()
-    switch (this.props.tool) {
-      case 'add': {
-        const stopCoord = toCoordinate(this.props.board, this.state.cursor, 1, true)
-        this.props.actions.addArea(toArea(this.state.startCoord, stopCoord))
-        this.setState({ startCoord: null })
-        break
+    if (e.nativeEvent.which === 1) {
+      e.preventDefault()
+      e.stopPropagation()
+      switch (this.props.tool) {
+        case 'add': {
+          const stopCoord = toCoordinate(this.props.board, this.state.cursor, 1, true)
+          this.props.actions.addArea(toArea(this.state.startCoord, stopCoord))
+          this.setState({ startCoord: null })
+          break
+        }
+        default: break
       }
-      default: break
     }
   }
 

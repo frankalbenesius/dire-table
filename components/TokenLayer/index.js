@@ -21,19 +21,23 @@ class TokenLayer extends React.Component {
 
   createHandleDragStart(tokenId) {
     return (e) => {
-      e.preventDefault()
-      e.stopPropagation()
-      this.setState({ draggingTokenId: tokenId })
+      if (e.nativeEvent.which) {
+        e.preventDefault()
+        e.stopPropagation()
+        this.setState({ draggingTokenId: tokenId })
+      }
     }
   }
 
   handleDragStop(e) {
-    e.preventDefault()
-    e.stopPropagation()
-    if (this.state.draggingTokenId > -1) {
-      this.props.onDrag(this.state.draggingTokenId)
+    if (e.nativeEvent.which) {
+      e.preventDefault()
+      e.stopPropagation()
+      if (this.state.draggingTokenId > -1) {
+        this.props.onDrag(this.state.draggingTokenId)
+      }
+      this.setState({ draggingTokenId: -1 })
     }
-    this.setState({ draggingTokenId: -1 })
   }
 
   render() {
