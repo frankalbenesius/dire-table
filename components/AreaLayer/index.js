@@ -1,7 +1,7 @@
 import React from 'react'
 import Area from '../../components/Area'
 import AreaCursor from '../../components/AreaCursor'
-import { toPath, toCoordinate, toArea, mergeArea } from '../../utilities/map'
+import { toPath, toCoordinate, toArea, toRemoval, mergeArea, removeArea } from '../../utilities/map'
 
 const AreaLayer = (props) => {
   let areas = [...props.areas]
@@ -9,6 +9,11 @@ const AreaLayer = (props) => {
     const cursorCoordinate = toCoordinate(props.board, props.cursor)
     const draggedArea = toArea(props.startCoord, cursorCoordinate)
     areas = mergeArea(areas, draggedArea)
+  }
+  if (props.tool === 'remove' && props.startCoord) { // means we are dragging an area
+    const cursorCoordinate = toCoordinate(props.board, props.cursor, 2)
+    const draggedArea = toRemoval(props.startCoord, cursorCoordinate)
+    areas = removeArea(areas, draggedArea)
   }
   return (
     <g>
@@ -35,9 +40,7 @@ AreaLayer.propTypes = {
     x: React.PropTypes.number,
     y: React.PropTypes.number,
   }),
-  // onDrag: React.PropTypes.func,
   startCoord: React.PropTypes.object,
-  // removing: React.PropTypes.bool,
 }
 
 export default AreaLayer

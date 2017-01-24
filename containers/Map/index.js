@@ -15,7 +15,7 @@ import Frame from '../../components/Frame'
 import Grid from '../../components/Grid'
 import TokenLayer from '../../components/TokenLayer'
 
-import { toCoordinate, toArea } from '../../utilities/map'
+import { toCoordinate, toArea, toRemoval } from '../../utilities/map'
 
 const mapStateToProps = state => ({
   areas: getAreas(state.areas),
@@ -47,7 +47,10 @@ class Map extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.tool !== this.props.tool) {
-      this.setState({ cursor: { x: -100, y: -100 } }) // moves cursor away from toolbar
+      this.setState({
+        cursor: { x: -100, y: -100 },
+        startCoord: null,
+      }) // moves cursor away from toolbar
     }
   }
 
@@ -66,13 +69,19 @@ class Map extends React.Component {
     if (e.nativeEvent.which === 1) {
       e.preventDefault()
       e.stopPropagation()
-      const clickedCoordinate = toCoordinate(this.props.board, this.state.cursor)
       switch (this.props.tool) {
         case 'token': {
+          const clickedCoordinate = toCoordinate(this.props.board, this.state.cursor)
           this.props.actions.addToken(clickedCoordinate)
           break
         }
         case 'add': {
+          const clickedCoordinate = toCoordinate(this.props.board, this.state.cursor)
+          this.setState({ startCoord: clickedCoordinate })
+          break
+        }
+        case 'remove': {
+          const clickedCoordinate = toCoordinate(this.props.board, this.state.cursor, 2)
           this.setState({ startCoord: clickedCoordinate })
           break
         }
@@ -87,8 +96,14 @@ class Map extends React.Component {
       e.stopPropagation()
       switch (this.props.tool) {
         case 'add': {
-          const stopCoord = toCoordinate(this.props.board, this.state.cursor, 1, true)
+          const stopCoord = toCoordinate(this.props.board, this.state.cursor)
           this.props.actions.addArea(toArea(this.state.startCoord, stopCoord))
+          this.setState({ startCoord: null })
+          break
+        }
+        case 'remove': {
+          const stopCoord = toCoordinate(this.props.board, this.state.cursor, 2)
+          this.props.actions.removeArea(toRemoval(this.state.startCoord, stopCoord))
           this.setState({ startCoord: null })
           break
         }
@@ -139,6 +154,7 @@ Map.propTypes = {
     moveToken: React.PropTypes.func,
     addToken: React.PropTypes.func,
     addArea: React.PropTypes.func,
+    removeArea: React.PropTypes.func,
   }),
   areas: React.PropTypes.arrayOf(React.PropTypes.array),
   board: React.PropTypes.shape({

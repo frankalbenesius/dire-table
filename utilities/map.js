@@ -31,6 +31,14 @@ export const mergeArea = (areas, newArea) => {
   const result = removeTinyHoles(mergedShapes).map(shape => (shape.mapToLower()))
   return result
 }
+export const removeArea = (areas, newArea) => {
+  const existingShapes = areas.map(area => new Shape(area, true, true).scaleUp(scale))
+  const existingShape = existingShapes.reduce((acc, shape) => acc.join(shape), new Shape())
+  const newAreaShape = new Shape(newArea, true, true).scaleUp(scale)
+  const mergedShapes = existingShape.difference(newAreaShape).scaleDown(scale).seperateShapes()
+  const result = removeTinyHoles(mergedShapes).map(shape => (shape.mapToLower()))
+  return result
+}
 
 const easement = 1 / scale // the amount of area put between areas
 export const toArea = (coordA, coordB = coordA) => {
@@ -38,6 +46,18 @@ export const toArea = (coordA, coordB = coordA) => {
   const bottom = Math.min(coordA.y, coordB.y) - (0.5 - easement)
   const right = Math.max(coordA.x, coordB.x) + (0.5 - easement)
   const top = Math.max(coordA.y, coordB.y) + (0.5 - easement)
+  return [[
+    { x: left, y: bottom },
+    { x: left, y: top },
+    { x: right, y: top },
+    { x: right, y: bottom },
+  ]]
+}
+export const toRemoval = (coordA, coordB = coordA) => {
+  const left = Math.min(coordA.x, coordB.x) - easement
+  const bottom = Math.min(coordA.y, coordB.y) - easement
+  const right = Math.max(coordA.x, coordB.x) + easement
+  const top = Math.max(coordA.y, coordB.y) + easement
   return [[
     { x: left, y: bottom },
     { x: left, y: top },
