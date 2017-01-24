@@ -1,5 +1,6 @@
 import React from 'react'
 import Token from '../../components/Token'
+import TokenCursor from '../../components/TokenCursor'
 import { toCircle } from '../../utilities/map'
 
 const tokenSort = draggingTokenId => (a, b) => {
@@ -45,7 +46,7 @@ class TokenLayer extends React.Component {
       <g>
         {this.props.tokens.sort(tokenSort(this.state.draggingTokenId)).map((token, i) => {
           const circle = toCircle(this.props.board, token.location, token.size)
-          const draggable = this.props.active && (
+          const draggable = this.props.tool === 'cursor' && (
             this.props.playerId === 0 || this.props.playerId === token.player
           )
           const onMouseDown = draggable ? this.createHandleDragStart(token.id) : null
@@ -69,12 +70,17 @@ class TokenLayer extends React.Component {
             />
           )
         })}
+        <TokenCursor
+          active={this.props.tool === 'token'}
+          board={this.props.board}
+          cursor={this.props.cursor}
+        />
       </g>
     )
   }
 }
 TokenLayer.propTypes = {
-  active: React.PropTypes.bool,
+  tool: React.PropTypes.string,
   board: React.PropTypes.object,
   cursor: React.PropTypes.shape({
     x: React.PropTypes.number,

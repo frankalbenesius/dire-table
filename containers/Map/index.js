@@ -9,13 +9,11 @@ import { getPlayer } from '../../store/reducers/player'
 import { getTokens } from '../../store/reducers/tokens'
 import { getTool } from '../../store/reducers/tool'
 
-import AreaCursor from '../../components/AreaCursor'
 import AreaLayer from '../../components/AreaLayer'
 import Board from '../../components/Board'
 import Frame from '../../components/Frame'
 import Grid from '../../components/Grid'
 import TokenLayer from '../../components/TokenLayer'
-import TokenCursor from '../../components/TokenCursor'
 
 import { toCoordinate, toArea } from '../../utilities/map'
 
@@ -116,31 +114,20 @@ class Map extends React.Component {
           onMouseUp={this.handleMouseUp}
         >
           <AreaLayer
-            adding={this.props.tool === 'add'}
+            tool={this.props.tool}
             areas={this.props.areas}
             board={this.props.board}
             cursor={this.state.cursor}
-            onDrag={this.handleTokenDrag}
             startCoord={this.state.startCoord}
-          />
-          <AreaCursor
-            active={this.props.tool === 'add'}
-            board={this.props.board}
-            cursor={this.state.cursor}
           />
           <Grid squarePx={this.props.board.squarePx} />
           <TokenLayer
-            active={this.props.tool === 'cursor'}
+            tool={this.props.tool}
             board={this.props.board}
             cursor={this.state.cursor}
             onDrag={this.handleTokenDrag}
             playerId={this.props.player.id}
             tokens={this.props.tokens.list}
-          />
-          <TokenCursor
-            active={this.props.tool === 'token'}
-            board={this.props.board}
-            cursor={this.state.cursor}
           />
         </Board>
       </Frame>
