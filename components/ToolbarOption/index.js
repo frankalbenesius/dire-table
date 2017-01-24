@@ -19,7 +19,7 @@ const toolStyles = {
     borderBottom: '0',
   },
   ':hover': {
-    backgroundColor: colors.selected,
+    backgroundColor: colors.selection,
     cursor: 'pointer',
   },
 }
@@ -29,7 +29,7 @@ const styles = {
   }),
   selected: css({
     ...toolStyles,
-    backgroundColor: colors.selected,
+    backgroundColor: colors.selection,
   }),
 }
 

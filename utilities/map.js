@@ -26,7 +26,7 @@ const removeTinyHoles = (shapes) => {
 export const mergeArea = (areas, newArea) => {
   const existingShapes = areas.map(area => new Shape(area, true, true).scaleUp(scale))
   const existingShape = existingShapes.reduce((acc, shape) => acc.join(shape), new Shape())
-  const newAreaShape = new Shape([newArea], true, true).scaleUp(scale)
+  const newAreaShape = new Shape(newArea, true, true).scaleUp(scale)
   const mergedShapes = existingShape.union(newAreaShape).scaleDown(scale).seperateShapes()
   const result = removeTinyHoles(mergedShapes).map(shape => (shape.mapToLower()))
   return result
@@ -38,12 +38,12 @@ export const toArea = (coordA, coordB = coordA) => {
   const bottom = Math.min(coordA.y, coordB.y) - (0.5 - easement)
   const right = Math.max(coordA.x, coordB.x) + (0.5 - easement)
   const top = Math.max(coordA.y, coordB.y) + (0.5 - easement)
-  return [
+  return [[
     { x: left, y: bottom },
     { x: left, y: top },
     { x: right, y: top },
     { x: right, y: bottom },
-  ]
+  ]]
 }
 
 const roundToHalvesOnly = n => Math.round(n - 0.5) + 0.5
@@ -61,7 +61,6 @@ export const toPosition = board => coordinate => ({
   x: board.centerPx + (coordinate.x * board.squarePx),
   y: board.centerPx + (coordinate.y * board.squarePx * -1),
 })
-
 const toPositionList = board => coordinateList => coordinateList.map(toPosition(board))
 const toSimplePath = (positionList) => {
   const str = positionList.reduce((acc, position, i) => {

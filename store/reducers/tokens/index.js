@@ -15,7 +15,7 @@ const defaultState = {
     player: 1,
     icon: 'mustache',
     location: { x: -0.5, y: 3.5 },
-    size: 1,
+    size: 3,
     lastUpdated: 1484803641889,
   },
 }

@@ -9,6 +9,7 @@ import { getPlayer } from '../../store/reducers/player'
 import { getTokens } from '../../store/reducers/tokens'
 import { getTool } from '../../store/reducers/tool'
 
+import AreaCursor from '../../components/AreaCursor'
 import AreaLayer from '../../components/AreaLayer'
 import Board from '../../components/Board'
 import Frame from '../../components/Frame'
@@ -74,7 +75,7 @@ class Map extends React.Component {
           break
         }
         case 'add': {
-          this.setState({ startCoord: toCoordinate(this.props.board, this.state.cursor) })
+          this.setState({ startCoord: clickedCoordinate })
           break
         }
         default: break
@@ -121,6 +122,11 @@ class Map extends React.Component {
             cursor={this.state.cursor}
             onDrag={this.handleTokenDrag}
             startCoord={this.state.startCoord}
+          />
+          <AreaCursor
+            active={this.props.tool === 'add'}
+            board={this.props.board}
+            cursor={this.state.cursor}
           />
           <Grid squarePx={this.props.board.squarePx} />
           <TokenLayer

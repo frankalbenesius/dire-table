@@ -1,6 +1,6 @@
 import React from 'react'
 import { style } from 'next/css'
-import { colors, sizes, noPx } from '../constants'
+import { colors, sizes, noPx, opacity } from '../constants'
 import Icon from '../Icon'
 
 const tokenStyles = {
@@ -22,7 +22,7 @@ const styles = {
   cursor: style({
     ...tokenStyles,
     cursor: 'none',
-    opacity: '0.5',
+    opacity,
   }),
 }
 

@@ -11,7 +11,7 @@ export const colors = {
   fog: palette[scheme][9],
   chat: palette.gray[2],
   tools: palette.gray[2],
-  selected: palette.cyan[2],
+  selection: palette.cyan[2],
   player: [
     palette.gray[0],
     palette.red[5], // red (currently "brand", also)
@@ -40,5 +40,7 @@ export const zIndexes = {
   chat: 1,
   hover: 2,
 }
+
+export const opacity = 0.5
 
 export const noPx = str => parseInt(str.slice(0, -2), 10)
