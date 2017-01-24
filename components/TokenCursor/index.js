@@ -4,15 +4,15 @@ import { toCircle, toCoordinate } from '../../utilities/map'
 
 const TokenCursor = ({ active, cursor, board }) => {
   if (active) {
-    const { radius } = toCircle(board, toCoordinate(board, cursor))
+    const { radius, cx, cy } = toCircle(board, toCoordinate(board, cursor))
     return (
       <Token
         player={0}
         icon="neutral"
-        cx={cursor.x}
-        cy={cursor.y}
+        cx={cx}
+        cy={cy}
         radius={radius}
-        replaceCursor
+        cursor
       />
     )
   }

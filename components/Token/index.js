@@ -13,7 +13,7 @@ const styles = {
   }),
   draggable: style({
     ...tokenStyles,
-    cursor: 'pointer',
+    cursor: 'grab',
   }),
   dragging: style({
     ...tokenStyles,
@@ -21,7 +21,6 @@ const styles = {
   }),
   cursor: style({
     ...tokenStyles,
-    cursor: 'none',
     opacity,
   }),
 }
@@ -32,7 +31,7 @@ const Token = (props) => {
   if (props.draggable) {
     tokenClass = props.dragging ? styles.dragging : styles.draggable
   }
-  if (props.replaceCursor) {
+  if (props.cursor) {
     tokenClass = styles.cursor
   }
   return (
@@ -68,7 +67,7 @@ Token.propTypes = {
   radius: React.PropTypes.number,
   draggable: React.PropTypes.bool,
   dragging: React.PropTypes.bool,
-  replaceCursor: React.PropTypes.bool,
+  cursor: React.PropTypes.bool,
   cx: React.PropTypes.number,
   cy: React.PropTypes.number,
 }

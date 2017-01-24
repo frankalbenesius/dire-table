@@ -20,7 +20,6 @@ const toolStyles = {
   },
   ':hover': {
     backgroundColor: colors.selection,
-    cursor: 'pointer',
   },
 }
 const styles = {
