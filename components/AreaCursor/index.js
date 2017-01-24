@@ -1,11 +1,11 @@
 import React from 'react'
-import { toPath, toArea, toCoordinate, toPosition } from '../../utilities/map'
+import { toPath, toAreaCursor, toCoordinate, toPosition } from '../../utilities/map'
 import { colors, sizes, opacity } from '../constants'
 
 const AreaCursor = ({ adding, removing, cursor, board }) => {
   if (adding) {
     const cursorCoordinate = toCoordinate(board, cursor)
-    const area = toArea(cursorCoordinate)
+    const area = toAreaCursor(cursorCoordinate)
     const path = toPath(board, area)
     return (
       <path

@@ -41,11 +41,11 @@ export const removeArea = (areas, newArea) => {
 }
 
 const easement = 1 / scale // the amount of area put between areas
-export const toArea = (coordA, coordB = coordA) => {
-  const left = Math.min(coordA.x, coordB.x) - (0.5 - easement)
-  const bottom = Math.min(coordA.y, coordB.y) - (0.5 - easement)
-  const right = Math.max(coordA.x, coordB.x) + (0.5 - easement)
-  const top = Math.max(coordA.y, coordB.y) + (0.5 - easement)
+const toRect = reduction => (coordA, coordB = coordA) => {
+  const left = Math.min(coordA.x, coordB.x) - reduction
+  const bottom = Math.min(coordA.y, coordB.y) - reduction
+  const right = Math.max(coordA.x, coordB.x) + reduction
+  const top = Math.max(coordA.y, coordB.y) + reduction
   return [[
     { x: left, y: bottom },
     { x: left, y: top },
@@ -53,18 +53,11 @@ export const toArea = (coordA, coordB = coordA) => {
     { x: right, y: bottom },
   ]]
 }
-export const toRemoval = (coordA, coordB = coordA) => {
-  const left = Math.min(coordA.x, coordB.x) - easement
-  const bottom = Math.min(coordA.y, coordB.y) - easement
-  const right = Math.max(coordA.x, coordB.x) + easement
-  const top = Math.max(coordA.y, coordB.y) + easement
-  return [[
-    { x: left, y: bottom },
-    { x: left, y: top },
-    { x: right, y: top },
-    { x: right, y: bottom },
-  ]]
-}
+const coordinateHalf = 0.5
+const magicNumberToReduceCursorSize = 0.05
+export const toArea = toRect(coordinateHalf - easement)
+export const toAreaCursor = toRect(coordinateHalf - easement - magicNumberToReduceCursorSize)
+export const toRemoval = toRect(easement)
 
 const roundToHalvesOnly = n => Math.round(n - 0.5) + 0.5
 const roundToWhole = n => Math.round(n)
@@ -89,8 +82,6 @@ const toSimplePath = (positionList) => {
   }, '')
   return `${str} Z `
 }
-// export const toPath = (board, coordinateList) =>
-//   toSimplePath(toPositionList(board)(coordinateList))
 export const toPath = (board, coordinateLists) =>
   coordinateLists.map(toPositionList(board)).map(toSimplePath).join('')
 
