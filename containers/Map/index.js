@@ -77,12 +77,12 @@ class Map extends React.Component {
         }
         case 'add': {
           const clickedCoordinate = toCoordinate(this.props.board, this.state.cursor)
-          this.setState({ startCoord: clickedCoordinate })
+          if (!this.state.startCoord) this.setState({ startCoord: clickedCoordinate })
           break
         }
         case 'remove': {
           const clickedCoordinate = toCoordinate(this.props.board, this.state.cursor, 2)
-          this.setState({ startCoord: clickedCoordinate })
+          if (!this.state.startCoord) this.setState({ startCoord: clickedCoordinate })
           break
         }
         default: break
