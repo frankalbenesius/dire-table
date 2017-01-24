@@ -11,9 +11,6 @@ const AreaCursor = ({ adding, removing, cursor, board }) => {
       <path
         d={path}
         fill={colors.selection}
-        stroke={colors.background}
-        strokeWidth={sizes.areaStroke}
-        strokeOpacity={0}
         opacity={opacity}
       />
     )

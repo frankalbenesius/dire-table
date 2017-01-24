@@ -41,6 +41,6 @@ export const zIndexes = {
   hover: 2,
 }
 
-export const opacity = 0.5
+export const opacity = 0.7
 
 export const noPx = str => parseInt(str.slice(0, -2), 10)
