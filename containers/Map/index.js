@@ -43,6 +43,7 @@ class Map extends React.Component {
     this.handleMouseUp = this.handleMouseUp.bind(this)
     this.handleMouseMove = this.handleMouseMove.bind(this)
     this.handleTokenDrag = this.handleTokenDrag.bind(this)
+    this.handleTokenShiftClick = this.handleTokenShiftClick.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -77,12 +78,12 @@ class Map extends React.Component {
         }
         case 'add': {
           const clickedCoordinate = toCoordinate(this.props.board, this.state.cursor)
-          if (!this.state.startCoord) this.setState({ startCoord: clickedCoordinate })
+          this.setState({ startCoord: clickedCoordinate })
           break
         }
         case 'remove': {
           const clickedCoordinate = toCoordinate(this.props.board, this.state.cursor, 2)
-          if (!this.state.startCoord) this.setState({ startCoord: clickedCoordinate })
+          this.setState({ startCoord: clickedCoordinate })
           break
         }
         default: break
@@ -112,6 +113,9 @@ class Map extends React.Component {
     }
   }
 
+  handleTokenShiftClick(tokenId) {
+    this.props.actions.removeToken(tokenId)
+  }
   handleTokenDrag(tokenId) {
     this.props.actions.moveToken(
       tokenId,
@@ -141,6 +145,7 @@ class Map extends React.Component {
             board={this.props.board}
             cursor={this.state.cursor}
             onDrag={this.handleTokenDrag}
+            onShiftClick={this.handleTokenShiftClick}
             playerId={this.props.player.id}
             tokens={this.props.tokens.list}
           />
@@ -151,17 +156,18 @@ class Map extends React.Component {
 }
 Map.propTypes = {
   actions: React.PropTypes.shape({
-    moveToken: React.PropTypes.func,
-    addToken: React.PropTypes.func,
     addArea: React.PropTypes.func,
+    addToken: React.PropTypes.func,
+    moveToken: React.PropTypes.func,
     removeArea: React.PropTypes.func,
+    removeToken: React.PropTypes.func,
   }),
   areas: React.PropTypes.arrayOf(React.PropTypes.array),
   board: React.PropTypes.shape({
     boardPx: React.PropTypes.number,
     centerPx: React.PropTypes.number,
-    squarePx: React.PropTypes.number,
     size: React.PropTypes.number,
+    squarePx: React.PropTypes.number,
   }),
   player: React.PropTypes.shape({
     id: React.PropTypes.number,

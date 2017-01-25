@@ -37,6 +37,7 @@ const Token = (props) => {
   return (
     <g
       className={tokenClass}
+      onClick={props.onClick}
       onMouseDown={props.onMouseDown}
       onMouseUp={props.onMouseUp}
     >
@@ -60,6 +61,7 @@ const Token = (props) => {
   )
 }
 Token.propTypes = {
+  onClick: React.PropTypes.func,
   onMouseUp: React.PropTypes.func,
   onMouseDown: React.PropTypes.func,
   player: React.PropTypes.number,

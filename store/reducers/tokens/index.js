@@ -1,5 +1,5 @@
-import { max } from 'lodash'
-import { ADD_TOKEN, MOVE_TOKEN } from '../../constants/actions'
+import { max, omit } from 'lodash'
+import { ADD_TOKEN, REMOVE_TOKEN, MOVE_TOKEN } from '../../constants/actions'
 
 const defaultState = {
   0: {
@@ -37,6 +37,7 @@ export default function reducer(state = defaultState, action) {
         },
       }
     }
+    case REMOVE_TOKEN: return omit(state, payload.id)
     case MOVE_TOKEN: {
       return {
         ...state,

@@ -22,10 +22,21 @@ class TokenLayer extends React.Component {
 
   createHandleDragStart(tokenId) {
     return (e) => {
-      if (e.nativeEvent.which) {
+      if (e.nativeEvent.which === 1) {
         e.preventDefault()
         e.stopPropagation()
         this.setState({ draggingTokenId: tokenId })
+      }
+    }
+  }
+
+  createHandleTokenClick(tokenId) {
+    return (e) => {
+      if (e.nativeEvent.which === 1) {
+        e.preventDefault()
+        e.stopPropagation()
+        if (e.shiftKey) this.props.onShiftClick(tokenId)
+        else this.props.onClick(tokenId)
       }
     }
   }
@@ -46,11 +57,12 @@ class TokenLayer extends React.Component {
       <g>
         {this.props.tokens.sort(tokenSort(this.state.draggingTokenId)).map((token, i) => {
           const circle = toCircle(this.props.board, token.location, token.size)
-          const draggable = this.props.tool === 'cursor' && (
+          const editable = this.props.tool === 'cursor' && (
             this.props.playerId === 0 || this.props.playerId === token.player
           )
-          const onMouseDown = draggable ? this.createHandleDragStart(token.id) : null
-          const onMouseUp = draggable ? this.handleDragStop : null
+          const onMouseDown = editable ? this.createHandleDragStart(token.id) : null
+          const onMouseUp = editable ? this.handleDragStop : null
+          const onClick = editable ? this.createHandleTokenClick(token.id) : null
           const dragging = (token.id === this.state.draggingTokenId)
           const cx = dragging ? this.props.cursor.x : circle.cx
           const cy = dragging ? this.props.cursor.y : circle.cy
@@ -62,11 +74,12 @@ class TokenLayer extends React.Component {
               icon={token.icon}
               cx={cx}
               cy={cy}
-              draggable={draggable}
+              draggable={editable}
               dragging={dragging}
               radius={circle.radius}
               onMouseDown={onMouseDown}
               onMouseUp={onMouseUp}
+              onClick={onClick}
             />
           )
         })}
@@ -86,6 +99,8 @@ TokenLayer.propTypes = {
     x: React.PropTypes.number,
     y: React.PropTypes.number,
   }),
+  onClick: React.PropTypes.func,
+  onShiftClick: React.PropTypes.func,
   onDrag: React.PropTypes.func,
   playerId: React.PropTypes.number,
   tokens: React.PropTypes.array,
