@@ -22,7 +22,6 @@ class TokenLayer extends React.Component {
 
   createHandleMouseDown(tokenId) {
     return (e) => {
-      console.log('tokenId', tokenId)
       if (e.nativeEvent.which === 1) {
         e.preventDefault()
         e.stopPropagation()
