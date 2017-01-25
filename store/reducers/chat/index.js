@@ -40,7 +40,7 @@ const defaultState = [
     player: 4,
     timestamp: 1483293100183,
     type: 'text',
-    content: 'The ability to modifty existing tokens and create game sessions is coming soon! Please feel free to contact frankalbenesius@gmail.com with feedback or friendly conversation.',
+    content: 'The ability to modify existing tokens and create game sessions is coming soon! Please feel free to contact frankalbenesius@gmail.com with feedback or friendly conversation.',
   },
   {
     player: 3,

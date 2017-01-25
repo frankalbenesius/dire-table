@@ -21,7 +21,7 @@ const defaultState = {
   2: {
     id: 2,
     player: 4,
-    icon: 'mustache',
+    icon: 'neutral',
     location: { x: -3.5, y: 5.5 },
     size: 1,
     lastUpdated: 1484803641890,
@@ -29,7 +29,7 @@ const defaultState = {
   3: {
     id: 3,
     player: 3,
-    icon: 'mustache',
+    icon: 'smile',
     location: { x: 4, y: 1 },
     size: 2,
     lastUpdated: 1484803641891,
