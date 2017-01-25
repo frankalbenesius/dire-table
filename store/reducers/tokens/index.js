@@ -24,7 +24,8 @@ export default function reducer(state = defaultState, action) {
   const { type, payload } = action
   switch (type) {
     case ADD_TOKEN: {
-      const id = max(Object.keys(state).map(x => parseInt(x, 10))) + 1
+      const id = (max(Object.keys(state).map(x => parseInt(x, 10))) + 1) || 0
+      console.log('id', id)
       return {
         ...state,
         [id]: {
