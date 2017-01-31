@@ -30,6 +30,8 @@ export default class Index extends React.Component {
           <Head>
             <title>Dire Tools: Map</title>
             <link rel="stylesheet" href="static/css/index.css" />
+            <link rel="shortcut icon" href="static/img/favicon.ico" type="image/x-icon" />
+            <link rel="icon" href="static/img/favicon.ico" type="image/x-icon" />
           </Head>
           <Map />
           <Tools />
