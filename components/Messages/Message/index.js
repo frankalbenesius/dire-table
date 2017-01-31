@@ -32,7 +32,7 @@ const Message = ({ showHeader, content, player, timestamp, type }) => (
   <div title={formatDate(timestamp, 'M/D/YY h:mm A')} className={styles.message}>
     {
       showHeader ? (
-        <div className={playerHeaderStyles(player)}>{padEnd(` PLAYER ${player} `, 30, '-')}</div>
+        <div className={playerHeaderStyles(player)}>{` PLAYER ${player} `}</div>
       ) : null
     }
 
