@@ -48,10 +48,11 @@ const defaultState = [
     type: 'text',
     content: 'Also, this very neat font is called "Vulf Mono". It\'s delightful.',
   },
-]
+];
 
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
-    default: return state
+    default:
+      return state;
   }
 }

@@ -1,4 +1,4 @@
-import { SELECT_TOOL } from '../../constants/actions'
+import { SELECT_TOOL } from '../../constants/actions';
 
 const options = {
   cursor: {
@@ -17,18 +17,19 @@ const options = {
     id: 'remove',
     icon: 'subtract',
   },
-}
-export const tools = Object.keys(options).map(o => options[o])
+};
+export const tools = Object.keys(options).map(o => options[o]);
 
-const defaultToolId = options.cursor.id
+const defaultToolId = options.cursor.id;
 export default function reducer(state = defaultToolId, action) {
-  const { type, payload } = action
+  const { type, payload } = action;
   switch (type) {
     case SELECT_TOOL: {
-      return payload.id
+      return payload.id;
     }
-    default: return state
+    default:
+      return state;
   }
 }
 
-export const getTool = state => state
+export const getTool = state => state;

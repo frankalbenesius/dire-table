@@ -1,22 +1,17 @@
-import React from 'react'
-import { toPath, toAreaCursor, toCoordinate, toPosition } from '../../utilities/map'
-import { colors, sizes, opacity } from '../constants'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { toPath, toAreaCursor, toCoordinate, toPosition } from '../../utilities/map';
+import { colors, sizes, opacity } from '../constants';
 
 const AreaCursor = ({ adding, removing, cursor, board }) => {
   if (adding) {
-    const cursorCoordinate = toCoordinate(board, cursor)
-    const area = toAreaCursor(cursorCoordinate)
-    const path = toPath(board, area)
-    return (
-      <path
-        d={path}
-        fill={colors.selection}
-        opacity={opacity}
-      />
-    )
+    const cursorCoordinate = toCoordinate(board, cursor);
+    const area = toAreaCursor(cursorCoordinate);
+    const path = toPath(board, area);
+    return <path d={path} fill={colors.selection} opacity={opacity} />;
   }
   if (removing) {
-    const pos = toPosition(board)(toCoordinate(board, cursor, 2))
+    const pos = toPosition(board)(toCoordinate(board, cursor, 2));
     return (
       <circle
         cx={pos.x}
@@ -25,18 +20,18 @@ const AreaCursor = ({ adding, removing, cursor, board }) => {
         fill={colors.selection}
         opacity={opacity}
       />
-    )
+    );
   }
-  return null
-}
+  return null;
+};
 AreaCursor.propTypes = {
-  adding: React.PropTypes.bool,
-  removing: React.PropTypes.bool,
-  board: React.PropTypes.object,
-  cursor: React.PropTypes.shape({
-    x: React.PropTypes.number,
-    y: React.PropTypes.number,
+  adding: PropTypes.bool,
+  removing: PropTypes.bool,
+  board: PropTypes.object,
+  cursor: PropTypes.shape({
+    x: PropTypes.number,
+    y: PropTypes.number,
   }),
-}
+};
 
-export default AreaCursor
+export default AreaCursor;

@@ -15,10 +15,14 @@
   "dependencies": {
     "clipper-js": "^0.0.6",
     "date-fns": "^1.22.0",
+    "glamor": "^2.20.24",
     "js-clipper": "^1.0.1",
-    "next": "^1.2.3",
-    "now": "latest",
+    "lodash": "^4.17.4",
+    "next": "^2.2.0",
     "polygon": "^1.0.2",
+    "prop-types": "^15.5.8",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
     "react-redux": "^4.4.6",
     "redux": "^3.6.0"
   },
@@ -27,6 +31,16 @@
     "eslint-config-airbnb": "^13.0.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
-    "eslint-plugin-react": "^6.7.1"
+    "eslint-plugin-react": "^6.7.1",
+    "prettier": "^1.2.2",
+    "prettier-eslint": "^6.1.0"
+  },
+  "eslintConfig": {
+    "extends": "airbnb",
+    "rules": {
+      "react/jsx-filename-extension": 0,
+      "react/forbid-prop-types": 0,
+      "no-mixed-operators": 0
+    }
   }
 }

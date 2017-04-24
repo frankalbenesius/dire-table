@@ -1,5 +1,6 @@
-import React from 'react'
-import { colors, sizes } from '../constants'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { colors, sizes } from '../constants';
 
 const Area = ({ path }) => (
   <path
@@ -8,10 +9,10 @@ const Area = ({ path }) => (
     stroke={colors.background}
     strokeWidth={sizes.areaStroke}
   />
-)
+);
 
 Area.propTypes = {
-  path: React.PropTypes.string,
-}
+  path: PropTypes.string,
+};
 
-export default Area
+export default Area;

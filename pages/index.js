@@ -1,26 +1,27 @@
-import React from 'react'
-import { Provider } from 'react-redux'
-import Head from 'next/head'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Provider } from 'react-redux';
+import Head from 'next/head';
 
-import initStore from '../store'
-import reducer from '../store/reducers'
+import initStore from '../store';
+import reducer from '../store/reducers';
 
-import Map from '../containers/Map'
-import Chat from '../containers/Chat'
-import Tools from '../containers/Tools'
+import Map from '../containers/Map';
+import Chat from '../containers/Chat';
+import Tools from '../containers/Tools';
 
-import Wrapper from '../components/Wrapper'
+import Wrapper from '../components/Wrapper';
 
 export default class Index extends React.Component {
   static getInitialProps({ req }) {
-    const isServer = !!req
-    const store = initStore(reducer, undefined, isServer)
-    return { initialState: store.getState(), isServer }
+    const isServer = !!req;
+    const store = initStore(reducer, undefined, isServer);
+    return { initialState: store.getState(), isServer };
   }
 
   constructor(props) {
-    super(props)
-    this.store = initStore(reducer, props.initialState, props.isServer)
+    super(props);
+    this.store = initStore(reducer, props.initialState, props.isServer);
   }
 
   render() {
@@ -38,10 +39,10 @@ export default class Index extends React.Component {
           <Chat />
         </Wrapper>
       </Provider>
-    )
+    );
   }
 }
 Index.propTypes = {
-  initialState: React.PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  isServer: React.PropTypes.bool,
-}
+  initialState: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  isServer: PropTypes.bool,
+};

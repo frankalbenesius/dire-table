@@ -1,4 +1,4 @@
-import Shape from 'clipper-js' // clipping library
+import Shape from 'clipper-js'; // clipping library
 
 /*
   GLOSSARY (cause this crap is confusing)
@@ -11,85 +11,82 @@ import Shape from 'clipper-js' // clipping library
   Path = SVG string representaiton of a path with potential holes (multiple combined shapes)
 */
 
-const scale = 1000 // scalling allows adjacent areas to avoid merging
-const tinyHoleThreshold = 0.002
+const scale = 1000; // scalling allows adjacent areas to avoid merging
+const tinyHoleThreshold = 0.002;
 const removeTinyHoles = (shapes) => {
   shapes.forEach((shape) => {
     if (shape.paths.length > 1) {
-      const shapeAreas = shape.areas()
+      const shapeAreas = shape.areas();
       // eslint-disable-next-line no-param-reassign
-      shape.paths = shape.paths.filter((s, i) => Math.abs(shapeAreas[i]) > tinyHoleThreshold)
+      shape.paths = shape.paths.filter((s, i) => Math.abs(shapeAreas[i]) > tinyHoleThreshold);
     }
-  })
-  return shapes
-}
+  });
+  return shapes;
+};
 export const mergeArea = (areas, newArea) => {
-  const existingShapes = areas.map(area => new Shape(area, true, true).scaleUp(scale))
-  const existingShape = existingShapes.reduce((acc, shape) => acc.join(shape), new Shape())
-  const newAreaShape = new Shape(newArea, true, true).scaleUp(scale)
-  const mergedShapes = existingShape.union(newAreaShape).scaleDown(scale).seperateShapes()
-  const result = removeTinyHoles(mergedShapes).map(shape => (shape.mapToLower()))
-  return result
-}
+  const existingShapes = areas.map(area => new Shape(area, true, true).scaleUp(scale));
+  const existingShape = existingShapes.reduce((acc, shape) => acc.join(shape), new Shape());
+  const newAreaShape = new Shape(newArea, true, true).scaleUp(scale);
+  const mergedShapes = existingShape.union(newAreaShape).scaleDown(scale).seperateShapes();
+  const result = removeTinyHoles(mergedShapes).map(shape => shape.mapToLower());
+  return result;
+};
 export const removeArea = (areas, newArea) => {
-  const existingShapes = areas.map(area => new Shape(area, true, true).scaleUp(scale))
-  const existingShape = existingShapes.reduce((acc, shape) => acc.join(shape), new Shape())
-  const newAreaShape = new Shape(newArea, true, true).scaleUp(scale)
-  const mergedShapes = existingShape.difference(newAreaShape).scaleDown(scale).seperateShapes()
-  const result = removeTinyHoles(mergedShapes).map(shape => (shape.mapToLower()))
-  return result
-}
+  const existingShapes = areas.map(area => new Shape(area, true, true).scaleUp(scale));
+  const existingShape = existingShapes.reduce((acc, shape) => acc.join(shape), new Shape());
+  const newAreaShape = new Shape(newArea, true, true).scaleUp(scale);
+  const mergedShapes = existingShape.difference(newAreaShape).scaleDown(scale).seperateShapes();
+  const result = removeTinyHoles(mergedShapes).map(shape => shape.mapToLower());
+  return result;
+};
 
-const easement = 1 / scale // the amount of area put between areas
+const easement = 1 / scale; // the amount of area put between areas
 const toRect = reduction => (coordA, coordB = coordA) => {
-  const left = Math.min(coordA.x, coordB.x) - reduction
-  const bottom = Math.min(coordA.y, coordB.y) - reduction
-  const right = Math.max(coordA.x, coordB.x) + reduction
-  const top = Math.max(coordA.y, coordB.y) + reduction
-  return [[
-    { x: left, y: bottom },
-    { x: left, y: top },
-    { x: right, y: top },
-    { x: right, y: bottom },
-  ]]
-}
-const coordinateHalf = 0.5
-const magicNumberToReduceCursorSize = 0.05
-export const toArea = toRect(coordinateHalf - easement)
-export const toAreaCursor = toRect(coordinateHalf - easement - magicNumberToReduceCursorSize)
-export const toRemoval = toRect(easement)
+  const left = Math.min(coordA.x, coordB.x) - reduction;
+  const bottom = Math.min(coordA.y, coordB.y) - reduction;
+  const right = Math.max(coordA.x, coordB.x) + reduction;
+  const top = Math.max(coordA.y, coordB.y) + reduction;
+  return [
+    [{ x: left, y: bottom }, { x: left, y: top }, { x: right, y: top }, { x: right, y: bottom }],
+  ];
+};
+const coordinateHalf = 0.5;
+const magicNumberToReduceCursorSize = 0.05;
+export const toArea = toRect(coordinateHalf - easement);
+export const toAreaCursor = toRect(coordinateHalf - easement - magicNumberToReduceCursorSize);
+export const toRemoval = toRect(easement);
 
-const roundToHalvesOnly = n => Math.round(n - 0.5) + 0.5
-const roundToWhole = n => Math.round(n)
+const roundToHalvesOnly = n => Math.round(n - 0.5) + 0.5;
+const roundToWhole = n => Math.round(n);
 export const toCoordinate = (board, position, tokenSize = 1) => {
-  const sizeIsOdd = tokenSize % 2 === 1
-  const round = sizeIsOdd ? roundToHalvesOnly : roundToWhole
+  const sizeIsOdd = tokenSize % 2 === 1;
+  const round = sizeIsOdd ? roundToHalvesOnly : roundToWhole;
   return {
-    x: round(((position.x - board.centerPx) / board.squarePx)),
-    y: round(((position.y - board.centerPx) / board.squarePx) * -1),
-  }
-}
+    x: round((position.x - board.centerPx) / board.squarePx),
+    y: round((position.y - board.centerPx) / board.squarePx * -1),
+  };
+};
 
 export const toPosition = board => coordinate => ({
-  x: board.centerPx + (coordinate.x * board.squarePx),
-  y: board.centerPx + (coordinate.y * board.squarePx * -1),
-})
-const toPositionList = board => coordinateList => coordinateList.map(toPosition(board))
+  x: board.centerPx + coordinate.x * board.squarePx,
+  y: board.centerPx + coordinate.y * board.squarePx * -1,
+});
+const toPositionList = board => coordinateList => coordinateList.map(toPosition(board));
 const toSimplePath = (positionList) => {
   const str = positionList.reduce((acc, position, i) => {
-    const command = i === 0 ? 'M' : 'L'
-    return `${acc}${command} ${position.x},${position.y} `
-  }, '')
-  return `${str} Z `
-}
+    const command = i === 0 ? 'M' : 'L';
+    return `${acc}${command} ${position.x},${position.y} `;
+  }, '');
+  return `${str} Z `;
+};
 export const toPath = (board, coordinateLists) =>
-  coordinateLists.map(toPositionList(board)).map(toSimplePath).join('')
+  coordinateLists.map(toPositionList(board)).map(toSimplePath).join('');
 
 export const toCircle = (board, coordinate, tokenSize = 1) => {
-  const position = toPosition(board)(coordinate)
+  const position = toPosition(board)(coordinate);
   return {
     cx: position.x,
     cy: position.y,
-    radius: (tokenSize / 2) * board.squarePx,
-  }
-}
+    radius: tokenSize / 2 * board.squarePx,
+  };
+};

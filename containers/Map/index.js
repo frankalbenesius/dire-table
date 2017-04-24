@@ -1,21 +1,22 @@
-import React from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-import * as Actions from '../../store/actions'
-import { getBoard } from '../../store/reducers/board'
-import { getAreas } from '../../store/reducers/areas'
-import { getPlayer } from '../../store/reducers/player'
-import { getTokens } from '../../store/reducers/tokens'
-import { getTool } from '../../store/reducers/tool'
+import * as Actions from '../../store/actions';
+import { getBoard } from '../../store/reducers/board';
+import { getAreas } from '../../store/reducers/areas';
+import { getPlayer } from '../../store/reducers/player';
+import { getTokens } from '../../store/reducers/tokens';
+import { getTool } from '../../store/reducers/tool';
 
-import AreaLayer from '../../components/AreaLayer'
-import Board from '../../components/Board'
-import Frame from '../../components/Frame'
-import Grid from '../../components/Grid'
-import TokenLayer from '../../components/TokenLayer'
+import AreaLayer from '../../components/AreaLayer';
+import Board from '../../components/Board';
+import Frame from '../../components/Frame';
+import Grid from '../../components/Grid';
+import TokenLayer from '../../components/TokenLayer';
 
-import { toCoordinate, toArea, toRemoval } from '../../utilities/map'
+import { toCoordinate, toArea, toRemoval } from '../../utilities/map';
 
 const mapStateToProps = state => ({
   areas: getAreas(state.areas),
@@ -23,27 +24,27 @@ const mapStateToProps = state => ({
   player: getPlayer(state.player),
   tokens: getTokens(state.tokens),
   tool: getTool(state.tool),
-})
+});
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(Actions, dispatch),
-})
+});
 
 class Map extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       cursor: {
         x: -100,
         y: -100,
       },
       startCoord: null,
-    }
-    this.handleMouseDown = this.handleMouseDown.bind(this)
-    this.handleMouseUp = this.handleMouseUp.bind(this)
-    this.handleMouseMove = this.handleMouseMove.bind(this)
-    this.handleTokenDrag = this.handleTokenDrag.bind(this)
-    this.handleTokenShiftClick = this.handleTokenShiftClick.bind(this)
+    };
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+    this.handleMouseUp = this.handleMouseUp.bind(this);
+    this.handleMouseMove = this.handleMouseMove.bind(this);
+    this.handleTokenDrag = this.handleTokenDrag.bind(this);
+    this.handleTokenShiftClick = this.handleTokenShiftClick.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -51,76 +52,78 @@ class Map extends React.Component {
       this.setState({
         cursor: { x: -100, y: -100 },
         startCoord: null,
-      }) // moves cursor away from toolbar
+      }); // moves cursor away from toolbar
     }
   }
 
   handleMouseMove(e) {
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault();
+    e.stopPropagation();
     this.setState({
       cursor: {
         x: e.nativeEvent.offsetX,
         y: e.nativeEvent.offsetY,
       },
-    })
+    });
   }
 
   handleMouseDown(e) {
     if (e.nativeEvent.which === 1) {
-      e.preventDefault()
-      e.stopPropagation()
+      e.preventDefault();
+      e.stopPropagation();
       switch (this.props.tool) {
         case 'token': {
-          const clickedCoordinate = toCoordinate(this.props.board, this.state.cursor)
-          this.props.actions.addToken(clickedCoordinate)
-          break
+          const clickedCoordinate = toCoordinate(this.props.board, this.state.cursor);
+          this.props.actions.addToken(clickedCoordinate);
+          break;
         }
         case 'add': {
-          const clickedCoordinate = toCoordinate(this.props.board, this.state.cursor)
-          this.setState({ startCoord: clickedCoordinate })
-          break
+          const clickedCoordinate = toCoordinate(this.props.board, this.state.cursor);
+          this.setState({ startCoord: clickedCoordinate });
+          break;
         }
         case 'remove': {
-          const clickedCoordinate = toCoordinate(this.props.board, this.state.cursor, 2)
-          this.setState({ startCoord: clickedCoordinate })
-          break
+          const clickedCoordinate = toCoordinate(this.props.board, this.state.cursor, 2);
+          this.setState({ startCoord: clickedCoordinate });
+          break;
         }
-        default: break
+        default:
+          break;
       }
     }
   }
 
   handleMouseUp(e) {
     if (e.nativeEvent.which === 1) {
-      e.preventDefault()
-      e.stopPropagation()
+      e.preventDefault();
+      e.stopPropagation();
       switch (this.props.tool) {
         case 'add': {
-          const stopCoord = toCoordinate(this.props.board, this.state.cursor)
-          this.props.actions.addArea(toArea(this.state.startCoord, stopCoord))
-          this.setState({ startCoord: null })
-          break
+          const stopCoord = toCoordinate(this.props.board, this.state.cursor);
+          this.props.actions.addArea(toArea(this.state.startCoord, stopCoord));
+          this.setState({ startCoord: null });
+          break;
         }
         case 'remove': {
-          const stopCoord = toCoordinate(this.props.board, this.state.cursor, 2)
-          this.props.actions.removeArea(toRemoval(this.state.startCoord, stopCoord))
-          this.setState({ startCoord: null })
-          break
+          const stopCoord = toCoordinate(this.props.board, this.state.cursor, 2);
+          this.props.actions.removeArea(toRemoval(this.state.startCoord, stopCoord));
+          this.setState({ startCoord: null });
+          break;
         }
-        default: break
+        default:
+          break;
       }
     }
   }
 
   handleTokenShiftClick(tokenId) {
-    this.props.actions.removeToken(tokenId)
+    this.props.actions.removeToken(tokenId);
   }
   handleTokenDrag(tokenId) {
     this.props.actions.moveToken(
       tokenId,
       toCoordinate(this.props.board, this.state.cursor, this.props.tokens.byId[tokenId].size),
-    )
+    );
   }
 
   render() {
@@ -151,32 +154,29 @@ class Map extends React.Component {
           />
         </Board>
       </Frame>
-    )
+    );
   }
 }
 Map.propTypes = {
-  actions: React.PropTypes.shape({
-    addArea: React.PropTypes.func,
-    addToken: React.PropTypes.func,
-    moveToken: React.PropTypes.func,
-    removeArea: React.PropTypes.func,
-    removeToken: React.PropTypes.func,
+  actions: PropTypes.shape({
+    addArea: PropTypes.func,
+    addToken: PropTypes.func,
+    moveToken: PropTypes.func,
+    removeArea: PropTypes.func,
+    removeToken: PropTypes.func,
   }),
-  areas: React.PropTypes.arrayOf(React.PropTypes.array),
-  board: React.PropTypes.shape({
-    boardPx: React.PropTypes.number,
-    centerPx: React.PropTypes.number,
-    size: React.PropTypes.number,
-    squarePx: React.PropTypes.number,
+  areas: PropTypes.arrayOf(PropTypes.array),
+  board: PropTypes.shape({
+    boardPx: PropTypes.number,
+    centerPx: PropTypes.number,
+    size: PropTypes.number,
+    squarePx: PropTypes.number,
   }),
-  player: React.PropTypes.shape({
-    id: React.PropTypes.number,
+  player: PropTypes.shape({
+    id: PropTypes.number,
   }),
-  tokens: React.PropTypes.object,
-  tool: React.PropTypes.string,
-}
+  tokens: PropTypes.object,
+  tool: PropTypes.string,
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Map)
+export default connect(mapStateToProps, mapDispatchToProps)(Map);

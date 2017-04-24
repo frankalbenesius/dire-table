@@ -1,6 +1,7 @@
-import React from 'react'
-import { style } from 'next/css'
-import { colors, sizes, zIndexes } from '../constants'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { style } from 'glamor';
+import { colors, sizes, zIndexes } from '../constants';
 
 const styles = {
   wrapper: style({
@@ -12,15 +13,15 @@ const styles = {
       display: 'none',
     },
   }),
-}
+};
 
 const Wrapper = ({ children }) => (
   <div className={styles.wrapper}>
-    { children }
+    {children}
   </div>
-)
+);
 Wrapper.propTypes = {
-  children: React.PropTypes.any, //eslint-disable-line
-}
+  children: PropTypes.any, //eslint-disable-line
+};
 
-export default Wrapper
+export default Wrapper;

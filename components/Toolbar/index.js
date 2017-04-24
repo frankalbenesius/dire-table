@@ -1,7 +1,8 @@
-import React from 'react'
-import { css } from 'next/css'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { css } from 'glamor';
 
-import { colors, sizes } from '../constants'
+import { colors, sizes } from '../constants';
 
 const styles = {
   wrapper: css({
@@ -14,17 +15,17 @@ const styles = {
     boxShadow: `0 0 ${sizes.shadow} ${colors.black}`,
     fill: '#000',
   }),
-}
+};
 
 const Tools = ({ children }) => (
   <div className={styles.wrapper}>
     <div>
-      { children }
+      {children}
     </div>
   </div>
-)
+);
 Tools.propTypes = {
-  children: React.PropTypes.node,
-}
+  children: PropTypes.node,
+};
 
-export default Tools
+export default Tools;

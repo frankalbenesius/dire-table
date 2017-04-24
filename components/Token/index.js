@@ -1,11 +1,12 @@
-import React from 'react'
-import { style } from 'next/css'
-import { colors, sizes, noPx, opacity } from '../constants'
-import Icon from '../Icon'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { style } from 'glamor';
+import { colors, sizes, noPx, opacity } from '../constants';
+import Icon from '../Icon';
 
 const tokenStyles = {
   fill: '#000000',
-}
+};
 const styles = {
   undraggable: style({
     ...tokenStyles,
@@ -23,16 +24,16 @@ const styles = {
     ...tokenStyles,
     opacity,
   }),
-}
+};
 
 const Token = (props) => {
-  const iconRadius = props.radius * 0.7
-  let tokenClass = styles.undraggable
+  const iconRadius = props.radius * 0.7;
+  let tokenClass = styles.undraggable;
   if (props.draggable) {
-    tokenClass = props.dragging ? styles.dragging : styles.draggable
+    tokenClass = props.dragging ? styles.dragging : styles.draggable;
   }
   if (props.cursor) {
-    tokenClass = styles.cursor
+    tokenClass = styles.cursor;
   }
   return (
     <g
@@ -58,21 +59,21 @@ const Token = (props) => {
         <Icon icon={props.icon} />
       </svg>
     </g>
-  )
-}
+  );
+};
 Token.propTypes = {
-  onClick: React.PropTypes.func,
-  onMouseUp: React.PropTypes.func,
-  onMouseDown: React.PropTypes.func,
-  player: React.PropTypes.number,
-  icon: React.PropTypes.string,
-  radius: React.PropTypes.number,
-  draggable: React.PropTypes.bool,
-  dragging: React.PropTypes.bool,
-  cursor: React.PropTypes.bool,
-  cx: React.PropTypes.number,
-  cy: React.PropTypes.number,
-}
-Token.defaultProps = {}
+  onClick: PropTypes.func,
+  onMouseUp: PropTypes.func,
+  onMouseDown: PropTypes.func,
+  player: PropTypes.number,
+  icon: PropTypes.string,
+  radius: PropTypes.number,
+  draggable: PropTypes.bool,
+  dragging: PropTypes.bool,
+  cursor: PropTypes.bool,
+  cx: PropTypes.number,
+  cy: PropTypes.number,
+};
+Token.defaultProps = {};
 
-export default Token
+export default Token;

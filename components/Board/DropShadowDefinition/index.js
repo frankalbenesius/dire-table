@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export default () => (
   <defs>
@@ -11,4 +11,4 @@ export default () => (
       </feMerge>
     </filter>
   </defs>
-)
+);

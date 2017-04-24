@@ -1,5 +1,5 @@
-import { max, omit } from 'lodash'
-import { ADD_TOKEN, REMOVE_TOKEN, MOVE_TOKEN } from '../../constants/actions'
+import { max, omit } from 'lodash';
+import { ADD_TOKEN, REMOVE_TOKEN, MOVE_TOKEN } from '../../constants/actions';
 
 const defaultState = {
   0: {
@@ -34,13 +34,13 @@ const defaultState = {
     size: 2,
     lastUpdated: 1484803641891,
   },
-}
+};
 
 export default function reducer(state = defaultState, action) {
-  const { type, payload } = action
+  const { type, payload } = action;
   switch (type) {
     case ADD_TOKEN: {
-      const id = (max(Object.keys(state).map(x => parseInt(x, 10))) + 1) || 0
+      const id = max(Object.keys(state).map(x => parseInt(x, 10))) + 1 || 0;
       return {
         ...state,
         [id]: {
@@ -51,9 +51,10 @@ export default function reducer(state = defaultState, action) {
           size: 1,
           lastUpdated: Date.now(),
         },
-      }
+      };
     }
-    case REMOVE_TOKEN: return omit(state, payload.id)
+    case REMOVE_TOKEN:
+      return omit(state, payload.id);
     case MOVE_TOKEN: {
       return {
         ...state,
@@ -62,13 +63,14 @@ export default function reducer(state = defaultState, action) {
           location: payload.location,
           lastUpdated: Date.now(),
         },
-      }
+      };
     }
-    default: return state
+    default:
+      return state;
   }
 }
 
 export const getTokens = state => ({
   byId: state,
   list: Object.keys(state).map(key => state[key]),
-})
+});

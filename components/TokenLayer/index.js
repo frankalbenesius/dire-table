@@ -1,44 +1,45 @@
-import React from 'react'
-import Token from '../../components/Token'
-import TokenCursor from '../../components/TokenCursor'
-import { toCircle } from '../../utilities/map'
+import React from 'react';
+import PropTypes from 'prop-types';
+import Token from '../../components/Token';
+import TokenCursor from '../../components/TokenCursor';
+import { toCircle } from '../../utilities/map';
 
 const tokenSort = draggingTokenId => (a, b) => {
-  if (a.size !== b.size) return (b.size - a.size) // size is highest priority
-  if (a.id === draggingTokenId) return 1 // dragging is next highest priority
-  if (b.id === draggingTokenId) return -1
-  return (a.lastUpdated - b.lastUpdated) // last priority is most recently touched
-}
+  if (a.size !== b.size) return b.size - a.size; // size is highest priority
+  if (a.id === draggingTokenId) return 1; // dragging is next highest priority
+  if (b.id === draggingTokenId) return -1;
+  return a.lastUpdated - b.lastUpdated; // last priority is most recently touched
+};
 
 class TokenLayer extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       draggingTokenId: -1,
-    }
-    this.createHandleMouseDown = this.createHandleMouseDown.bind(this)
-    this.handleMouseUp = this.handleMouseUp.bind(this)
+    };
+    this.createHandleMouseDown = this.createHandleMouseDown.bind(this);
+    this.handleMouseUp = this.handleMouseUp.bind(this);
   }
 
   createHandleMouseDown(tokenId) {
     return (e) => {
       if (e.nativeEvent.which === 1) {
-        e.preventDefault()
-        e.stopPropagation()
-        if (e.shiftKey) this.props.onShiftClick(tokenId)
-        else this.setState({ draggingTokenId: tokenId })
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.shiftKey) this.props.onShiftClick(tokenId);
+        else this.setState({ draggingTokenId: tokenId });
       }
-    }
+    };
   }
 
   handleMouseUp(e) {
     if (e.nativeEvent.which) {
-      e.preventDefault()
-      e.stopPropagation()
+      e.preventDefault();
+      e.stopPropagation();
       if (this.state.draggingTokenId > -1) {
-        this.props.onDrag(this.state.draggingTokenId)
+        this.props.onDrag(this.state.draggingTokenId);
       }
-      this.setState({ draggingTokenId: -1 })
+      this.setState({ draggingTokenId: -1 });
     }
   }
 
@@ -46,15 +47,15 @@ class TokenLayer extends React.Component {
     return (
       <g>
         {this.props.tokens.sort(tokenSort(this.state.draggingTokenId)).map((token, i) => {
-          const circle = toCircle(this.props.board, token.location, token.size)
-          const editable = this.props.tool === 'cursor' && (
-            this.props.playerId === 0 || this.props.playerId === token.player
-          )
-          const onMouseDown = editable ? this.createHandleMouseDown(token.id) : null
-          const onMouseUp = editable ? this.handleMouseUp : null
-          const dragging = (token.id === this.state.draggingTokenId)
-          const cx = dragging ? this.props.cursor.x : circle.cx
-          const cy = dragging ? this.props.cursor.y : circle.cy
+          const circle = toCircle(this.props.board, token.location, token.size);
+          const editable =
+            this.props.tool === 'cursor' &&
+            (this.props.playerId === 0 || this.props.playerId === token.player);
+          const onMouseDown = editable ? this.createHandleMouseDown(token.id) : null;
+          const onMouseUp = editable ? this.handleMouseUp : null;
+          const dragging = token.id === this.state.draggingTokenId;
+          const cx = dragging ? this.props.cursor.x : circle.cx;
+          const cy = dragging ? this.props.cursor.y : circle.cy;
           return (
             <Token
               key={i}
@@ -69,7 +70,7 @@ class TokenLayer extends React.Component {
               onMouseDown={onMouseDown}
               onMouseUp={onMouseUp}
             />
-          )
+          );
         })}
         <TokenCursor
           active={this.props.tool === 'token'}
@@ -77,20 +78,20 @@ class TokenLayer extends React.Component {
           cursor={this.props.cursor}
         />
       </g>
-    )
+    );
   }
 }
 TokenLayer.propTypes = {
-  tool: React.PropTypes.string,
-  board: React.PropTypes.object,
-  cursor: React.PropTypes.shape({
-    x: React.PropTypes.number,
-    y: React.PropTypes.number,
+  tool: PropTypes.string,
+  board: PropTypes.object,
+  cursor: PropTypes.shape({
+    x: PropTypes.number,
+    y: PropTypes.number,
   }),
-  onShiftClick: React.PropTypes.func,
-  onDrag: React.PropTypes.func,
-  playerId: React.PropTypes.number,
-  tokens: React.PropTypes.array,
-}
+  onShiftClick: PropTypes.func,
+  onDrag: PropTypes.func,
+  playerId: PropTypes.number,
+  tokens: PropTypes.array,
+};
 
-export default TokenLayer
+export default TokenLayer;

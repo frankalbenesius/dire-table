@@ -1,19 +1,20 @@
-import React from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import * as Actions from '../../store/actions'
-import { tools } from '../../store/reducers/tool'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from '../../store/actions';
+import { tools } from '../../store/reducers/tool';
 
-import Toolbar from '../../components/Toolbar'
-import ToolbarOption from '../../components/ToolbarOption'
+import Toolbar from '../../components/Toolbar';
+import ToolbarOption from '../../components/ToolbarOption';
 
 const mapStateToProps = state => ({
   selectedTool: state.tool,
-})
+});
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(Actions, dispatch),
-})
+});
 
 const Tools = ({ selectedTool, actions }) => (
   <Toolbar>
@@ -26,13 +27,10 @@ const Tools = ({ selectedTool, actions }) => (
       />
     ))}
   </Toolbar>
-)
+);
 Tools.propTypes = {
-  selectedTool: React.PropTypes.string,
-  actions: React.PropTypes.object,
-}
+  selectedTool: PropTypes.string,
+  actions: PropTypes.object,
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Tools)
+export default connect(mapStateToProps, mapDispatchToProps)(Tools);

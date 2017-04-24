@@ -1,8 +1,9 @@
-import React from 'react'
-import { css } from 'next/css'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { css } from 'glamor';
 
-import Icon from '../Icon'
-import { colors } from '../constants'
+import Icon from '../Icon';
+import { colors } from '../constants';
 
 const toolStyles = {
   width: '50px',
@@ -21,7 +22,7 @@ const toolStyles = {
   ':hover': {
     backgroundColor: colors.selection,
   },
-}
+};
 const styles = {
   tool: css({
     ...toolStyles,
@@ -30,17 +31,17 @@ const styles = {
     ...toolStyles,
     backgroundColor: colors.selection,
   }),
-}
+};
 
 const Tools = ({ icon, onClick, selected }) => (
   <button className={selected ? styles.selected : styles.tool} onClick={onClick}>
     <Icon icon={icon} />
   </button>
-)
+);
 Tools.propTypes = {
-  selected: React.PropTypes.bool,
-  icon: React.PropTypes.string,
-  onClick: React.PropTypes.func,
-}
+  selected: PropTypes.bool,
+  icon: PropTypes.string,
+  onClick: PropTypes.func,
+};
 
-export default Tools
+export default Tools;

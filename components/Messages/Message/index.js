@@ -1,8 +1,8 @@
-import React from 'react'
-import { style } from 'next/css'
-import { padEnd } from 'lodash'
-import formatDate from 'date-fns/format'
-import { colors } from '../../constants'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { style } from 'glamor';
+import formatDate from 'date-fns/format';
+import { colors } from '../../constants';
 
 const styles = {
   message: style({
@@ -16,41 +16,30 @@ const styles = {
     borderWidth: '1px',
     borderStyle: 'solid',
   }),
-}
+};
 
-const playerHeaderStyles = i => style({
-  color: colors.player[i],
-  marginTop: '1em',
-  fontFamily: 'Vulf Mono Bold',
-})
+const playerHeaderStyles = i =>
+  style({
+    color: colors.player[i],
+    marginTop: '1em',
+    fontFamily: 'Vulf Mono Bold',
+  });
 
-const Roll = () => (
-  <div className={styles.roll}>Dice Roll Display TBD</div>
-)
+const Roll = () => <div className={styles.roll}>Dice Roll Display TBD</div>;
 
 const Message = ({ showHeader, content, player, timestamp, type }) => (
   <div title={formatDate(timestamp, 'M/D/YY h:mm A')} className={styles.message}>
-    {
-      showHeader ? (
-        <div className={playerHeaderStyles(player)}>{` PLAYER ${player} `}</div>
-      ) : null
-    }
+    {showHeader ? <div className={playerHeaderStyles(player)}>{` PLAYER ${player} `}</div> : null}
 
-    {
-      type === 'text' ? (
-        <div>{content}</div>
-      ) : (
-        <Roll />
-      )
-    }
+    {type === 'text' ? <div>{content}</div> : <Roll />}
   </div>
-)
+);
 Message.propTypes = {
-  showHeader: React.PropTypes.bool,
-  content: React.PropTypes.any, //eslint-disable-line
-  player: React.PropTypes.number,
-  timestamp: React.PropTypes.number,
-  type: React.PropTypes.string,
-}
+  showHeader: PropTypes.bool,
+  content: PropTypes.any, //eslint-disable-line
+  player: PropTypes.number,
+  timestamp: PropTypes.number,
+  type: PropTypes.string,
+};
 
-export default Message
+export default Message;

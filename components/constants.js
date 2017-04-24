@@ -1,7 +1,7 @@
-import palette from './palette'
+import palette from './palette';
 
 // colors
-const scheme = 'gray'
+const scheme = 'gray';
 export const colors = {
   brand: palette.base,
   black: palette.black,
@@ -21,10 +21,10 @@ export const colors = {
     palette.fuschia[6],
     palette.cyan[5],
   ],
-}
+};
 
 // sizes
-const baseStroke = 4 // should be 18% of cell size
+const baseStroke = 4; // should be 18% of cell size
 export const sizes = {
   shadow: '1rem',
   chatWidth: '20rem',
@@ -32,15 +32,15 @@ export const sizes = {
   areaStroke: `${baseStroke * 2}px`,
   tokenPadding: `${baseStroke + 3}px`,
   text: '0.8rem',
-}
+};
 
 // z-index
 export const zIndexes = {
   map: 0,
   chat: 1,
   hover: 2,
-}
+};
 
-export const opacity = 0.7
+export const opacity = 0.7;
 
-export const noPx = str => parseInt(str.slice(0, -2), 10)
+export const noPx = str => parseInt(str.slice(0, -2), 10);
