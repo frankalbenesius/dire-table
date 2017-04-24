@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { toPath, toAreaCursor, toCoordinate, toPosition } from '../../utilities/map';
+import { toAreaCursor } from '../../util/areas';
+import { toPath, toCoordinate, toPosition } from '../../util/board';
 import { colors, sizes, opacity } from '../constants';
 
 const AreaCursor = ({ adding, removing, cursor, board }) => {

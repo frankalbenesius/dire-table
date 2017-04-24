@@ -16,7 +16,8 @@ import Frame from '../../components/Frame';
 import Grid from '../../components/Grid';
 import TokenLayer from '../../components/TokenLayer';
 
-import { toCoordinate, toArea, toRemoval } from '../../utilities/map';
+import { toArea, toRemoval } from '../../util/areas';
+import { toCoordinate } from '../../util/board';
 
 const mapStateToProps = state => ({
   areas: getAreas(state.areas),

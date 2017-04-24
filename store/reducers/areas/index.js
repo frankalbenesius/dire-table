@@ -1,5 +1,5 @@
 import { ADD_AREA, REMOVE_AREA } from '../../constants/actions';
-import { mergeArea, removeArea } from '../../../utilities/map';
+import { mergeArea, removeArea } from '../../../util/areas';
 
 const defaultAreas = [
   [

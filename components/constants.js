@@ -25,12 +25,14 @@ export const colors = {
 
 // sizes
 const baseStroke = 4; // should be 18% of cell size
+export const areaStroke = baseStroke + 2;
+const tokenPadding = baseStroke + 3;
 export const sizes = {
   shadow: '1rem',
   chatWidth: '20rem',
   fogStroke: `${baseStroke}px`,
-  areaStroke: `${baseStroke * 2}px`,
-  tokenPadding: `${baseStroke + 3}px`,
+  areaStroke: `${areaStroke}px`,
+  tokenPadding: `${tokenPadding}px`,
   text: '0.8rem',
 };
 

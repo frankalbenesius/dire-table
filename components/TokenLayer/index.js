@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Token from '../../components/Token';
 import TokenCursor from '../../components/TokenCursor';
-import { toCircle } from '../../utilities/map';
+import { toCircle } from '../../util/board';
 
 const tokenSort = draggingTokenId => (a, b) => {
   if (a.size !== b.size) return b.size - a.size; // size is highest priority

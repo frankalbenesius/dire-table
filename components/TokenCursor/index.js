@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Token from '../../components/Token';
-import { toCircle, toCoordinate } from '../../utilities/map';
+import { toCircle, toCoordinate } from '../../util/board';
 
 const TokenCursor = ({ active, cursor, board }) => {
   if (active) {

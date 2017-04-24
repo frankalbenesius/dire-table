@@ -2,14 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Area from '../../components/Area';
 import AreaCursor from '../../components/AreaCursor';
-import {
-  toPath,
-  toCoordinate,
-  toArea,
-  toRemoval,
-  mergeArea,
-  removeArea,
-} from '../../utilities/map';
+import { toArea, toRemoval, mergeArea, removeArea } from '../../util/areas';
+import { toPath, toCoordinate } from '../../util/board';
 
 const AreaLayer = (props) => {
   let areas = [...props.areas];
