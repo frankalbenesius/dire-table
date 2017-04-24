@@ -1,13 +1,19 @@
 import test from 'tape';
-// import { toCoordinate } from './index';
+import { toCoordinate } from './index';
 
-test('timing test', (t) => {
-  t.plan(2);
-
-  t.equal(typeof Date.now, 'function');
-  const start = Date.now();
-
-  setTimeout(() => {
-    t.equal(Date.now() - start, 100);
-  }, 100);
+test('toCoordinate', (t) => {
+  const board = {
+    centerPx: 50,
+    squarePx: 10,
+  };
+  const position = {
+    x: 12,
+    y: 15,
+  };
+  const expected = {
+    x: -3,
+    y: 3,
+  };
+  const actual = toCoordinate(board, position);
+  t.deepEqual(expected, actual);
 });
