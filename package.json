@@ -6,9 +6,9 @@
   "scripts": {
     "build": "next build",
     "dev": "next",
-    "lint": "./node_modules/.bin/eslint .",
+    "lint": "eslint .",
     "start": "next start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tape -r babel-register '{components,containers,pages,store,util}/**/*test.js'"
   },
   "author": "Frank Albenesius",
   "license": "UNLICENSED",
@@ -29,6 +29,7 @@
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-register": "^6.24.1",
     "eslint": "^3.10.2",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-plugin-flowtype": "^2.32.1",
@@ -37,6 +38,7 @@
     "eslint-plugin-react": "^6.7.1",
     "flow-bin": "^0.44.2",
     "prettier": "^1.2.2",
-    "prettier-eslint": "^6.1.0"
+    "prettier-eslint": "^6.1.0",
+    "tape": "^4.6.3"
   }
 }
