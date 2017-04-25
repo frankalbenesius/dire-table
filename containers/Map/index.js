@@ -8,7 +8,7 @@ import { getBoard } from '../../store/reducers/board';
 import { getAreas } from '../../store/reducers/areas';
 import { getPlayer } from '../../store/reducers/player';
 import { getTokens } from '../../store/reducers/tokens';
-import { getTool } from '../../store/reducers/tool';
+import { getCurrentToolId, getTokenIdToAdd } from '../../store/reducers/tool';
 
 import AreaLayer from '../../components/AreaLayer';
 import Board from '../../components/Board';
@@ -24,7 +24,8 @@ const mapStateToProps = state => ({
   board: getBoard(state.board),
   player: getPlayer(state.player),
   tokens: getTokens(state.tokens),
-  tool: getTool(state.tool),
+  tool: getCurrentToolId(state.tool),
+  tokenIdToAdd: getTokenIdToAdd(state.tool),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -75,7 +76,7 @@ class Map extends React.Component {
       switch (this.props.tool) {
         case 'token': {
           const clickedCoordinate = toCoordinate(this.props.board, this.state.cursor);
-          this.props.actions.addToken(clickedCoordinate);
+          this.props.actions.addToken(clickedCoordinate, this.props.tokenIdToAdd);
           break;
         }
         case 'add': {
@@ -152,6 +153,7 @@ class Map extends React.Component {
             onShiftClick={this.handleTokenShiftClick}
             playerId={this.props.player.id}
             tokens={this.props.tokens.list}
+            tokenIdToAdd={this.props.tokenIdToAdd}
           />
         </Board>
       </Frame>
@@ -177,6 +179,7 @@ Map.propTypes = {
     id: PropTypes.number,
   }),
   tokens: PropTypes.object,
+  tokenIdToAdd: PropTypes.number,
   tool: PropTypes.string,
 };
 

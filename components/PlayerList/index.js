@@ -8,7 +8,7 @@ import Token from '../Token';
 
 const tokenSize = 50;
 
-const Inventory = ({ players, tokens }) => {
+const PlayerList = ({ players, tokens, onPlayerClick }) => {
   const inventoryHeight = tokenSize * players.length;
   const styles = {
     wrapper: css({
@@ -36,7 +36,7 @@ const Inventory = ({ players, tokens }) => {
           const playerTokens = tokens.filter(t => t.player === player.id);
           const playerHasAToken = playerTokens.length > 0;
           if (playerHasAToken) {
-            icon = playerTokens.sort((a, b) => a.lastUpdated - b.lastUpdated)[0].icon;
+            icon = playerTokens.sort((a, b) => b.lastUpdated - a.lastUpdated)[0].icon;
           }
           return (
             <g key={player.id}>
@@ -48,6 +48,7 @@ const Inventory = ({ players, tokens }) => {
                 radius={25}
                 draggable={false}
                 dragging={false}
+                onMouseDown={() => onPlayerClick(player.id)}
               />
               <text
                 className={styles.label}
@@ -65,9 +66,10 @@ const Inventory = ({ players, tokens }) => {
     </div>
   );
 };
-Inventory.propTypes = {
+PlayerList.propTypes = {
   players: PropTypes.array,
   tokens: PropTypes.array,
+  onPlayerClick: PropTypes.func,
 };
 
-export default Inventory;
+export default PlayerList;

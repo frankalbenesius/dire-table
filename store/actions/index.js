@@ -4,10 +4,16 @@ export const moveToken = (id, location) => ({
   type: types.MOVE_TOKEN,
   payload: { id, location },
 });
-export const selectTool = id => ({ type: types.SELECT_TOOL, payload: { id } });
-export const addToken = location => ({
+export const selectTool = (id, tokenIdToAdd = 0) => ({
+  type: types.SELECT_TOOL,
+  payload: {
+    id,
+    tokenIdToAdd,
+  },
+});
+export const addToken = (location, id) => ({
   type: types.ADD_TOKEN,
-  payload: { location },
+  payload: { location, id },
 });
 export const removeToken = id => ({
   type: types.REMOVE_TOKEN,

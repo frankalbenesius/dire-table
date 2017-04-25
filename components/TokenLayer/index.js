@@ -76,6 +76,7 @@ class TokenLayer extends React.Component {
           active={this.props.tool === 'token'}
           board={this.props.board}
           cursor={this.props.cursor}
+          tokenIdToAdd={this.props.tokenIdToAdd}
         />
       </g>
     );
@@ -91,6 +92,7 @@ TokenLayer.propTypes = {
   onShiftClick: PropTypes.func,
   onDrag: PropTypes.func,
   playerId: PropTypes.number,
+  tokenIdToAdd: PropTypes.number,
   tokens: PropTypes.array,
 };
 

@@ -61,8 +61,8 @@ export default function reducer(state = defaultState, action) {
         ...state,
         [id]: {
           id,
-          player: 0,
-          icon: 'neutral',
+          player: payload.id,
+          icon: 'smile',
           location: payload.location,
           size: 1,
           lastUpdated: Date.now(),

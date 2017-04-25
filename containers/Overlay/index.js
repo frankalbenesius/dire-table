@@ -1,27 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as Actions from '../../store/actions';
-import { tools } from '../../store/reducers/tool';
+import { selectTool } from '../../store/actions';
+import { getCurrentToolId, tools } from '../../store/reducers/tool';
 import { getPlayers } from '../../store/reducers/players';
 import { getTokens } from '../../store/reducers/tokens';
 
 import Toolbar from '../../components/Toolbar';
 import ToolbarOption from '../../components/ToolbarOption';
-import Inventory from '../../components/Inventory';
+import PlayerList from '../../components/PlayerList';
 
 const mapStateToProps = state => ({
-  selectedTool: state.tool,
+  selectedTool: getCurrentToolId(state.tool),
   players: getPlayers(state.players).list,
   tokens: getTokens(state.tokens).list,
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(Actions, dispatch),
+  onToolbarOptionClick: toolId => dispatch(selectTool(toolId)),
+  onPlayerClick: tokenId => dispatch(selectTool('token', tokenId)),
 });
 
-const Tools = ({ selectedTool, actions, players, tokens }) => (
+const Overlay = ({ selectedTool, players, tokens, onToolbarOptionClick, onPlayerClick }) => (
   <div>
     <Toolbar>
       {tools.map((tool, i) => (
@@ -29,18 +29,19 @@ const Tools = ({ selectedTool, actions, players, tokens }) => (
           key={i}
           icon={tool.icon}
           selected={tool.id === selectedTool}
-          onClick={() => actions.selectTool(tool.id)}
+          onClick={() => onToolbarOptionClick(tool.id)}
         />
       ))}
     </Toolbar>
-    <Inventory players={players} tokens={tokens} />
+    <PlayerList players={players} tokens={tokens} onPlayerClick={onPlayerClick} />
   </div>
 );
-Tools.propTypes = {
+Overlay.propTypes = {
   selectedTool: PropTypes.string,
-  actions: PropTypes.object,
+  onToolbarOptionClick: PropTypes.func,
+  onPlayerClick: PropTypes.func,
   players: PropTypes.array,
   tokens: PropTypes.array,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Tools);
+export default connect(mapStateToProps, mapDispatchToProps)(Overlay);

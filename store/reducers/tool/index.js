@@ -20,16 +20,25 @@ const options = {
 };
 export const tools = Object.keys(options).map(o => options[o]);
 
-const defaultToolId = options.cursor.id;
+const defaultToolId = {
+  toolId: options.cursor.id,
+  tokenIdToAdd: 0,
+};
+
 export default function reducer(state = defaultToolId, action) {
   const { type, payload } = action;
   switch (type) {
     case SELECT_TOOL: {
-      return payload.id;
+      return {
+        ...state,
+        toolId: payload.id,
+        tokenIdToAdd: payload.tokenIdToAdd,
+      };
     }
     default:
       return state;
   }
 }
 
-export const getTool = state => state;
+export const getCurrentToolId = state => state.toolId;
+export const getTokenIdToAdd = state => state.tokenIdToAdd;
