@@ -34,6 +34,7 @@ export const sizes = {
   areaStroke: `${areaStroke}px`,
   tokenPadding: `${tokenPadding}px`,
   text: '0.8rem',
+  overlayPadding: '2rem',
 };
 
 // z-index

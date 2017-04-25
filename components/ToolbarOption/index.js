@@ -33,15 +33,15 @@ const styles = {
   }),
 };
 
-const Tools = ({ icon, onClick, selected }) => (
+const ToolbarOption = ({ icon, onClick, selected }) => (
   <button className={selected ? styles.selected : styles.tool} onClick={onClick}>
     <Icon icon={icon} />
   </button>
 );
-Tools.propTypes = {
+ToolbarOption.propTypes = {
   selected: PropTypes.bool,
   icon: PropTypes.string,
   onClick: PropTypes.func,
 };
 
-export default Tools;
+export default ToolbarOption;

@@ -27,7 +27,7 @@ const styles = {
 };
 
 const Token = (props) => {
-  const iconRadius = props.radius * 0.7;
+  const iconRadius = props.radius - Math.sqrt(props.radius * 3); // not sure why this works so well
   let tokenClass = styles.undraggable;
   if (props.draggable) {
     tokenClass = props.dragging ? styles.dragging : styles.draggable;

@@ -8,7 +8,7 @@ import reducer from '../store/reducers';
 
 import Map from '../containers/Map';
 import Chat from '../containers/Chat';
-import Tools from '../containers/Tools';
+import Overlay from '../containers/Overlay';
 
 import Wrapper from '../components/Wrapper';
 
@@ -35,7 +35,7 @@ export default class Index extends React.Component {
             <link rel="icon" href="static/img/favicon.ico" type="image/x-icon" />
           </Head>
           <Map />
-          <Tools />
+          <Overlay />
           <Chat />
         </Wrapper>
       </Provider>
