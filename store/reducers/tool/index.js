@@ -5,10 +5,10 @@ const options = {
     id: 'cursor',
     icon: 'pointerUp',
   },
-  token: {
-    id: 'token',
-    icon: 'plusCircle',
-  },
+  // token: {
+  //   id: 'token',
+  //   icon: 'plusCircle',
+  // },
   add: {
     id: 'add',
     icon: 'combine',

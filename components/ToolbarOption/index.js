@@ -6,8 +6,8 @@ import Icon from '../Icon';
 import { colors } from '../constants';
 
 const toolStyles = {
-  width: '50px',
-  height: '50px',
+  width: '46px',
+  height: '46px',
   textAlign: 'center',
   outline: 0,
   display: 'flex',

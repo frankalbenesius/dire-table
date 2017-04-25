@@ -6,6 +6,7 @@ import Icon from '../Icon';
 
 const tokenStyles = {
   fill: '#000000',
+  pointerEvents: 'all',
 };
 const styles = {
   undraggable: style({

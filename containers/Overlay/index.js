@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from '../../store/actions';
 import { tools } from '../../store/reducers/tool';
+import { getPlayers } from '../../store/reducers/players';
 import { getTokens } from '../../store/reducers/tokens';
 
 import Toolbar from '../../components/Toolbar';
@@ -12,6 +13,7 @@ import Inventory from '../../components/Inventory';
 
 const mapStateToProps = state => ({
   selectedTool: state.tool,
+  players: getPlayers(state.players).list,
   tokens: getTokens(state.tokens).list,
 });
 
@@ -19,7 +21,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(Actions, dispatch),
 });
 
-const Tools = ({ selectedTool, tokens, actions }) => (
+const Tools = ({ selectedTool, actions, players, tokens }) => (
   <div>
     <Toolbar>
       {tools.map((tool, i) => (
@@ -31,12 +33,13 @@ const Tools = ({ selectedTool, tokens, actions }) => (
         />
       ))}
     </Toolbar>
-    <Inventory tokens={tokens} />
+    <Inventory players={players} tokens={tokens} />
   </div>
 );
 Tools.propTypes = {
   selectedTool: PropTypes.string,
   actions: PropTypes.object,
+  players: PropTypes.array,
   tokens: PropTypes.array,
 };
 

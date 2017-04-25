@@ -6,10 +6,12 @@ import { colors, sizes } from '../constants';
 
 const styles = {
   wrapper: css({
+    boxSizing: 'border-box',
+    width: '50px',
     display: 'flex',
     position: 'absolute',
-    left: '30px',
-    top: '30px',
+    left: sizes.overlayPadding,
+    top: sizes.overlayPadding,
     border: `2px solid ${colors.black}`,
     boxShadow: `0 0 ${sizes.shadow} ${colors.black}`,
     fill: '#000',
