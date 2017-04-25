@@ -15,10 +15,10 @@ export const colors = {
   player: [
     palette.gray[0],
     palette.red[5], // red (currently "brand", also)
-    palette.blue[6],
+    palette.blue[5],
     palette.green[7],
     palette.orange[5],
-    palette.fuschia[6],
+    palette.fuschia[5],
     palette.cyan[5],
   ],
 };

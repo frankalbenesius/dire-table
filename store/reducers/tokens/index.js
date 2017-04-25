@@ -34,6 +34,22 @@ const defaultState = {
     size: 2,
     lastUpdated: 1484803641891,
   },
+  4: {
+    id: 4,
+    player: 2,
+    icon: 'smile',
+    location: { x: 0.5, y: -0.5 },
+    size: 1,
+    lastUpdated: 1484803641894,
+  },
+  5: {
+    id: 5,
+    player: 5,
+    icon: 'smile',
+    location: { x: -2.5, y: -0.5 },
+    size: 1,
+    lastUpdated: 1484803641895,
+  },
 };
 
 export default function reducer(state = defaultState, action) {
