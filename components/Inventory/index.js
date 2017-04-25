@@ -25,6 +25,7 @@ const Inventory = ({ players, tokens }) => {
     label: css({
       fontFamily: 'Vulf Mono Bold',
       fontSize: '0.8rem',
+      userSelect: 'none',
     }),
   };
   return (
