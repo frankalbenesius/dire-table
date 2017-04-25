@@ -16,6 +16,7 @@ const styles = {
     padding: sizes.overlayPadding,
     fill: '#000',
     width: '100%',
+    pointerEvents: 'none',
   }),
   svg: css({
     height: `${tokenSize}px`,
