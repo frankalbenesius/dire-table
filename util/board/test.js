@@ -10,10 +10,13 @@ test('toCoordinate', (t) => {
     x: 12,
     y: 15,
   };
+
+  const msg = 'should convert pixel positions to a board relative coordinate';
   const expected = {
-    x: -3,
-    y: 3,
+    x: -3.5,
+    y: 3.5,
   };
   const actual = toCoordinate(board, position);
-  t.deepEqual(expected, actual);
+  t.deepEqual(expected, actual, msg);
+  t.end();
 });

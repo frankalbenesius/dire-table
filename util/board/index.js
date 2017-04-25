@@ -1,6 +1,6 @@
 // @flow
 
-import { Board, Coordinate, Position, Path, Circle } from '../types';
+import type { Board, Coordinate, Position, Path, Circle } from '../types';
 
 const roundToHalvesOnly = n => Math.round(n - 0.5) + 0.5;
 const roundToWhole = n => Math.round(n);
