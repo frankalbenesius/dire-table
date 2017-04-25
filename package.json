@@ -2,7 +2,6 @@
   "name": "table",
   "version": "1.0.0",
   "description": "a tabletop app",
-  "main": "index.js",
   "scripts": {
     "build": "next build",
     "dev": "next",
