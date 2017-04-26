@@ -18,7 +18,8 @@ const styles = {
     padding: '0.5rem',
   }),
   rollFormula: style({}),
-  rollResult: style({
+  rollResult: style({}),
+  rollSum: style({
     fontSize: '1rem',
     marginTop: '0.2rem',
     fontFamily: 'Vulf Mono Bold',
@@ -39,8 +40,9 @@ Text.propTypes = { children: PropTypes.node };
 
 const Roll = () => (
   <div className={styles.roll}>
-    <div className={styles.rollFormula}>1d20 + 4 =</div>
-    <div className={styles.rollResult}>18</div>
+    <div className={styles.rollFormula}>2d20 + 4 =</div>
+    <div className={styles.rollResult}>12 + 2 + 4 =</div>
+    <div className={styles.rollSum}>18</div>
   </div>
 );
 
