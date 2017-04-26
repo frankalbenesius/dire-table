@@ -4,6 +4,7 @@ import palette from './palette';
 const scheme = 'gray';
 const white = palette.gray[0];
 const black = palette.black;
+const gray = palette.gray[6];
 const red = palette.red[5];
 const blue = palette.blue[5];
 const green = palette.green[7];
@@ -14,12 +15,14 @@ export const colors = {
   brand: palette.base, // red
   black,
   white,
+  gray,
   red,
   blue,
   green,
   orange,
   pink,
   cyan,
+  text: '#000',
   foreground: palette[scheme][2],
   background: palette[scheme][7],
   fog: palette[scheme][9],
@@ -42,6 +45,7 @@ export const sizes = {
   tokenPadding: `${tokenPadding}px`,
   text: '0.8rem',
   overlayPadding: '1.5rem',
+  radius: '0.1rem',
 };
 
 // z-index

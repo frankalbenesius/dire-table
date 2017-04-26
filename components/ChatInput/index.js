@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { style } from 'glamor';
-import { colors } from '../constants';
+import { colors, sizes } from '../constants';
 
 const propTypes = {
   onSubmit: PropTypes.func,
@@ -19,6 +19,7 @@ const styles = {
     resize: 'none',
     marginBottom: '0.5rem',
     display: 'block',
+    borderRadius: sizes.radius,
   }),
   submit: style({
     border: 0,
@@ -28,6 +29,7 @@ const styles = {
     backgroundColor: colors.blue,
     color: colors.white,
     fontFamily: 'Vulf Mono Italic',
+    borderRadius: sizes.radius,
   }),
 };
 

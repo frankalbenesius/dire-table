@@ -2,36 +2,55 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { style } from 'glamor';
 import formatDate from 'date-fns/format';
-import { colors } from '../../constants';
+import { colors, sizes } from '../../constants';
 
 const styles = {
-  message: style({
-    margin: '0.5rem 0',
+  wrapper: style({
+    lineHeight: '0.9rem',
   }),
+  content: style({
+    margin: '0.4rem 0',
+  }),
+  text: style({}),
   roll: style({
-    padding: '1rem',
-    color: colors.black,
-    textAlign: 'center',
-    borderColor: colors.fog,
-    borderWidth: '1px',
-    borderStyle: 'solid',
+    border: `1px solid ${colors.gray}`,
+    borderRadius: sizes.radius,
+    padding: '0.5rem',
+  }),
+  rollFormula: style({}),
+  rollResult: style({
+    fontSize: '1rem',
+    marginTop: '0.2rem',
+    fontFamily: 'Vulf Mono Bold',
   }),
 };
 
-const playerHeaderStyles = i =>
-  style({
-    color: colors.player[i],
-    marginTop: '1em',
+const getHeaderStyles = (player) => {
+  const color = player.id > 0 ? colors.player[player.id] : colors.text;
+  return style({
+    color,
+    margin: '1rem 0 0',
     fontFamily: 'Vulf Mono Bold',
   });
+};
 
-const Roll = () => <div className={styles.roll}>Dice Roll Display TBD</div>;
+const Text = ({ children }) => <div className={styles.text}>{children}</div>;
+Text.propTypes = { children: PropTypes.node };
+
+const Roll = () => (
+  <div className={styles.roll}>
+    <div className={styles.rollFormula}>1d20 + 4 =</div>
+    <div className={styles.rollResult}>18</div>
+  </div>
+);
 
 const Message = ({ showHeader, content, player, timestamp, type }) => (
-  <div title={formatDate(timestamp, 'M/D/YY h:mm A')} className={styles.message}>
-    {showHeader ? <div className={playerHeaderStyles(player.id)}>{player.name}</div> : null}
+  <div title={formatDate(timestamp, 'M/D/YY h:mm A')} className={styles.wrapper}>
+    {showHeader ? <div className={getHeaderStyles(player)}>{player.name}</div> : null}
 
-    {type === 'text' ? <div>{content}</div> : <Roll />}
+    <div className={styles.content}>
+      {type === 'text' ? <Text>{content}</Text> : <Roll />}
+    </div>
   </div>
 );
 Message.propTypes = {
