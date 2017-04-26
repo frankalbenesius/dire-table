@@ -29,7 +29,7 @@ const Roll = () => <div className={styles.roll}>Dice Roll Display TBD</div>;
 
 const Message = ({ showHeader, content, player, timestamp, type }) => (
   <div title={formatDate(timestamp, 'M/D/YY h:mm A')} className={styles.message}>
-    {showHeader ? <div className={playerHeaderStyles(player)}>{` PLAYER ${player} `}</div> : null}
+    {showHeader ? <div className={playerHeaderStyles(player.id)}>{player.name}</div> : null}
 
     {type === 'text' ? <div>{content}</div> : <Roll />}
   </div>
@@ -37,7 +37,7 @@ const Message = ({ showHeader, content, player, timestamp, type }) => (
 Message.propTypes = {
   showHeader: PropTypes.bool,
   content: PropTypes.any, //eslint-disable-line
-  player: PropTypes.number,
+  player: PropTypes.object,
   timestamp: PropTypes.number,
   type: PropTypes.string,
 };

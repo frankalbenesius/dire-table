@@ -25,6 +25,12 @@ const defaultState = [
   //   },
   // },
   {
+    player: 0,
+    timestamp: 1483293078520,
+    type: 'text',
+    content: 'This app is being built to provide online tabletop RPG players with a simpler alternative to existing products.',
+  },
+  {
     player: 2,
     timestamp: 1483293078521,
     type: 'text',

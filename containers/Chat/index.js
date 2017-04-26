@@ -10,20 +10,22 @@ import Messages from '../../components/Messages';
 
 const mapStateToProps = state => ({
   chat: state.chat,
+  players: state.players,
 });
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(Actions, dispatch),
 });
 
-const Chat = ({ chat }) => (
+const Chat = ({ chat, players }) => (
   <ChatWrapper>
-    <Messages messages={chat} />
+    <Messages messages={chat} players={players} />
     {/* <ChatInput /> */}
   </ChatWrapper>
 );
 Chat.propTypes = {
   chat: PropTypes.arrayOf(PropTypes.object),
+  players: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

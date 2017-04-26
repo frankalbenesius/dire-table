@@ -17,7 +17,7 @@ export const colors = {
     palette.red[5], // red (currently "brand", also)
     palette.blue[5],
     palette.green[7],
-    palette.orange[5],
+    palette.orange[6],
     palette.fuschia[5],
     palette.cyan[5],
   ],
