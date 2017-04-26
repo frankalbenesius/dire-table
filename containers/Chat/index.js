@@ -25,7 +25,7 @@ const Chat = ({ chat, players }) => (
 );
 Chat.propTypes = {
   chat: PropTypes.arrayOf(PropTypes.object),
-  players: PropTypes.arrayOf(PropTypes.object),
+  players: PropTypes.object,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);
