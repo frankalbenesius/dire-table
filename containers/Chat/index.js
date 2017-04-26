@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import * as Actions from '../../store/actions';
+import { sendMessage } from '../../store/actions';
 
 import ChatWrapper from '../../components/ChatWrapper';
+import ChatInput from '../../components/ChatInput';
 import Messages from '../../components/Messages';
 
 const mapStateToProps = state => ({
@@ -14,18 +14,20 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(Actions, dispatch),
+  sendMessageFromMe: text => dispatch(sendMessage(text)),
 });
 
-const Chat = ({ chat, players }) => (
+// TODO: Messages & ChatInput #containerSplit
+const Chat = ({ chat, players, sendMessageFromMe }) => (
   <ChatWrapper>
     <Messages messages={chat} players={players} />
-    {/* <ChatInput /> */}
+    <ChatInput onSubmit={sendMessageFromMe} />
   </ChatWrapper>
 );
 Chat.propTypes = {
   chat: PropTypes.arrayOf(PropTypes.object),
   players: PropTypes.object,
+  sendMessageFromMe: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

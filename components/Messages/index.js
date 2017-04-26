@@ -9,9 +9,9 @@ const styles = {
     fontSize: sizes.text,
     fontFamily: 'Vulf Mono Light',
     lineHeight: '1.618em',
-    padding: '0 1rem',
     overflowY: 'scroll',
     height: '100%',
+    padding: '0 1rem',
   }),
 };
 

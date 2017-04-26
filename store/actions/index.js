@@ -24,3 +24,7 @@ export const removeArea = area => ({
   type: types.REMOVE_AREA,
   payload: { area },
 });
+export const sendMessage = text => ({
+  type: types.SEND_MESSAGE,
+  payload: { text },
+});

@@ -1,3 +1,5 @@
+import { SEND_MESSAGE } from '../../constants/actions';
+
 const defaultState = [
   {
     player: 1,
@@ -57,7 +59,19 @@ const defaultState = [
 ];
 
 export default function reducer(state = defaultState, action) {
-  switch (action.type) {
+  const { type, payload } = action;
+  switch (type) {
+    case SEND_MESSAGE: {
+      return [
+        ...state,
+        {
+          player: 0,
+          timestamp: Date.now(),
+          type: 'text',
+          content: payload.text,
+        },
+      ];
+    }
     default:
       return state;
   }

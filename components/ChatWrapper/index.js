@@ -7,6 +7,9 @@ const styles = {
   wrapper: style({
     backgroundColor: colors.chat,
     flex: `0 1 ${sizes.chatWidth}`,
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden',
     zIndex: zIndexes.chat,
     boxShadow: `0 0 ${sizes.shadow} ${colors.black}`,
     '@media(max-width: 850px)': {

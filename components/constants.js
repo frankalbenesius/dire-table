@@ -2,25 +2,32 @@ import palette from './palette';
 
 // colors
 const scheme = 'gray';
+const white = palette.gray[0];
+const black = palette.black;
+const red = palette.red[5];
+const blue = palette.blue[5];
+const green = palette.green[7];
+const orange = palette.orange[6];
+const pink = palette.fuschia[5];
+const cyan = palette.cyan[5];
 export const colors = {
-  brand: palette.base,
-  black: palette.black,
-  white: palette.gray[0],
+  brand: palette.base, // red
+  black,
+  white,
+  red,
+  blue,
+  green,
+  orange,
+  pink,
+  cyan,
   foreground: palette[scheme][2],
   background: palette[scheme][7],
   fog: palette[scheme][9],
   chat: palette.gray[2],
+  input: palette.gray[4],
   tools: palette.gray[2],
   selection: palette.cyan[2],
-  player: [
-    palette.gray[0],
-    palette.red[5], // red (currently "brand", also)
-    palette.blue[5],
-    palette.green[7],
-    palette.orange[6],
-    palette.fuschia[5],
-    palette.cyan[5],
-  ],
+  player: [white, red, blue, green, orange, pink, cyan],
 };
 
 // sizes
