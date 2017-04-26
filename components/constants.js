@@ -4,7 +4,7 @@ import palette from './palette';
 const scheme = 'gray';
 const white = palette.gray[0];
 const black = palette.black;
-const gray = palette.gray[6];
+const gray = palette.gray[5];
 const red = palette.red[5];
 const blue = palette.blue[5];
 const green = palette.green[7];
@@ -27,7 +27,6 @@ export const colors = {
   background: palette[scheme][7],
   fog: palette[scheme][9],
   chat: palette.gray[2],
-  input: palette.gray[4],
   tools: palette.gray[2],
   selection: palette.cyan[2],
   player: [white, red, blue, green, orange, pink, cyan],
