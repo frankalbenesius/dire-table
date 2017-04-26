@@ -20,6 +20,7 @@ const styles = {
     marginBottom: '0.5rem',
     display: 'block',
     borderRadius: sizes.radius,
+    backgroundColor: colors.white,
   }),
   submit: style({
     border: 0,

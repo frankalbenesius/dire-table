@@ -16,6 +16,7 @@ const styles = {
     border: `1px solid ${colors.gray}`,
     borderRadius: sizes.radius,
     padding: '0.5rem',
+    backgroundColor: colors.white,
   }),
   rollFormula: style({}),
   rollResult: style({}),
