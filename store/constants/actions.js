@@ -4,4 +4,6 @@ export const REMOVE_TOKEN = 'REMOVE_TOKEN';
 export const REMOVE_AREA = 'REMOVE_AREA';
 export const MOVE_TOKEN = 'MOVE_TOKEN';
 export const SELECT_TOOL = 'SELECT_TOOL';
-export const SEND_MESSAGE = 'SEND_MESSAGE';
+export const ADD_MESSAGE_TEXT = 'ADD_MESSAGE_TEXT';
+export const ADD_MESSAGE_ROLL = 'ADD_MESSAGE_ROLL';
+export const ADD_MESSAGE_ERROR = 'ADD_MESSAGE_ERROR';

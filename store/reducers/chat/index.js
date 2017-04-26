@@ -1,4 +1,4 @@
-import { SEND_MESSAGE } from '../../constants/actions';
+import { ADD_MESSAGE_TEXT, ADD_MESSAGE_ROLL, ADD_MESSAGE_ERROR } from '../../constants/actions';
 
 const defaultState = [
   {
@@ -30,14 +30,36 @@ const defaultState = [
 export default function reducer(state = defaultState, action) {
   const { type, payload } = action;
   switch (type) {
-    case SEND_MESSAGE: {
+    case ADD_MESSAGE_TEXT: {
       return [
         ...state,
         {
-          player: 0,
+          player: payload.id,
           timestamp: Date.now(),
           type: 'text',
           content: payload.text,
+        },
+      ];
+    }
+    case ADD_MESSAGE_ROLL: {
+      return [
+        ...state,
+        {
+          player: payload.id,
+          timestamp: Date.now(),
+          type: 'roll',
+          content: payload.text,
+        },
+      ];
+    }
+    case ADD_MESSAGE_ERROR: {
+      return [
+        ...state,
+        {
+          player: payload.id,
+          timestamp: Date.now(),
+          type: 'error',
+          content: 'Sorry! That command had a dire error. Try checking the spelling.',
         },
       ];
     }

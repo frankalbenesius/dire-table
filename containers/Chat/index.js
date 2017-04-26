@@ -11,23 +11,25 @@ import Messages from '../../components/Messages';
 const mapStateToProps = state => ({
   chat: state.chat,
   players: state.players,
+  myId: state.player.id,
 });
 
 const mapDispatchToProps = dispatch => ({
-  sendMessageFromMe: text => dispatch(sendMessage(text)),
+  sendMyMessage: myId => text => dispatch(sendMessage(myId, text)),
 });
 
 // TODO: Messages & ChatInput #containerSplit
-const Chat = ({ chat, players, sendMessageFromMe }) => (
+const Chat = ({ chat, players, sendMyMessage, myId }) => (
   <ChatWrapper>
     <Messages messages={chat} players={players} />
-    <ChatInput onSubmit={sendMessageFromMe} />
+    <ChatInput onSubmit={sendMyMessage(myId)} />
   </ChatWrapper>
 );
 Chat.propTypes = {
   chat: PropTypes.arrayOf(PropTypes.object),
   players: PropTypes.object,
-  sendMessageFromMe: PropTypes.func,
+  myId: PropTypes.number,
+  sendMyMessage: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);
