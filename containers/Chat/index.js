@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { sendMessage } from '../../store/actions';
 
+import SiteHeader from '../../components/SiteHeader';
 import ChatWrapper from '../../components/ChatWrapper';
 import ChatInput from '../../components/ChatInput';
 import Messages from '../../components/Messages';
@@ -21,6 +22,7 @@ const mapDispatchToProps = dispatch => ({
 // TODO: Messages & ChatInput #containerSplit
 const Chat = ({ chat, players, sendMyMessage, myId }) => (
   <ChatWrapper>
+    <SiteHeader />
     <Messages messages={chat} players={players} />
     <ChatInput onSubmit={sendMyMessage(myId)} />
   </ChatWrapper>

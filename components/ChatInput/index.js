@@ -10,7 +10,7 @@ const propTypes = {
 const styles = {
   wrapper: style({
     padding: '0.5rem 0.5rem',
-    backgroundColor: colors.gray,
+    borderTop: `1px solid ${colors.gray}`,
   }),
   input: style({
     border: 0,
