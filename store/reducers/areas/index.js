@@ -1,99 +1,22 @@
-import { ADD_AREA, REMOVE_AREA } from '../../constants/actions';
-import { mergeArea, removeArea } from '../../../util/areas';
+import { SET_AREAS } from '../../constants/actions';
+// import { mergeArea, removeArea } from '../../../util/areas';
 
-const defaultAreas = [
-  [
-    [
-      {
-        x: 2.001,
-        y: 5.999,
-      },
-      {
-        x: 2.001,
-        y: 0.001,
-      },
-      {
-        x: 3.001,
-        y: 0.001,
-      },
-      {
-        x: 3.001,
-        y: -1.001,
-      },
-      {
-        x: -2.001,
-        y: -1.001,
-      },
-      {
-        x: -2.001,
-        y: 1.001,
-      },
-      {
-        x: 0.001,
-        y: 1.001,
-      },
-      {
-        x: 0.001,
-        y: 0.999,
-      },
-      {
-        x: -0.999,
-        y: 0.999,
-      },
-      {
-        x: -0.999,
-        y: -0.999,
-      },
-      {
-        x: 0.999,
-        y: -0.999,
-      },
-      {
-        x: 0.999,
-        y: 1.001,
-      },
-      {
-        x: 1.999,
-        y: 1.001,
-      },
-      {
-        x: 1.999,
-        y: 6.999,
-      },
-      {
-        x: -4.999,
-        y: 6.999,
-      },
-      {
-        x: -4.999,
-        y: 1.001,
-      },
-      {
-        x: -2.999,
-        y: 1.001,
-      },
-      {
-        x: -2.999,
-        y: -1.999,
-      },
-      {
-        x: 5.999,
-        y: -1.999,
-      },
-      {
-        x: 5.999,
-        y: 5.999,
-      },
-    ],
-  ],
-];
+const defaultAreas = [];
 export default function reducer(state = defaultAreas, action) {
   const { type, payload } = action;
   switch (type) {
-    case ADD_AREA:
-      return mergeArea(state, payload.area);
-    case REMOVE_AREA:
-      return removeArea(state, payload.area);
+    case SET_AREAS:
+      return payload.areas;
+    // case ADD_AREA: {
+    //   const resultingAreas = mergeArea(state, payload.area);
+    //   firebase.database().ref('/areas').set(resultingAreas);
+    //   return resultingAreas;
+    // }
+    // case REMOVE_AREA: {
+    //   const resultingAreas = removeArea(state, payload.area);
+    //   firebase.database().ref('/areas').set(resultingAreas);
+    //   return resultingAreas;
+    // }
     default:
       return state;
   }

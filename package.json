@@ -7,13 +7,15 @@
     "dev": "next",
     "lint": "eslint .",
     "start": "next start",
-    "test": "tape -r babel-register '{components,containers,pages,store,util}/**/*test.js'"
+    "test": "tape -r babel-register '{components,containers,pages,store,util}/**/*test.js'",
+    "now": "now -e NODE_ENV=production -e FIREBASE_API_KEY=@diretools-firebase-api-key"
   },
   "author": "Frank Albenesius",
   "license": "UNLICENSED",
   "dependencies": {
     "clipper-js": "^0.0.6",
     "date-fns": "^1.22.0",
+    "firebase": "^3.9.0",
     "glamor": "^2.20.24",
     "js-clipper": "^1.0.1",
     "lodash": "^4.17.4",
@@ -24,6 +26,8 @@
     "react-dom": "^15.5.4",
     "react-redux": "^4.4.6",
     "redux": "^3.6.0",
+    "redux-logger": "^3.0.1",
+    "redux-thunk": "^2.2.0",
     "rpgdicejs": "^1.2.4"
   },
   "devDependencies": {

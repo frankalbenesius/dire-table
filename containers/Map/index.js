@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import database from '../../store/database';
+
 import * as Actions from '../../store/actions';
 import { getBoard } from '../../store/reducers/board';
 import { getAreas } from '../../store/reducers/areas';
@@ -16,7 +18,7 @@ import Frame from '../../components/Frame';
 import Grid from '../../components/Grid';
 import TokenLayer from '../../components/TokenLayer';
 
-import { toArea, toRemoval } from '../../util/areas';
+import { mergeArea, removeArea, toArea, toRemoval } from '../../util/areas';
 import { toCoordinate } from '../../util/board';
 
 const mapStateToProps = state => ({
@@ -47,6 +49,12 @@ class Map extends React.Component {
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleTokenDrag = this.handleTokenDrag.bind(this);
     this.handleTokenShiftClick = this.handleTokenShiftClick.bind(this);
+  }
+
+  componentDidMount() {
+    database.ref('/areas').on('value', (snap) => {
+      this.props.actions.setAreas(snap.val() || []);
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -102,13 +110,21 @@ class Map extends React.Component {
       switch (this.props.tool) {
         case 'add': {
           const stopCoord = toCoordinate(this.props.board, this.state.cursor);
-          this.props.actions.addArea(toArea(this.state.startCoord, stopCoord));
+          const resultingAreas = mergeArea(
+            this.props.areas,
+            toArea(this.state.startCoord, stopCoord),
+          );
+          database.ref('/areas').set(resultingAreas);
           this.setState({ startCoord: null });
           break;
         }
         case 'remove': {
           const stopCoord = toCoordinate(this.props.board, this.state.cursor, 2);
-          this.props.actions.removeArea(toRemoval(this.state.startCoord, stopCoord));
+          const resultingAreas = removeArea(
+            this.props.areas,
+            toRemoval(this.state.startCoord, stopCoord),
+          );
+          database.ref('/areas').set(resultingAreas);
           this.setState({ startCoord: null });
           break;
         }
@@ -167,6 +183,7 @@ Map.propTypes = {
     moveToken: PropTypes.func,
     removeArea: PropTypes.func,
     removeToken: PropTypes.func,
+    setAreas: PropTypes.func,
   }),
   areas: PropTypes.arrayOf(PropTypes.array),
   board: PropTypes.shape({

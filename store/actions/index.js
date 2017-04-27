@@ -22,11 +22,12 @@ export const removeToken = id => ({
   type: types.REMOVE_TOKEN,
   payload: { id },
 });
-export const addArea = area => ({ type: types.ADD_AREA, payload: { area } });
-export const removeArea = area => ({
-  type: types.REMOVE_AREA,
-  payload: { area },
-});
+export const setAreas = areas => ({ type: types.SET_AREAS, payload: { areas } });
+// export const addArea = area => ({ type: types.ADD_AREA, payload: { area } });
+// export const removeArea = area => ({
+//   type: types.REMOVE_AREA,
+//   payload: { area },
+// });
 
 export const sendMessage = (id, text) => {
   const commandRegex = /\/([a-zA-Z]+)( .*)?/g; // matches /letters and optional argument

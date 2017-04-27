@@ -2,6 +2,7 @@ export const ADD_AREA = 'ADD_AREA';
 export const ADD_TOKEN = 'ADD_TOKEN';
 export const REMOVE_TOKEN = 'REMOVE_TOKEN';
 export const REMOVE_AREA = 'REMOVE_AREA';
+export const SET_AREAS = 'SET_AREAS';
 export const MOVE_TOKEN = 'MOVE_TOKEN';
 export const SELECT_TOOL = 'SELECT_TOOL';
 export const ADD_MESSAGE_TEXT = 'ADD_MESSAGE_TEXT';
