@@ -44,16 +44,13 @@ const getHeaderStyles = (player) => {
 const Text = ({ children }) => <div className={styles.text}>{children}</div>;
 Text.propTypes = { children: PropTypes.node };
 
-const Roll = ({ roll }) => {
-  console.log('evaluation', roll.evaluation);
-  return (
-    <div className={styles.roll}>
-      <div className={styles.rollFormula}>{roll.formula}</div>
-      <div className={styles.rollEvaluation}>{roll.evaluation}</div>
-      <div className={styles.rollValue}>{roll.value}</div>
-    </div>
-  );
-};
+const Roll = ({ roll }) => (
+  <div className={styles.roll}>
+    <div className={styles.rollFormula}>{roll.formula}</div>
+    <div className={styles.rollEvaluation}>{roll.evaluation}</div>
+    <div className={styles.rollValue}>{roll.value}</div>
+  </div>
+);
 Roll.propTypes = {
   roll: PropTypes.object,
 };
