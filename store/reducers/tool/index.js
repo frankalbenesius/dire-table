@@ -22,7 +22,7 @@ export const tools = Object.keys(options).map(o => options[o]);
 
 const defaultToolId = {
   toolId: options.cursor.id,
-  tokenIdToAdd: 0,
+  newTokenPlayerId: 0,
 };
 
 export default function reducer(state = defaultToolId, action) {
@@ -32,7 +32,7 @@ export default function reducer(state = defaultToolId, action) {
       return {
         ...state,
         toolId: payload.id,
-        tokenIdToAdd: payload.tokenIdToAdd,
+        newTokenPlayerId: payload.newTokenPlayerId,
       };
     }
     default:
@@ -41,4 +41,4 @@ export default function reducer(state = defaultToolId, action) {
 }
 
 export const getCurrentToolId = state => state.toolId;
-export const getTokenIdToAdd = state => state.tokenIdToAdd;
+export const getNewTokenPlayerId = state => state.newTokenPlayerId;

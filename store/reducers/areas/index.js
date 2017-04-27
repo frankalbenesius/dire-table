@@ -5,8 +5,9 @@ const defaultAreas = [];
 export default function reducer(state = defaultAreas, action) {
   const { type, payload } = action;
   switch (type) {
-    case SET_AREAS:
+    case SET_AREAS: {
       return payload.areas;
+    }
     // case ADD_AREA: {
     //   const resultingAreas = mergeArea(state, payload.area);
     //   firebase.database().ref('/areas').set(resultingAreas);

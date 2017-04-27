@@ -7,14 +7,14 @@ export const moveToken = (id, location) => ({
   type: types.MOVE_TOKEN,
   payload: { id, location },
 });
-export const selectTool = (id, tokenIdToAdd = 0) => ({
+export const selectTool = (id, newTokenPlayerId = 0) => ({
   type: types.SELECT_TOOL,
   payload: {
     id,
-    tokenIdToAdd,
+    newTokenPlayerId,
   },
 });
-export const addToken = (location, id) => ({
+export const addToken = (id, location) => ({
   type: types.ADD_TOKEN,
   payload: { location, id },
 });
@@ -22,6 +22,7 @@ export const removeToken = id => ({
   type: types.REMOVE_TOKEN,
   payload: { id },
 });
+export const setTokens = tokens => ({ type: types.SET_TOKENS, payload: { tokens } });
 export const setAreas = areas => ({ type: types.SET_AREAS, payload: { areas } });
 // export const addArea = area => ({ type: types.ADD_AREA, payload: { area } });
 // export const removeArea = area => ({

@@ -7,7 +7,7 @@ import { toCircle } from '../../util/board';
 const tokenSort = draggingTokenId => (a, b) => {
   if (a.size !== b.size) return b.size - a.size; // size is highest priority
   if (a.id === draggingTokenId) return 1; // dragging is next highest priority
-  if (b.id === draggingTokenId) return -1;
+  if (b.id === draggingTokenId) return null;
   return a.lastUpdated - b.lastUpdated; // last priority is most recently touched
 };
 
@@ -15,7 +15,7 @@ class TokenLayer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      draggingTokenId: -1,
+      draggingTokenId: null,
     };
     this.createHandleMouseDown = this.createHandleMouseDown.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
@@ -36,10 +36,10 @@ class TokenLayer extends React.Component {
     if (e.nativeEvent.which) {
       e.preventDefault();
       e.stopPropagation();
-      if (this.state.draggingTokenId > -1) {
+      if (this.state.draggingTokenId) {
         this.props.onDrag(this.state.draggingTokenId);
       }
-      this.setState({ draggingTokenId: -1 });
+      this.setState({ draggingTokenId: null });
     }
   }
 
@@ -76,7 +76,7 @@ class TokenLayer extends React.Component {
           active={this.props.tool === 'token'}
           board={this.props.board}
           cursor={this.props.cursor}
-          tokenIdToAdd={this.props.tokenIdToAdd}
+          newTokenPlayerId={this.props.newTokenPlayerId}
         />
       </g>
     );
@@ -92,7 +92,7 @@ TokenLayer.propTypes = {
   onShiftClick: PropTypes.func,
   onDrag: PropTypes.func,
   playerId: PropTypes.number,
-  tokenIdToAdd: PropTypes.number,
+  newTokenPlayerId: PropTypes.number,
   tokens: PropTypes.array,
 };
 

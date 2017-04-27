@@ -12,7 +12,6 @@ const createStoreWithMiddleWare = (reducer, initialState) =>
   createStore(reducer, initialState, applyMiddleware(...middleware));
 
 export default function initStore(reducer, initialState, isServer) {
-  console.log('process.env.NODE_ENV', process.env.NODE_ENV);
   if (isServer && typeof window === 'undefined') {
     return createStoreWithMiddleWare(reducer, initialState);
   }

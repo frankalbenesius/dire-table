@@ -1,5 +1,6 @@
-import { max, omit } from 'lodash';
-import { ADD_TOKEN, REMOVE_TOKEN, MOVE_TOKEN } from '../../constants/actions';
+// import { max, omit } from 'lodash';
+
+import { SET_TOKENS } from '../../constants/actions';
 
 const defaultState = {
   // 0: {
@@ -55,31 +56,34 @@ const defaultState = {
 export default function reducer(state = defaultState, action) {
   const { type, payload } = action;
   switch (type) {
-    case ADD_TOKEN: {
-      const id = max(Object.keys(state).map(x => parseInt(x, 10))) + 1 || 0;
-      return {
-        ...state,
-        [id]: {
-          id,
-          player: payload.id,
-          icon: 'smile',
-          location: payload.location,
-          size: 1,
-          lastUpdated: Date.now(),
-        },
-      };
-    }
-    case REMOVE_TOKEN:
-      return omit(state, payload.id);
-    case MOVE_TOKEN: {
-      return {
-        ...state,
-        [payload.id]: {
-          ...state[payload.id],
-          location: payload.location,
-          lastUpdated: Date.now(),
-        },
-      };
+    // case ADD_TOKEN: {
+    //   const id = max(Object.keys(state).map(x => parseInt(x, 10))) + 1 || 0;
+    //   return {
+    //     ...state,
+    //     [id]: {
+    //       id,
+    //       player: payload.id,
+    //       icon: 'smile',
+    //       location: payload.location,
+    //       size: 1,
+    //       lastUpdated: Date.now(),
+    //     },
+    //   };
+    // }
+    // case REMOVE_TOKEN:
+    //   return omit(state, payload.id);
+    // case MOVE_TOKEN: {
+    //   return {
+    //     ...state,
+    //     [payload.id]: {
+    //       ...state[payload.id],
+    //       location: payload.location,
+    //       lastUpdated: Date.now(),
+    //     },
+    //   };
+    // }
+    case SET_TOKENS: {
+      return payload.tokens;
     }
     default:
       return state;

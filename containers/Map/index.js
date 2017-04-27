@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import database from '../../store/database';
 
-import * as Actions from '../../store/actions';
+import { setAreas, setTokens } from '../../store/actions';
 import { getBoard } from '../../store/reducers/board';
 import { getAreas } from '../../store/reducers/areas';
 import { getPlayer } from '../../store/reducers/player';
 import { getTokens } from '../../store/reducers/tokens';
-import { getCurrentToolId, getTokenIdToAdd } from '../../store/reducers/tool';
+import { getCurrentToolId, getNewTokenPlayerId } from '../../store/reducers/tool';
 
 import AreaLayer from '../../components/AreaLayer';
 import Board from '../../components/Board';
@@ -27,11 +26,34 @@ const mapStateToProps = state => ({
   player: getPlayer(state.player),
   tokens: getTokens(state.tokens),
   tool: getCurrentToolId(state.tool),
-  tokenIdToAdd: getTokenIdToAdd(state.tool),
+  newTokenPlayerId: getNewTokenPlayerId(state.tool),
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(Actions, dispatch),
+  addToken: (player, location) => {
+    const newToken = {
+      player,
+      location,
+      icon: 'smile',
+      size: 1,
+      lastUpdated: Date.now(),
+    };
+    database.ref('/tokens').push(newToken);
+    // return dispatch(addToken(playerId, location));
+  },
+  removeToken: (id) => {
+    database.ref(`/tokens/${id}`).remove();
+    // return dispatch(removeToken(id));
+  },
+  moveToken: (id, location) => {
+    database.ref(`/tokens/${id}`).update({
+      location,
+      lastUpdated: Date.now(),
+    });
+    // return dispatch(moveToken(id, location));
+  },
+  setAreas: areas => dispatch(setAreas(areas)),
+  setTokens: tokens => dispatch(setTokens(tokens)),
 });
 
 class Map extends React.Component {
@@ -53,7 +75,26 @@ class Map extends React.Component {
 
   componentDidMount() {
     database.ref('/areas').on('value', (snap) => {
-      this.props.actions.setAreas(snap.val() || []);
+      this.props.setAreas(snap.val() || []);
+    });
+    database.ref('/tokens').on('value', (snap) => {
+      // TODO: Remove this janky way of adding IDs as obj properties
+      const tokens = snap.val();
+      let tokensObj = {};
+      if (tokens) {
+        const tokenIds = Object.keys(tokens);
+        tokensObj = tokenIds.reduce(
+          (acc, id) => ({
+            ...acc,
+            [id]: {
+              id,
+              ...tokens[id],
+            },
+          }),
+          tokensObj,
+        );
+      }
+      this.props.setTokens(tokensObj);
     });
   }
 
@@ -84,7 +125,7 @@ class Map extends React.Component {
       switch (this.props.tool) {
         case 'token': {
           const clickedCoordinate = toCoordinate(this.props.board, this.state.cursor);
-          this.props.actions.addToken(clickedCoordinate, this.props.tokenIdToAdd);
+          this.props.addToken(this.props.newTokenPlayerId, clickedCoordinate);
           break;
         }
         case 'add': {
@@ -135,10 +176,10 @@ class Map extends React.Component {
   }
 
   handleTokenShiftClick(tokenId) {
-    this.props.actions.removeToken(tokenId);
+    this.props.removeToken(tokenId);
   }
   handleTokenDrag(tokenId) {
-    this.props.actions.moveToken(
+    this.props.moveToken(
       tokenId,
       toCoordinate(this.props.board, this.state.cursor, this.props.tokens.byId[tokenId].size),
     );
@@ -169,7 +210,7 @@ class Map extends React.Component {
             onShiftClick={this.handleTokenShiftClick}
             playerId={this.props.player.id}
             tokens={this.props.tokens.list}
-            tokenIdToAdd={this.props.tokenIdToAdd}
+            newTokenPlayerId={this.props.newTokenPlayerId}
           />
         </Board>
       </Frame>
@@ -177,14 +218,11 @@ class Map extends React.Component {
   }
 }
 Map.propTypes = {
-  actions: PropTypes.shape({
-    addArea: PropTypes.func,
-    addToken: PropTypes.func,
-    moveToken: PropTypes.func,
-    removeArea: PropTypes.func,
-    removeToken: PropTypes.func,
-    setAreas: PropTypes.func,
-  }),
+  addToken: PropTypes.func,
+  moveToken: PropTypes.func,
+  removeToken: PropTypes.func,
+  setAreas: PropTypes.func,
+  setTokens: PropTypes.func,
   areas: PropTypes.arrayOf(PropTypes.array),
   board: PropTypes.shape({
     boardPx: PropTypes.number,
@@ -196,7 +234,7 @@ Map.propTypes = {
     id: PropTypes.number,
   }),
   tokens: PropTypes.object,
-  tokenIdToAdd: PropTypes.number,
+  newTokenPlayerId: PropTypes.number,
   tool: PropTypes.string,
 };
 
