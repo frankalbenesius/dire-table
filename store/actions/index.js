@@ -1,4 +1,4 @@
-import roll from 'roll'; // HERE WE GO!
+import roller from 'rpgdicejs';
 import trim from 'lodash/trim';
 
 import * as types from '../constants/actions';
@@ -34,13 +34,30 @@ export const sendMessage = (id, text) => {
   if (match) {
     const command = match[1];
     const argument = match[2] ? trim(match[2]) : ''; // get rid of leading whitespace
-    if (command === 'roll' && argument) {
-      return {
-        type: types.ADD_MESSAGE_ROLL,
-        payload: { id, text },
-      };
+    if ((command === 'roll' || command === 'r') && argument) {
+      try {
+        const result = roller.eval(argument);
+        // console.log(evaluatedRoll.render());
+        return {
+          type: types.ADD_MESSAGE_ROLL,
+          payload: {
+            id,
+            formula: argument,
+            evaluation: result.render(),
+            value: result.value,
+          },
+        };
+      } catch (e) {
+        // Error: failed to parse roll
+        return {
+          id,
+          type: types.ADD_MESSAGE_ERROR,
+        };
+      }
     }
+    // Error: command doesn't exist
     return {
+      id,
       type: types.ADD_MESSAGE_ERROR,
     };
   }

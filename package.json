@@ -24,7 +24,7 @@
     "react-dom": "^15.5.4",
     "react-redux": "^4.4.6",
     "redux": "^3.6.0",
-    "roll": "^1.2.0"
+    "rpgdicejs": "^1.2.4"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

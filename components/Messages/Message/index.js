@@ -18,11 +18,16 @@ const styles = {
     padding: '0.5rem',
     backgroundColor: colors.white,
   }),
-  rollFormula: style({}),
-  rollResult: style({}),
-  rollSum: style({
+  rollFormula: style({
+    color: colors.black,
+  }),
+  rollEvaluation: style({
+    color: colors.black,
+  }),
+  rollValue: style({
+    color: colors.text,
     fontSize: '1rem',
-    marginTop: '0.2rem',
+    marginTop: '0.3rem',
     fontFamily: 'Vulf Mono Bold',
   }),
 };
@@ -39,20 +44,26 @@ const getHeaderStyles = (player) => {
 const Text = ({ children }) => <div className={styles.text}>{children}</div>;
 Text.propTypes = { children: PropTypes.node };
 
-const Roll = () => (
-  <div className={styles.roll}>
-    <div className={styles.rollFormula}>2d20 + 4 =</div>
-    <div className={styles.rollResult}>12 + 2 + 4 =</div>
-    <div className={styles.rollSum}>18</div>
-  </div>
-);
+const Roll = ({ roll }) => {
+  console.log('evaluation', roll.evaluation);
+  return (
+    <div className={styles.roll}>
+      <div className={styles.rollFormula}>{roll.formula}</div>
+      <div className={styles.rollEvaluation}>{roll.evaluation}</div>
+      <div className={styles.rollValue}>{roll.value}</div>
+    </div>
+  );
+};
+Roll.propTypes = {
+  roll: PropTypes.object,
+};
 
 const Message = ({ showHeader, content, player, timestamp, type }) => (
   <div title={formatDate(timestamp, 'M/D/YY h:mm A')} className={styles.wrapper}>
     {showHeader ? <div className={getHeaderStyles(player)}>{player.name}</div> : null}
 
     <div className={styles.content}>
-      {type === 'text' ? <Text>{content}</Text> : <Roll />}
+      {type === 'text' ? <Text>{content}</Text> : <Roll roll={content} />}
     </div>
   </div>
 );

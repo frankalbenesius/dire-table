@@ -52,12 +52,14 @@ class ChatInput extends React.Component {
   submit = (event) => {
     event.preventDefault();
     const text = this.state.text;
-    this.setState(
-      {
-        text: '',
-      },
-      () => this.props.onSubmit(text),
-    );
+    if (text) {
+      this.setState(
+        {
+          text: '',
+        },
+        () => this.props.onSubmit(text),
+      );
+    }
   };
   render() {
     return (
