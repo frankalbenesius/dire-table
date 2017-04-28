@@ -1,12 +1,4 @@
-// export const ADD_AREA = 'ADD_AREA';
-// export const ADD_TOKEN = 'ADD_TOKEN';
-// export const MOVE_TOKEN = 'MOVE_TOKEN';
-// export const REMOVE_TOKEN = 'REMOVE_TOKEN';
-// export const REMOVE_AREA = 'REMOVE_AREA';
 export const SET_AREAS = 'SET_AREAS';
 export const SET_TOKENS = 'SET_TOKENS';
 export const SET_MESSAGES = 'SET_MESSAGES';
 export const SELECT_TOOL = 'SELECT_TOOL';
-export const ADD_MESSAGE_TEXT = 'ADD_MESSAGE_TEXT';
-export const ADD_MESSAGE_ROLL = 'ADD_MESSAGE_ROLL';
-export const ADD_MESSAGE_ERROR = 'ADD_MESSAGE_ERROR';

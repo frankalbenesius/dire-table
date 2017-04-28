@@ -39,18 +39,15 @@ const mapDispatchToProps = dispatch => ({
       lastUpdated: Date.now(),
     };
     database.ref('/tokens').push(newToken);
-    // return dispatch(addToken(playerId, location));
   },
   removeToken: (id) => {
     database.ref(`/tokens/${id}`).remove();
-    // return dispatch(removeToken(id));
   },
   moveToken: (id, location) => {
     database.ref(`/tokens/${id}`).update({
       location,
       lastUpdated: Date.now(),
     });
-    // return dispatch(moveToken(id, location));
   },
   setAreas: areas => dispatch(setAreas(areas)),
   setTokens: tokens => dispatch(setTokens(tokens)),
