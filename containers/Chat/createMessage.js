@@ -23,7 +23,7 @@ export default (myId, text) => {
       } catch (e) {
         // Error: failed to parse roll
         return {
-          myId,
+          player: myId,
           timestamp: Date.now(),
           type: 'error',
           content: 'Failed to parse roll.',
@@ -32,7 +32,7 @@ export default (myId, text) => {
     }
     // Error: command doesn't exist
     return {
-      myId,
+      player: myId,
       timestamp: Date.now(),
       type: 'error',
       content: "Command doesn't exist.",
