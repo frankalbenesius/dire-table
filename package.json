@@ -7,7 +7,6 @@
     "dev": "next",
     "lint": "eslint .",
     "start": "next start",
-    "test": "tape -r babel-register '{components,containers,pages,store,util}/**/*test.js'",
     "now": "now -e NODE_ENV=production -e FIREBASE_API_KEY=@diretools-firebase-api-key"
   },
   "author": "Frank Albenesius",
