@@ -21,7 +21,6 @@ const byTimestamp = (a, b) => a.timestamp - b.timestamp;
 class Messages extends React.Component {
   componentDidMount() {
     this.scrollToBottom();
-    // this.scrollTarget.scrollIntoView({ behavior: 'smooth' });
   }
   componentDidUpdate() {
     this.scrollToBottom();
