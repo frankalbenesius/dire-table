@@ -24,6 +24,7 @@ export const removeToken = id => ({
 });
 export const setTokens = tokens => ({ type: types.SET_TOKENS, payload: { tokens } });
 export const setAreas = areas => ({ type: types.SET_AREAS, payload: { areas } });
+export const setMessages = messages => ({ type: types.SET_MESSAGES, payload: { messages } });
 // export const addArea = area => ({ type: types.ADD_AREA, payload: { area } });
 // export const removeArea = area => ({
 //   type: types.REMOVE_AREA,
