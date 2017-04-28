@@ -4,9 +4,10 @@ import { style } from 'glamor';
 import formatDate from 'date-fns/format';
 import { colors, sizes } from '../../constants';
 
+const lineHeight = 0.9;
 const styles = {
   wrapper: style({
-    lineHeight: '0.9rem',
+    lineHeight: `${lineHeight}rem`,
   }),
   content: style({
     margin: '0.4rem 0',
@@ -23,6 +24,8 @@ const styles = {
   }),
   rollEvaluation: style({
     color: colors.black,
+    maxHeight: `${lineHeight * 8}rem`,
+    overflowY: 'auto',
   }),
   rollValue: style({
     color: colors.text,

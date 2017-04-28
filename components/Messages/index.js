@@ -13,25 +13,27 @@ const styles = {
     height: '100%',
     padding: '0 1rem',
   }),
+  scrollTarget: style({}),
 };
 
 const byTimestamp = (a, b) => a.timestamp - b.timestamp;
 
 class Messages extends React.Component {
   componentDidMount() {
-    this.scrollTarget.scrollIntoView();
+    this.scrollToBottom();
+    // this.scrollTarget.scrollIntoView({ behavior: 'smooth' });
   }
   componentDidUpdate() {
-    this.scrollTarget.scrollIntoView();
+    this.scrollToBottom();
+  }
+  scrollToBottom() {
+    setTimeout(() => {
+      this.scrollTarget.scrollIntoView({ behavior: 'smooth' });
+    }, 10); // there may be a better way to do this, like on a callback or something
   }
   render() {
     return (
-      <div
-        ref={(c) => {
-          this.messagesBox = c;
-        }}
-        className={styles.messages}
-      >
+      <div className={styles.messages}>
         {this.props.messages
           .sort(byTimestamp)
           .map((m, i, arr) => (
@@ -44,7 +46,8 @@ class Messages extends React.Component {
               type={m.type}
             />
           ))}
-        <span
+        <div
+          className={styles.scrollTarget}
           ref={(c) => {
             this.scrollTarget = c;
           }}
