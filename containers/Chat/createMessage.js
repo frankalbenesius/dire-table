@@ -2,7 +2,7 @@ import roller from 'rpgdicejs';
 import trim from 'lodash/trim';
 
 export default (myId, text) => {
-  const commandRegex = /\/([a-zA-Z]+)( .*)?/g; // matches /letters and optional argument
+  const commandRegex = /^\/([a-zA-Z]+)( .*)?/g; // matches /letters and optional argument
   const match = commandRegex.exec(text);
   if (match) {
     const command = match[1];

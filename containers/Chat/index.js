@@ -24,7 +24,11 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   sendMyMessage: myId => (text) => {
     const newMessage = createMessage(myId, text);
-    database.ref('/messages').push(newMessage);
+    if (newMessage.type !== 'error') {
+      database.ref('/messages').push(newMessage);
+    } else {
+      // TODO: do something with the error
+    }
   },
   setMessages: messages => dispatch(setMessages(messages)),
 });

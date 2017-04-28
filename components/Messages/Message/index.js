@@ -55,12 +55,26 @@ Roll.propTypes = {
   roll: PropTypes.object,
 };
 
+const createMessageContent = (type, content) => {
+  switch (type) {
+    case 'roll': {
+      return <Roll roll={content} />;
+    }
+    case 'text': {
+      return <Text>{content}</Text>;
+    }
+    default: {
+      return null;
+    }
+  }
+};
+
 const Message = ({ showHeader, content, player, timestamp, type }) => (
   <div title={formatDate(timestamp, 'M/D/YY h:mm A')} className={styles.wrapper}>
     {showHeader ? <div className={getHeaderStyles(player)}>{player.name}</div> : null}
 
     <div className={styles.content}>
-      {type === 'text' ? <Text>{content}</Text> : <Roll roll={content} />}
+      {createMessageContent(type, content)}
     </div>
   </div>
 );
