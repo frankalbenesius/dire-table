@@ -50,7 +50,7 @@ class TokenLayer extends React.Component {
           const circle = toCircle(this.props.board, token.location, token.size);
           const editable =
             this.props.tool === 'cursor' &&
-            (this.props.playerId === 0 || this.props.playerId === token.player);
+            (this.props.player.id === 0 || this.props.player.id === token.player);
           const onMouseDown = editable ? this.createHandleMouseDown(token.id) : null;
           const onMouseUp = editable ? this.handleMouseUp : null;
           const dragging = token.id === this.state.draggingTokenId;
@@ -91,7 +91,7 @@ TokenLayer.propTypes = {
   }),
   onShiftClick: PropTypes.func,
   onDrag: PropTypes.func,
-  playerId: PropTypes.number,
+  player: PropTypes.object,
   newTokenPlayerId: PropTypes.number,
   tokens: PropTypes.array,
 };

@@ -40,7 +40,7 @@ class Messages extends React.Component {
               key={i}
               showHeader={i === 0 || arr[i - 1].player !== m.player}
               content={m.content}
-              player={this.props.players[m.player]}
+              player={this.props.roster[m.player]}
               timestamp={m.timestamp}
               type={m.type}
             />
@@ -57,7 +57,7 @@ class Messages extends React.Component {
 }
 Messages.propTypes = {
   messages: PropTypes.arrayOf(PropTypes.object),
-  players: PropTypes.object,
+  roster: PropTypes.object,
 };
 
 export default Messages;

@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 
 import database from '../../store/database';
 import { getMessages } from '../../store/reducers/chat';
-import { getPlayer } from '../../store/reducers/player';
-import { getPlayers } from '../../store/reducers/players';
+import { getPlayer, getRoster } from '../../store/reducers/players';
 import { setMessages } from '../../store/actions';
 
 import createMessage from './createMessage';
@@ -17,13 +16,13 @@ import Messages from '../../components/Messages';
 
 const mapStateToProps = state => ({
   messages: getMessages(state.chat),
-  players: getPlayers(state.players).byId,
-  myId: getPlayer(state.player).id,
+  roster: getRoster(state.players),
+  player: getPlayer(state.players),
 });
 
 const mapDispatchToProps = dispatch => ({
-  sendMyMessage: myId => (text) => {
-    const newMessage = createMessage(myId, text);
+  sendMyMessage: player => (text) => {
+    const newMessage = createMessage(player.id, text);
     if (newMessage.type !== 'error') {
       database.ref('/messages').push(newMessage);
     } else {
@@ -44,16 +43,16 @@ class Chat extends React.Component {
     return (
       <ChatWrapper>
         <ChatHeader />
-        <Messages messages={this.props.messages} players={this.props.players} />
-        <ChatInput onSubmit={this.props.sendMyMessage(this.props.myId)} />
+        <Messages messages={this.props.messages} roster={this.props.roster} />
+        <ChatInput onSubmit={this.props.sendMyMessage(this.props.player)} />
       </ChatWrapper>
     );
   }
 }
 Chat.propTypes = {
   messages: PropTypes.arrayOf(PropTypes.object),
-  players: PropTypes.object,
-  myId: PropTypes.number,
+  roster: PropTypes.object,
+  player: PropTypes.object,
   sendMyMessage: PropTypes.func,
   setMessages: PropTypes.func,
 };

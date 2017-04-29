@@ -7,7 +7,7 @@ import database from '../../store/database';
 import { setAreas, setTokens } from '../../store/actions';
 import { getBoard } from '../../store/reducers/board';
 import { getAreas } from '../../store/reducers/areas';
-import { getPlayer } from '../../store/reducers/player';
+import { getPlayer } from '../../store/reducers/players';
 import { getTokens } from '../../store/reducers/tokens';
 import { getCurrentToolId, getNewTokenPlayerId } from '../../store/reducers/tool';
 
@@ -23,7 +23,7 @@ import { toCoordinate } from '../../util/board';
 const mapStateToProps = state => ({
   areas: getAreas(state.areas),
   board: getBoard(state.board),
-  player: getPlayer(state.player),
+  player: getPlayer(state.players),
   tokens: getTokens(state.tokens),
   tool: getCurrentToolId(state.tool),
   newTokenPlayerId: getNewTokenPlayerId(state.tool),
@@ -205,7 +205,7 @@ class Map extends React.Component {
             cursor={this.state.cursor}
             onDrag={this.handleTokenDrag}
             onShiftClick={this.handleTokenShiftClick}
-            playerId={this.props.player.id}
+            player={this.props.player}
             tokens={this.props.tokens.list}
             newTokenPlayerId={this.props.newTokenPlayerId}
           />
