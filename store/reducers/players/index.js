@@ -2,7 +2,7 @@ import { SET_PLAYER, SET_ROSTER } from '../../constants/actions';
 
 const defaultState = {
   player: null,
-  roster: {},
+  roster: [],
   // roster: {
   //   0: {
   //     id: 0,

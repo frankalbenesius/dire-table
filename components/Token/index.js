@@ -49,7 +49,7 @@ const Token = (props) => {
         cx={props.cx}
         cy={props.cy}
         r={props.radius - noPx(sizes.tokenPadding)}
-        fill={colors.player[props.player]}
+        fill={colors.player[props.playerId]}
       />
       <svg
         x={props.cx - iconRadius}
@@ -66,7 +66,7 @@ Token.propTypes = {
   onClick: PropTypes.func,
   onMouseUp: PropTypes.func,
   onMouseDown: PropTypes.func,
-  player: PropTypes.number,
+  playerId: PropTypes.number,
   icon: PropTypes.string,
   radius: PropTypes.number,
   draggable: PropTypes.bool,

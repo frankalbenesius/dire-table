@@ -9,8 +9,7 @@ import Token from '../Token';
 const tokenSize = 50;
 
 const Roster = ({ roster, tokens, onPlayerClick }) => {
-  const playerList = Object.keys(roster).map(k => roster[k]);
-  const inventoryHeight = tokenSize * playerList.length;
+  const inventoryHeight = tokenSize * roster.length;
   const styles = {
     wrapper: css({
       position: 'absolute',
@@ -32,7 +31,7 @@ const Roster = ({ roster, tokens, onPlayerClick }) => {
   return (
     <div className={styles.wrapper}>
       <svg className={styles.svg}>
-        {playerList.map((player, i) => {
+        {roster.filter(p => p.connected).map((player, i) => {
           let icon = 'smile';
           const playerTokens = tokens.filter(t => t.player === player.id);
           const playerHasAToken = playerTokens.length > 0;
@@ -42,7 +41,7 @@ const Roster = ({ roster, tokens, onPlayerClick }) => {
           return (
             <g key={player.id}>
               <Token
-                player={player.id}
+                playerId={player.id}
                 icon={icon}
                 cx={tokenSize / 2}
                 cy={inventoryHeight - (tokenSize * i + tokenSize / 2)}
@@ -68,7 +67,7 @@ const Roster = ({ roster, tokens, onPlayerClick }) => {
   );
 };
 Roster.propTypes = {
-  roster: PropTypes.object,
+  roster: PropTypes.arrayOf(PropTypes.object),
   tokens: PropTypes.array,
   onPlayerClick: PropTypes.func,
 };

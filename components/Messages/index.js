@@ -57,7 +57,7 @@ class Messages extends React.Component {
 }
 Messages.propTypes = {
   messages: PropTypes.arrayOf(PropTypes.object),
-  roster: PropTypes.object,
+  roster: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default Messages;

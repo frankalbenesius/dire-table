@@ -1,3 +1,5 @@
+/* global window */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -5,16 +7,29 @@ import { connect } from 'react-redux';
 import db from '../../store/database';
 import { selectTool, setPlayer, setRoster } from '../../store/actions';
 import { getCurrentToolId, tools } from '../../store/reducers/tool';
-import { getRoster } from '../../store/reducers/players';
+import { getRoster, getPlayer } from '../../store/reducers/players';
 import { getTokens } from '../../store/reducers/tokens';
 
 import Toolbar from '../../components/Toolbar';
 import ToolbarOption from '../../components/ToolbarOption';
 import Roster from '../../components/Roster';
 
+function storageAvailable() {
+  try {
+    const storage = window.localStorage;
+    const x = '__storage_test__';
+    storage.setItem(x, x);
+    storage.removeItem(x);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 const mapStateToProps = state => ({
   selectedTool: getCurrentToolId(state.tool),
   roster: getRoster(state.players),
+  player: getPlayer(state.players),
   tokens: getTokens(state.tokens).list,
 });
 
@@ -28,9 +43,42 @@ const mapDispatchToProps = dispatch => ({
 class Overlay extends React.Component {
   componentDidMount() {
     const playersRef = db.ref('players');
+
+    playersRef.once('value', (snap) => {
+      const players = snap.val() || [];
+      const playerCount = Object.keys(players).length;
+
+      if (!this.props.player) {
+        let myPlayerKey = playerCount;
+        let updatedPlayer = {
+          connected: true,
+        };
+        if (storageAvailable()) {
+          const storedId = window.localStorage.getItem('direPlayerId');
+          if (storedId) {
+            myPlayerKey = parseInt(storedId, 10);
+          } else {
+            updatedPlayer = {
+              connected: true,
+              id: myPlayerKey,
+              name: `Player ${myPlayerKey}`,
+              gm: playerCount < 1,
+            };
+            window.localStorage.setItem('direPlayerId', myPlayerKey);
+          }
+        }
+        const myPlayerRef = db.ref(`players/${myPlayerKey}`);
+        myPlayerRef.update(updatedPlayer);
+        myPlayerRef.onDisconnect().update({
+          connected: false,
+        });
+        this.props.setPlayer(myPlayerKey);
+      }
+    });
+
     playersRef.on('value', (snap) => {
-      const currentPlayers = snap.val() || {};
-      this.props.setRoster(currentPlayers);
+      const players = snap.val() || [];
+      this.props.setRoster(players);
     });
   }
   render() {
@@ -59,7 +107,8 @@ Overlay.propTypes = {
   selectedTool: PropTypes.string,
   onToolbarOptionClick: PropTypes.func,
   onPlayerClick: PropTypes.func,
-  roster: PropTypes.object,
+  roster: PropTypes.arrayOf(PropTypes.object),
+  player: PropTypes.object,
   tokens: PropTypes.array,
   setPlayer: PropTypes.func,
   setRoster: PropTypes.func,

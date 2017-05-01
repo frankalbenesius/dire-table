@@ -30,6 +30,7 @@ export const colors = {
   tools: palette.gray[2],
   selection: palette.cyan[2],
   player: [white, red, blue, green, orange, pink, cyan],
+  disconnected: gray,
 };
 
 // sizes

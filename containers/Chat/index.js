@@ -36,7 +36,7 @@ const mapDispatchToProps = dispatch => ({
 class Chat extends React.Component {
   componentDidMount() {
     database.ref('/messages').on('value', (snap) => {
-      this.props.setMessages(snap.val() || []);
+      this.props.setMessages(snap.val() || {});
     });
   }
   render() {
@@ -51,7 +51,7 @@ class Chat extends React.Component {
 }
 Chat.propTypes = {
   messages: PropTypes.arrayOf(PropTypes.object),
-  roster: PropTypes.object,
+  roster: PropTypes.arrayOf(PropTypes.object),
   player: PropTypes.object,
   sendMyMessage: PropTypes.func,
   setMessages: PropTypes.func,

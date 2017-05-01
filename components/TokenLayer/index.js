@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import Token from '../../components/Token';
 import TokenCursor from '../../components/TokenCursor';
 import { toCircle } from '../../util/board';
@@ -50,6 +51,7 @@ class TokenLayer extends React.Component {
           const circle = toCircle(this.props.board, token.location, token.size);
           const editable =
             this.props.tool === 'cursor' &&
+            !!this.props.player &&
             (this.props.player.id === 0 || this.props.player.id === token.player);
           const onMouseDown = editable ? this.createHandleMouseDown(token.id) : null;
           const onMouseUp = editable ? this.handleMouseUp : null;
@@ -60,7 +62,7 @@ class TokenLayer extends React.Component {
             <Token
               key={i}
               id={token.id}
-              player={token.player}
+              playerId={token.player}
               icon={token.icon}
               cx={cx}
               cy={cy}
