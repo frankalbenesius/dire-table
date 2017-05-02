@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import Head from 'next/head';
 
-import db from '../store/database';
 import initStore from '../store';
 import reducer from '../store/reducers';
 
@@ -23,13 +22,7 @@ export default class Index extends React.Component {
   constructor(props) {
     super(props);
     this.store = initStore(reducer, props.initialState, props.isServer);
-  }
-
-  componentDidMount() {
-    const connectedRef = db.ref('.info/connected');
-    connectedRef.on('value', (snap) => {
-      console.log('connected to database:', snap.val());
-    });
+    console.log('props', props);
   }
 
   render() {
