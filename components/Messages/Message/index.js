@@ -25,12 +25,12 @@ const styles = {
   rollEvaluation: style({
     color: colors.black,
     maxHeight: `${lineHeight * 8}rem`,
+    paddingBottom: '0.3rem',
     overflowY: 'auto',
   }),
   rollValue: style({
     color: colors.text,
     fontSize: '1rem',
-    marginTop: '0.3rem',
     fontFamily: 'Vulf Mono Bold',
   }),
 };

@@ -55,7 +55,7 @@ class Overlay extends React.Component {
         };
         if (storageAvailable()) {
           const storedId = window.localStorage.getItem('direPlayerId');
-          if (storedId) {
+          if (storedId && snap.hasChild(storedId)) {
             myPlayerKey = parseInt(storedId, 10);
           } else {
             updatedPlayer = {
