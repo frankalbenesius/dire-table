@@ -4,9 +4,9 @@
   "description": "a tabletop app",
   "scripts": {
     "build": "next build",
-    "dev": "next",
+    "dev": "node server.js",
     "lint": "eslint .",
-    "start": "next start",
+    "start": "NODE_ENV=production node server.js",
     "test": "tape -r babel-register '{components,containers,pages,store,util}/**/*test.js'",
     "now": "now -e NODE_ENV=production -e FIREBASE_API_KEY=@diretools-firebase-api-key"
   },

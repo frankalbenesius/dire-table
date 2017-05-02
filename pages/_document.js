@@ -23,8 +23,11 @@ export default class MyDocument extends Document {
     return (
       <html lang="en-US">
         <Head>
-          <title>My page</title>
           <style dangerouslySetInnerHTML={{ __html: this.props.css }} />
+          <title>Dire Tools: Table</title>
+          <link rel="stylesheet" href="/static/css/index.css" />
+          <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon" />
+          <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
         </Head>
         <body>
           <Main />

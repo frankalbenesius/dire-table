@@ -4,7 +4,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import db from '../../store/database';
+import database from '../../database';
+
 import { selectTool, setPlayer, setRoster } from '../../store/actions';
 import { getCurrentToolId, tools } from '../../store/reducers/tool';
 import { getRoster, getPlayer } from '../../store/reducers/players';
@@ -42,8 +43,7 @@ const mapDispatchToProps = dispatch => ({
 
 class Overlay extends React.Component {
   componentDidMount() {
-    const playersRef = db.ref('players');
-
+    const playersRef = database.ref('players');
     playersRef.once('value', (snap) => {
       const players = snap.val() || [];
       const playerCount = Object.keys(players).length;
@@ -67,7 +67,7 @@ class Overlay extends React.Component {
             window.localStorage.setItem('direPlayerId', myPlayerKey);
           }
         }
-        const myPlayerRef = db.ref(`players/${myPlayerKey}`);
+        const myPlayerRef = database.ref(`players/${myPlayerKey}`);
         myPlayerRef.update(updatedPlayer);
         myPlayerRef.onDisconnect().update({
           connected: false,

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import database from '../../store/database';
+import database from '../../database';
 import { getMessages } from '../../store/reducers/chat';
 import { getPlayer, getRoster } from '../../store/reducers/players';
 import { setMessages } from '../../store/actions';

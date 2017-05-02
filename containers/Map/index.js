@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import database from '../../store/database';
+import database from '../../database';
 
 import { setAreas, setTokens } from '../../store/actions';
 import { getBoard } from '../../store/reducers/board';
