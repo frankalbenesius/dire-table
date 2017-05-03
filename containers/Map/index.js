@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { connect as fbConnect } from 'react-firebase';
 
 import database from '../../database';
 
-import { setAreas, setTokens } from '../../store/actions';
+import { setTokens } from '../../store/actions';
 import { getBoard } from '../../store/reducers/board';
-import { getAreas } from '../../store/reducers/areas';
 import { getPlayer } from '../../store/reducers/players';
 import { getTokens } from '../../store/reducers/tokens';
 import { getCurrentToolId, getNewTokenPlayerId } from '../../store/reducers/tool';
@@ -20,11 +20,15 @@ import TokenLayer from '../../components/TokenLayer';
 import { mergeArea, removeArea, toArea, toRemoval } from '../../util/areas';
 import { toCoordinate } from '../../util/board';
 
+const toArray = (obj) => {
+  if (!obj) return [];
+  return Object.keys(obj).map(k => obj[k]);
+};
+
 const mapStateToProps = state => ({
-  areas: getAreas(state.areas),
+  tokens: getTokens(state.tokens),
   board: getBoard(state.board),
   player: getPlayer(state.players),
-  tokens: getTokens(state.tokens),
   tool: getCurrentToolId(state.tool),
   newTokenPlayerId: getNewTokenPlayerId(state.tool),
 });
@@ -49,7 +53,6 @@ const mapDispatchToProps = dispatch => ({
       lastUpdated: Date.now(),
     });
   },
-  setAreas: areas => dispatch(setAreas(areas)),
   setTokens: tokens => dispatch(setTokens(tokens)),
 });
 
@@ -71,9 +74,6 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
-    database.ref('/areas').on('value', (snap) => {
-      this.props.setAreas(snap.val() || []);
-    });
     database.ref('/tokens').on('value', (snap) => {
       // TODO: Remove this janky way of adding IDs as obj properties
       const tokens = snap.val();
@@ -148,22 +148,30 @@ class Map extends React.Component {
       switch (this.props.tool) {
         case 'add': {
           const stopCoord = toCoordinate(this.props.board, this.state.cursor);
-          const resultingAreas = mergeArea(
-            this.props.areas,
-            toArea(this.state.startCoord, stopCoord),
+          const newArea = toArea(this.state.startCoord, stopCoord);
+          const resultingAreas = mergeArea(toArray(this.props.areas), newArea);
+          this.setState(
+            {
+              startCoord: null,
+            },
+            () => {
+              this.props.setAreas(resultingAreas);
+            },
           );
-          database.ref('/areas').set(resultingAreas);
-          this.setState({ startCoord: null });
           break;
         }
         case 'remove': {
           const stopCoord = toCoordinate(this.props.board, this.state.cursor, 2);
-          const resultingAreas = removeArea(
-            this.props.areas,
-            toRemoval(this.state.startCoord, stopCoord),
+          const removingArea = toRemoval(this.state.startCoord, stopCoord);
+          const resultingAreas = removeArea(toArray(this.props.areas), removingArea);
+          this.setState(
+            {
+              startCoord: null,
+            },
+            () => {
+              this.props.setAreas(resultingAreas);
+            },
           );
-          database.ref('/areas').set(resultingAreas);
-          this.setState({ startCoord: null });
           break;
         }
         default:
@@ -193,7 +201,7 @@ class Map extends React.Component {
         >
           <AreaLayer
             tool={this.props.tool}
-            areas={this.props.areas}
+            areas={toArray(this.props.areas)}
             board={this.props.board}
             cursor={this.state.cursor}
             startCoord={this.state.startCoord}
@@ -218,9 +226,9 @@ Map.propTypes = {
   addToken: PropTypes.func,
   moveToken: PropTypes.func,
   removeToken: PropTypes.func,
-  setAreas: PropTypes.func,
   setTokens: PropTypes.func,
-  areas: PropTypes.arrayOf(PropTypes.array),
+  areas: PropTypes.object,
+  setAreas: PropTypes.func, // firebase function
   board: PropTypes.shape({
     boardPx: PropTypes.number,
     centerPx: PropTypes.number,
@@ -233,6 +241,14 @@ Map.propTypes = {
   tokens: PropTypes.object,
   newTokenPlayerId: PropTypes.number,
   tool: PropTypes.string,
+  // table: PropTypes.string, // just for firebase connect
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Map);
+const mapFirebaseToProps = ({ table }, ref) => ({
+  areas: `tables/${table}/areas`,
+  setAreas: (areas) => {
+    ref(`tables/${table}/areas`).set(areas);
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(fbConnect(mapFirebaseToProps)(Map));
