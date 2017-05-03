@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { style } from 'glamor';
+import { connect } from 'react-firebase';
+
+import createMessage from './createMessage';
 import { colors, sizes } from '../constants';
 
 const propTypes = {
-  onSubmit: PropTypes.func,
+  player: PropTypes.object,
+  sendMessage: PropTypes.func,
+  // table: PropTypes.string // connected to firebase
 };
 
 const styles = {
@@ -57,7 +62,7 @@ class ChatInput extends React.Component {
         {
           text: '',
         },
-        () => this.props.onSubmit(text),
+        () => this.props.sendMessage(this.props.player, text),
       );
     }
   };
@@ -81,4 +86,13 @@ class ChatInput extends React.Component {
 }
 ChatInput.propTypes = propTypes;
 
-export default ChatInput;
+export default connect(({ table }, ref) => ({
+  sendMessage: (player, text) => {
+    const message = createMessage(player.id, text);
+    if (message.type !== 'error') {
+      ref(`tables/${table}/messages`).push(message);
+    } else {
+      // TODO: do something with the error
+    }
+  },
+}))(ChatInput);

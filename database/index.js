@@ -18,6 +18,7 @@ try {
     console.error('Firebase initialization error', err.stack); // eslint-disable-line
   }
 }
+
 const database = firebase.database();
 export default database;
 
@@ -39,17 +40,12 @@ const getUniqueKey = (tablesSnapshot) => {
 
 /* Table Initialization Function */
 
-let tableKey;
 export const initTable = key =>
-  new Promise((resolve) => {
-    tablesRef.once('value', (snapshot) => {
-      if (key && key.length === keyLength && snapshot.hasChild(key)) {
-        tableKey = key;
-        resolve(tableKey);
-      }
-      tableKey = getUniqueKey(snapshot);
-      resolve(tableKey);
-    });
+  tablesRef.once('value').then((snapshot) => {
+    if (key && key.length === keyLength && snapshot.hasChild(key)) {
+      return key;
+    }
+    return getUniqueKey(snapshot);
   });
 
 /* Data Update Functions */

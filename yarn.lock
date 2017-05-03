@@ -3441,6 +3441,12 @@ react-dom@^15.5.4:
     object-assign "^4.1.0"
     prop-types "~15.5.7"
 
+react-firebase@^2.2.5:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/react-firebase/-/react-firebase-2.2.5.tgz#9c77e3eda3a827c1c27b453b3ddac2877b4d5659"
+  dependencies:
+    invariant "^2.0.0"
+
 react-hot-loader@3.0.0-beta.6:
   version "3.0.0-beta.6"
   resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-3.0.0-beta.6.tgz#463fac0bfc8b63a8385258af20c91636abce75f4"

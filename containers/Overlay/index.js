@@ -9,7 +9,6 @@ import database from '../../database';
 import { selectTool, setPlayer, setRoster } from '../../store/actions';
 import { getCurrentToolId, tools } from '../../store/reducers/tool';
 import { getRoster, getPlayer } from '../../store/reducers/players';
-import { getTokens } from '../../store/reducers/tokens';
 
 import Toolbar from '../../components/Toolbar';
 import ToolbarOption from '../../components/ToolbarOption';
@@ -28,10 +27,9 @@ function storageAvailable() {
 }
 
 const mapStateToProps = state => ({
-  selectedTool: getCurrentToolId(state.tool),
   roster: getRoster(state.players),
+  selectedTool: getCurrentToolId(state.tool),
   player: getPlayer(state.players),
-  tokens: getTokens(state.tokens).list,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -94,11 +92,7 @@ class Overlay extends React.Component {
             />
           ))}
         </Toolbar>
-        <Roster
-          roster={this.props.roster}
-          tokens={this.props.tokens}
-          onPlayerClick={this.props.onPlayerClick}
-        />
+        <Roster roster={this.props.roster} onPlayerClick={this.props.onPlayerClick} />
       </div>
     );
   }
@@ -109,7 +103,6 @@ Overlay.propTypes = {
   onPlayerClick: PropTypes.func,
   roster: PropTypes.arrayOf(PropTypes.object),
   player: PropTypes.object,
-  tokens: PropTypes.array,
   setPlayer: PropTypes.func,
   setRoster: PropTypes.func,
 };

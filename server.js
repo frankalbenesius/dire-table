@@ -7,7 +7,7 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 const route = pathMatch();
-const match = route('/join/:key');
+const match = route('/:key');
 
 app.prepare().then(() => {
   createServer((req, res) => {

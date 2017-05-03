@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { style } from 'glamor';
+import { connect } from 'react-firebase';
+
 import { sizes } from '../constants';
 import Message from './Message';
 
@@ -34,17 +36,20 @@ class Messages extends React.Component {
     return (
       <div className={styles.messages}>
         {this.props.messages
-          .sort(byTimestamp)
-          .map((m, i, arr) => (
-            <Message
-              key={i}
-              showHeader={i === 0 || arr[i - 1].player !== m.player}
-              content={m.content}
-              player={this.props.roster[m.player]}
-              timestamp={m.timestamp}
-              type={m.type}
-            />
-          ))}
+          ? Object.keys(this.props.messages)
+              .map(k => this.props.messages[k])
+              .sort(byTimestamp)
+              .map((m, i, arr) => (
+                <Message
+                  key={i}
+                  showHeader={i === 0 || arr[i - 1].player !== m.player}
+                  content={m.content}
+                  player={this.props.players[m.player]}
+                  timestamp={m.timestamp}
+                  type={m.type}
+                />
+              ))
+          : <div>no messages yet</div>}
         <div
           className={styles.scrollTarget}
           ref={(c) => {
@@ -56,8 +61,12 @@ class Messages extends React.Component {
   }
 }
 Messages.propTypes = {
-  messages: PropTypes.arrayOf(PropTypes.object),
-  roster: PropTypes.arrayOf(PropTypes.object),
+  messages: PropTypes.object,
+  players: PropTypes.object,
+  // table: PropTypes.string, connected to firebase
 };
 
-export default Messages;
+export default connect(({ table }) => ({
+  messages: `tables/${table}/messages`,
+  players: `tables/${table}/players`,
+}))(Messages);
