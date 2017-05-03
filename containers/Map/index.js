@@ -3,12 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { connect as fbConnect } from 'react-firebase';
 
-import database from '../../database';
-
-import { setTokens } from '../../store/actions';
 import { getBoard } from '../../store/reducers/board';
 import { getPlayer } from '../../store/reducers/players';
-import { getTokens } from '../../store/reducers/tokens';
 import { getCurrentToolId, getNewTokenPlayerId } from '../../store/reducers/tool';
 
 import AreaLayer from '../../components/AreaLayer';
@@ -26,34 +22,10 @@ const toArray = (obj) => {
 };
 
 const mapStateToProps = state => ({
-  tokens: getTokens(state.tokens),
   board: getBoard(state.board),
   player: getPlayer(state.players),
   tool: getCurrentToolId(state.tool),
   newTokenPlayerId: getNewTokenPlayerId(state.tool),
-});
-
-const mapDispatchToProps = dispatch => ({
-  addToken: (player, location) => {
-    const newToken = {
-      player,
-      location,
-      icon: 'smile',
-      size: 1,
-      lastUpdated: Date.now(),
-    };
-    database.ref('/tokens').push(newToken);
-  },
-  removeToken: (id) => {
-    database.ref(`/tokens/${id}`).remove();
-  },
-  moveToken: (id, location) => {
-    database.ref(`/tokens/${id}`).update({
-      location,
-      lastUpdated: Date.now(),
-    });
-  },
-  setTokens: tokens => dispatch(setTokens(tokens)),
 });
 
 class Map extends React.Component {
@@ -71,28 +43,6 @@ class Map extends React.Component {
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleTokenDrag = this.handleTokenDrag.bind(this);
     this.handleTokenShiftClick = this.handleTokenShiftClick.bind(this);
-  }
-
-  componentDidMount() {
-    database.ref('/tokens').on('value', (snap) => {
-      // TODO: Remove this janky way of adding IDs as obj properties
-      const tokens = snap.val();
-      let tokensObj = {};
-      if (tokens) {
-        const tokenIds = Object.keys(tokens);
-        tokensObj = tokenIds.reduce(
-          (acc, id) => ({
-            ...acc,
-            [id]: {
-              id,
-              ...tokens[id],
-            },
-          }),
-          tokensObj,
-        );
-      }
-      this.props.setTokens(tokensObj);
-    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -186,11 +136,13 @@ class Map extends React.Component {
   handleTokenDrag(tokenId) {
     this.props.moveToken(
       tokenId,
-      toCoordinate(this.props.board, this.state.cursor, this.props.tokens.byId[tokenId].size),
+      toCoordinate(this.props.board, this.state.cursor, this.props.tokens[tokenId].size),
     );
   }
 
   render() {
+    const tokens = this.props.tokens || {};
+    const tokensList = Object.keys(tokens).map(key => Object.assign({}, tokens[key], { id: key }));
     return (
       <Frame centerPx={this.props.board.centerPx}>
         <Board
@@ -214,7 +166,7 @@ class Map extends React.Component {
             onDrag={this.handleTokenDrag}
             onShiftClick={this.handleTokenShiftClick}
             player={this.props.player}
-            tokens={this.props.tokens.list}
+            tokens={tokensList}
             newTokenPlayerId={this.props.newTokenPlayerId}
           />
         </Board>
@@ -223,11 +175,11 @@ class Map extends React.Component {
   }
 }
 Map.propTypes = {
-  addToken: PropTypes.func,
-  moveToken: PropTypes.func,
-  removeToken: PropTypes.func,
-  setTokens: PropTypes.func,
-  areas: PropTypes.object,
+  areas: PropTypes.object, // firebase prop
+  tokens: PropTypes.object, // firebase prop
+  addToken: PropTypes.func, // firebase function
+  moveToken: PropTypes.func, // firebase function
+  removeToken: PropTypes.func, // firebase function
   setAreas: PropTypes.func, // firebase function
   board: PropTypes.shape({
     boardPx: PropTypes.number,
@@ -238,7 +190,6 @@ Map.propTypes = {
   player: PropTypes.shape({
     id: PropTypes.number,
   }),
-  tokens: PropTypes.object,
   newTokenPlayerId: PropTypes.number,
   tool: PropTypes.string,
   // table: PropTypes.string, // just for firebase connect
@@ -246,9 +197,32 @@ Map.propTypes = {
 
 const mapFirebaseToProps = ({ table }, ref) => ({
   areas: `tables/${table}/areas`,
+  tokens: `tables/${table}/tokens`,
   setAreas: (areas) => {
     ref(`tables/${table}/areas`).set(areas);
   },
+  setTokens: (tokens) => {
+    ref(`tables/${table}/tokens`).set(tokens);
+  },
+  addToken: (player, location) => {
+    const newToken = {
+      player,
+      location,
+      icon: 'smile',
+      size: 1,
+      lastUpdated: Date.now(),
+    };
+    ref(`tables/${table}/tokens`).push(newToken);
+  },
+  removeToken: (id) => {
+    ref(`tables/${table}/tokens/${id}`).remove();
+  },
+  moveToken: (id, location) => {
+    ref(`tables/${table}/tokens/${id}`).update({
+      location,
+      lastUpdated: Date.now(),
+    });
+  },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(fbConnect(mapFirebaseToProps)(Map));
+export default connect(mapStateToProps)(fbConnect(mapFirebaseToProps)(Map));
