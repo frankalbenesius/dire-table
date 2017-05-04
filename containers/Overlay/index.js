@@ -24,16 +24,18 @@ class Overlay extends React.Component {
   render() {
     return (
       <div>
-        <Toolbar>
-          {tools.map((tool, i) => (
-            <ToolbarOption
-              key={i}
-              icon={tool.icon}
-              selected={tool.id === this.props.selectedTool}
-              onClick={() => this.props.onToolbarOptionClick(tool.id)}
-            />
-          ))}
-        </Toolbar>
+        {this.props.players && this.props.players[this.props.playerKey].gm
+          ? <Toolbar>
+            {tools.map((tool, i) => (
+              <ToolbarOption
+                key={i}
+                icon={tool.icon}
+                selected={tool.id === this.props.selectedTool}
+                onClick={() => this.props.onToolbarOptionClick(tool.id)}
+              />
+              ))}
+          </Toolbar>
+          : null}
         <Roster players={this.props.players} onPlayerClick={this.props.onPlayerClick} />
       </div>
     );
@@ -44,6 +46,7 @@ Overlay.propTypes = {
   onToolbarOptionClick: PropTypes.func,
   onPlayerClick: PropTypes.func,
   players: PropTypes.object,
+  playerKey: PropTypes.string,
 };
 
 const mapFirebaseToProps = ({ table }) => ({

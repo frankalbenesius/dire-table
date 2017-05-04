@@ -47,21 +47,19 @@ class TokenLayer extends React.Component {
   render() {
     return (
       <g>
-        {this.props.tokens.sort(tokenSort(this.state.draggingTokenId)).map((token, i) => {
+        {this.props.tokens.sort(tokenSort(this.state.draggingTokenId)).map((token) => {
           const circle = toCircle(this.props.board, token.location, token.size);
           const editable =
             this.props.tool === 'cursor' &&
-            !!this.props.player &&
-            (this.props.player.id === 0 || this.props.player.id === token.player);
-          const onMouseDown = editable ? this.createHandleMouseDown(token.id) : null;
+            (this.props.player.gm || this.props.player.key === token.player);
+          const onMouseDown = editable ? this.createHandleMouseDown(token.key) : null;
           const onMouseUp = editable ? this.handleMouseUp : null;
-          const dragging = token.id === this.state.draggingTokenId;
+          const dragging = token.key === this.state.draggingTokenId;
           const cx = dragging ? this.props.cursor.x : circle.cx;
           const cy = dragging ? this.props.cursor.y : circle.cy;
           return (
             <Token
-              key={i}
-              id={token.id}
+              key={token.key}
               player={this.props.players[token.player]}
               icon={token.icon}
               cx={cx}

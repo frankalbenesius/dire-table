@@ -140,8 +140,16 @@ class Map extends React.Component {
 
   render() {
     const tokens = this.props.tokens || {};
-    const players = this.props.players || {};
-    const tokensList = Object.keys(tokens).map(key => Object.assign({}, tokens[key], { id: key }));
+    const players = !this.props.players
+      ? {}
+      : Object.keys(this.props.players).reduce((acc, playerKey) => ({
+        ...acc,
+        [playerKey]: {
+          ...this.props.players[playerKey],
+          key: playerKey,
+        },
+      }), {});
+    const tokensList = Object.keys(tokens).map(key => Object.assign({}, tokens[key], { key }));
     return (
       <Frame centerPx={this.props.board.centerPx}>
         <Board
@@ -166,7 +174,7 @@ class Map extends React.Component {
               onDrag={this.handleTokenDrag}
               onShiftClick={this.handleTokenShiftClick}
               players={players}
-              player={players[this.props.player]}
+              player={players[this.props.playerKey]}
               tokens={tokensList}
               newTokenPlayer={players[this.props.newTokenPlayerId]}
             />
@@ -190,7 +198,7 @@ Map.propTypes = {
     size: PropTypes.number,
     squarePx: PropTypes.number,
   }),
-  player: PropTypes.string,
+  playerKey: PropTypes.string,
   newTokenPlayerId: PropTypes.string,
   tool: PropTypes.string,
   // table: PropTypes.string, // just for firebase connect

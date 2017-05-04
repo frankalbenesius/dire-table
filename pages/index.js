@@ -53,9 +53,9 @@ export default class Index extends React.Component {
       return (
         <Provider store={this.store}>
           <Wrapper>
-            <Map table={this.state.table} player={this.state.player} />
-            <Overlay table={this.state.table} player={this.state.player} />
-            <Chat table={this.state.table} player={this.state.player} />
+            <Map table={this.state.table} playerKey={this.state.player} />
+            <Overlay table={this.state.table} playerKey={this.state.player} />
+            <Chat table={this.state.table} playerKey={this.state.player} />
           </Wrapper>
         </Provider>
       );

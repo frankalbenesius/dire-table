@@ -7,7 +7,7 @@ import createMessage from './createMessage';
 import { colors, sizes } from '../../components/constants';
 
 const propTypes = {
-  player: PropTypes.string,
+  playerKey: PropTypes.string,
   sendMessage: PropTypes.func,
   // table: PropTypes.string // connected to firebase
 };
@@ -62,7 +62,7 @@ class ChatInput extends React.Component {
         {
           text: '',
         },
-        () => this.props.sendMessage(this.props.player, text),
+        () => this.props.sendMessage(this.props.playerKey, text),
       );
     }
   };

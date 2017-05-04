@@ -8,16 +8,16 @@ import ChatHeader from '../../components/ChatHeader';
 import ChatWrapper from '../../components/ChatWrapper';
 
 // TODO: Messages & ChatInput #containerSplit
-const Chat = ({ player, table }) => (
+const Chat = ({ playerKey, table }) => (
   <ChatWrapper>
     <ChatHeader />
     <Messages table={table} />
-    <ChatInput table={table} player={player} />
+    <ChatInput table={table} player={playerKey} />
   </ChatWrapper>
 );
 Chat.propTypes = {
   table: PropTypes.string,
-  player: PropTypes.string,
+  playerKey: PropTypes.string,
 };
 
 export default Chat;
