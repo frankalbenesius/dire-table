@@ -93,8 +93,8 @@ TokenLayer.propTypes = {
   }),
   onShiftClick: PropTypes.func,
   onDrag: PropTypes.func,
-  player: PropTypes.object,
-  newTokenPlayerId: PropTypes.number,
+  player: PropTypes.string,
+  newTokenPlayerId: PropTypes.string,
   tokens: PropTypes.array,
 };
 

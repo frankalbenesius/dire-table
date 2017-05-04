@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import Router from 'next/router';
 
-import database, { initTable } from '../database';
+import database, { joinTable } from '../database';
 import initStore from '../store';
 import reducer from '../store/reducers';
 
@@ -28,20 +28,20 @@ export default class Index extends React.Component {
 
   componentDidMount() {
     const proposedKey = this.props.url.query.key; // may be undefined
-    initTable(proposedKey).then((actualKey) => {
+    joinTable(proposedKey).then(({ table, player }) => {
       Router.replace(
         {
           pathname: '/',
-          query: { key: actualKey },
+          query: { key: table },
         },
         {
-          pathname: `/${actualKey}`,
+          pathname: `/${table}`,
           query: {},
         },
       );
-      this.setState({ table: actualKey });
+      this.setState({ table, player });
     });
-    // TODO: just put this in redux
+    // TODO: just put this in redux?
     database.ref('.info/connected').on('value', (snapshot) => {
       const connected = snapshot.val();
       this.setState({ connected });
@@ -53,9 +53,9 @@ export default class Index extends React.Component {
       return (
         <Provider store={this.store}>
           <Wrapper>
-            <Map table={this.state.table} />
-            <Overlay table={this.state.table} />
-            <Chat table={this.state.table} />
+            <Map table={this.state.table} player={this.state.player} />
+            <Overlay table={this.state.table} player={this.state.player} />
+            <Chat table={this.state.table} player={this.state.player} />
           </Wrapper>
         </Provider>
       );

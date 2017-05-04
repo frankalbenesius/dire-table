@@ -1,5 +1,10 @@
+/* global window */
+
 import firebase from 'firebase';
 import rand from 'random-key';
+
+import getPlayerName from './getPlayerName';
+import getPlayerColor from './getPlayerColor';
 
 /* Database Initialization */
 
@@ -22,10 +27,6 @@ try {
 const database = firebase.database();
 export default database;
 
-/* Database References */
-
-const tablesRef = database.ref('tables');
-
 /* Utility Functions */
 
 const keyLength = 6;
@@ -40,12 +41,79 @@ const getUniqueKey = (tablesSnapshot) => {
 
 /* Table Initialization Function */
 
-export const initTable = key =>
-  tablesRef.once('value').then((snapshot) => {
-    if (key && key.length === keyLength && snapshot.hasChild(key)) {
-      return key;
+const storageAvailable = () => {
+  try {
+    const storage = window.localStorage;
+    const x = '__storage_test__';
+    storage.setItem(x, x);
+    storage.removeItem(x);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+const getStoredId = (tableKey) => {
+  if (!storageAvailable()) {
+    return null;
+  }
+  const item = `direTable/${tableKey}/myPlayerKey`;
+  const storedId = window.localStorage.getItem(item);
+  return storedId;
+};
+const setStoredId = (tableKey, myPlayerKey) => {
+  if (!storageAvailable()) {
+    return null;
+  }
+  const item = `direTable/${tableKey}/myPlayerKey`;
+  const storedId = window.localStorage.setItem(item, myPlayerKey);
+  return storedId;
+};
+
+const isValidTable = (key, snapshot) => key && key.length === keyLength && snapshot.hasChild(key);
+export const joinTable = proposedKey =>
+  database.ref('tables').once('value').then((snapshot) => {
+    let tableKey = proposedKey;
+    if (!isValidTable(tableKey, snapshot)) {
+      tableKey = getUniqueKey(snapshot);
     }
-    return getUniqueKey(snapshot);
+
+    const playersRef = database.ref(`tables/${tableKey}/players`);
+    const myPlayerKey = getStoredId(tableKey) || playersRef.push().key;
+    setStoredId(tableKey, myPlayerKey);
+    const myPlayerRef = database.ref(`tables/${tableKey}/players/${myPlayerKey}`);
+    myPlayerRef.update({
+      connected: true,
+    });
+    myPlayerRef.onDisconnect().update({
+      connected: false,
+    });
+    // player update done as a transaction in order to
+    // avoid name & color collisions
+    playersRef.transaction((players) => {
+      if (players) {
+        const myPlayer = players[myPlayerKey];
+        if (myPlayer.gm === undefined) {
+          // I'm the first player, become the GM!
+          myPlayer.gm = Object.keys(players).length === 1;
+        }
+        if (!myPlayer.name) {
+          const currentNames = Object.values(players).filter(p => !!p.name).map(p => p.name);
+          myPlayer.name = getPlayerName(currentNames);
+        }
+        if (!myPlayer.color) {
+          const currentColors = Object.values(players).filter(p => !!p.color).map(p => p.color);
+          myPlayer.color = getPlayerColor(myPlayer.gm, currentColors);
+        }
+        // TODO: figure out player limit
+      }
+      // there are no players (shouldn't happen);
+      return players;
+    });
+    return {
+      table: tableKey,
+      player: myPlayerKey,
+    };
   });
 
 /* Data Update Functions */

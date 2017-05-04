@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { connect as fbConnect } from 'react-firebase';
 
 import { getBoard } from '../../store/reducers/board';
-import { getPlayer } from '../../store/reducers/players';
 import { getCurrentToolId, getNewTokenPlayerId } from '../../store/reducers/tool';
 
 import AreaLayer from '../../components/AreaLayer';
@@ -23,7 +22,6 @@ const toArray = (obj) => {
 
 const mapStateToProps = state => ({
   board: getBoard(state.board),
-  player: getPlayer(state.players),
   tool: getCurrentToolId(state.tool),
   newTokenPlayerId: getNewTokenPlayerId(state.tool),
 });
@@ -175,7 +173,7 @@ class Map extends React.Component {
   }
 }
 Map.propTypes = {
-  areas: PropTypes.object, // firebase prop
+  areas: PropTypes.array, // firebase prop ... why array?
   tokens: PropTypes.object, // firebase prop
   addToken: PropTypes.func, // firebase function
   moveToken: PropTypes.func, // firebase function
@@ -187,10 +185,8 @@ Map.propTypes = {
     size: PropTypes.number,
     squarePx: PropTypes.number,
   }),
-  player: PropTypes.shape({
-    id: PropTypes.number,
-  }),
-  newTokenPlayerId: PropTypes.number,
+  player: PropTypes.string,
+  newTokenPlayerId: PropTypes.string,
   tool: PropTypes.string,
   // table: PropTypes.string, // just for firebase connect
 };

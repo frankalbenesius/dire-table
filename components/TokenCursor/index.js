@@ -19,7 +19,7 @@ TokenCursor.propTypes = {
     x: PropTypes.number,
     y: PropTypes.number,
   }),
-  newTokenPlayerId: PropTypes.number,
+  newTokenPlayerId: PropTypes.string,
 };
 
 export default TokenCursor;

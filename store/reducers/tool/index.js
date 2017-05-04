@@ -18,7 +18,7 @@ export const tools = Object.keys(options).map(o => options[o]);
 
 const defaultToolId = {
   toolId: options.cursor.id,
-  newTokenPlayerId: 0,
+  newTokenPlayerId: '',
 };
 
 export default function reducer(state = defaultToolId, action) {

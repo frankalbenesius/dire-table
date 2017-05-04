@@ -1,17 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
-import { getPlayer } from '../../store/reducers/players';
+import ChatInput from '../../containers/ChatInput';
+import Messages from '../../containers/Messages';
 
 import ChatHeader from '../../components/ChatHeader';
 import ChatWrapper from '../../components/ChatWrapper';
-import ChatInput from '../../components/ChatInput';
-import Messages from '../../components/Messages';
-
-const mapStateToProps = state => ({
-  player: getPlayer(state.players),
-});
 
 // TODO: Messages & ChatInput #containerSplit
 const Chat = ({ player, table }) => (
@@ -23,7 +17,7 @@ const Chat = ({ player, table }) => (
 );
 Chat.propTypes = {
   table: PropTypes.string,
-  player: PropTypes.object,
+  player: PropTypes.string,
 };
 
-export default connect(mapStateToProps)(Chat);
+export default Chat;

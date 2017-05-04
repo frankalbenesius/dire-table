@@ -2,53 +2,69 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'glamor';
 
-import { sizes } from '../constants';
+import { colors, sizes } from '../constants';
 
-const tokenSize = 50;
-
-const Roster = ({ roster, onPlayerClick }) => {
-  const inventoryHeight = tokenSize * roster.length;
+const Roster = ({ players, onPlayerClick }) => {
+  const playersList = players
+    ? Object.keys(players).reduce(
+        (acc, playerId) => [
+          ...acc,
+          {
+            ...players[playerId],
+            key: playerId,
+          },
+        ],
+        [],
+      )
+    : [];
   const styles = {
     wrapper: css({
       position: 'absolute',
       left: '0',
       bottom: '0',
       margin: sizes.overlayPadding,
-      height: `${inventoryHeight}px`,
+      padding: '0.5rem 0.5rem 0',
       pointerEvents: 'none',
+      border: `2px solid ${colors.black}`,
+      backgroundColor: colors.tools,
+      textAlign: 'center',
     }),
-    svg: css({
+    header: css({
       height: '100%',
+      fontFamily: 'Vulf Mono Bold Italic',
+      paddingBottom: '0.5rem',
     }),
-    label: css({
-      fontFamily: 'Vulf Mono Bold',
+    playerName: css({
+      fontFamily: 'Vulf Mono Regular',
       fontSize: '0.8rem',
       userSelect: 'none',
+      pointerEvents: 'auto',
+      cursor: 'default',
+      paddingBottom: '0.5rem',
     }),
   };
+  if (playersList.length < 1) {
+    return null;
+  }
   return (
     <div className={styles.wrapper}>
-      <svg className={styles.svg}>
-        {roster.filter(p => p.connected).map((player, i) => (
-          <g key={player.id}>
-            <text
-              onMouseDown={() => onPlayerClick(player.id)}
-              className={styles.label}
-              x={0}
-              y={inventoryHeight - (tokenSize * i + tokenSize / 2)}
-              dy={4}
-              textAnchor={'start'}
-            >
-              {player.name}
-            </text>
-          </g>
-        ))}
-      </svg>
+      <h1 className={styles.header}>Players</h1>
+      {playersList.filter(p => p.connected).map(player => (
+        <div
+          key={player.key}
+          style={{ color: player.gm ? colors.text : player.color }}
+          onMouseDown={() => onPlayerClick(player.key)}
+          className={styles.playerName}
+        >
+          {player.gm ? <span>{'GM '}</span> : null}
+          {player.name}
+        </div>
+      ))}
     </div>
   );
 };
 Roster.propTypes = {
-  roster: PropTypes.arrayOf(PropTypes.object),
+  players: PropTypes.object,
   onPlayerClick: PropTypes.func,
 };
 
