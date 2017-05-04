@@ -36,7 +36,13 @@ class Overlay extends React.Component {
               ))}
           </Toolbar>
           : null}
-        <Roster players={this.props.players} onPlayerClick={this.props.onPlayerClick} />
+        {this.props.players
+          ? <Roster
+            player={this.props.players[this.props.playerKey]}
+            players={this.props.players}
+            onPlayerClick={this.props.onPlayerClick}
+          />
+          : null}
       </div>
     );
   }

@@ -12,7 +12,7 @@ const Chat = ({ playerKey, table }) => (
   <ChatWrapper>
     <ChatHeader />
     <Messages table={table} />
-    <ChatInput table={table} player={playerKey} />
+    <ChatInput table={table} playerKey={playerKey} />
   </ChatWrapper>
 );
 Chat.propTypes = {

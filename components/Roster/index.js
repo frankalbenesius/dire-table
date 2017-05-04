@@ -4,7 +4,7 @@ import { css } from 'glamor';
 
 import { colors, sizes } from '../constants';
 
-const Roster = ({ players, onPlayerClick }) => {
+const Roster = ({ player, players, onPlayerClick }) => {
   const playersList = players
     ? Object.keys(players).reduce(
         (acc, playerId) => [
@@ -17,6 +17,20 @@ const Roster = ({ players, onPlayerClick }) => {
         [],
       )
     : [];
+  const nameStyles = {
+    fontFamily: 'Vulf Mono Regular',
+    fontSize: '0.8rem',
+    userSelect: 'none',
+    pointerEvents: 'auto',
+    cursor: 'default',
+    paddingBottom: '0.5rem',
+  };
+  if (player.gm) {
+    nameStyles[':hover'] = {
+      cursor: 'pointer',
+      textDecoration: 'underline',
+    };
+  }
   const styles = {
     wrapper: css({
       position: 'absolute',
@@ -35,36 +49,37 @@ const Roster = ({ players, onPlayerClick }) => {
       fontFamily: 'Vulf Mono Bold Italic',
       paddingBottom: '0.5rem',
     }),
-    playerName: css({
-      fontFamily: 'Vulf Mono Regular',
-      fontSize: '0.8rem',
-      userSelect: 'none',
-      pointerEvents: 'auto',
-      cursor: 'default',
-      paddingBottom: '0.5rem',
-    }),
+    playerName: css(nameStyles),
   };
   if (playersList.length < 1) {
     return null;
   }
+  const handleClick = clickedPlayer => (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (player.gm) {
+      onPlayerClick(clickedPlayer.key);
+    }
+  };
   return (
     <div className={styles.wrapper}>
       <h1 className={styles.header}>Players</h1>
-      {playersList.filter(p => p.connected).map(player => (
+      {playersList.filter(p => p.connected).map(p => (
         <div
-          key={player.key}
-          style={{ color: player.gm ? colors.text : player.color }}
-          onMouseDown={() => onPlayerClick(player.key)}
+          key={p.key}
+          style={{ color: p.gm ? colors.text : p.color }}
+          onMouseDown={handleClick(p)}
           className={styles.playerName}
         >
-          {player.gm ? <span>{'GM '}</span> : null}
-          {player.name}
+          {p.gm ? <span>{'GM '}</span> : null}
+          {p.name}
         </div>
       ))}
     </div>
   );
 };
 Roster.propTypes = {
+  player: PropTypes.object,
   players: PropTypes.object,
   onPlayerClick: PropTypes.func,
 };
