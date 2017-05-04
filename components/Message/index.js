@@ -74,6 +74,7 @@ const Message = ({ showHeader, content, player, timestamp, type }) => (
         className={styles.playerHeader}
         style={{ color: player.gm ? colors.text : player.color }}
       >
+        {player.gm ? <span>{'GM '}</span> : null}
         {player.name}
       </div>
       : null}
