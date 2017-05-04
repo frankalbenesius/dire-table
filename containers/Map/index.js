@@ -129,7 +129,9 @@ class Map extends React.Component {
   }
 
   handleTokenShiftClick(tokenId) {
-    this.props.removeToken(tokenId);
+    if (this.props.players[this.props.playerKey].gm) {
+      this.props.removeToken(tokenId);
+    }
   }
   handleTokenDrag(tokenId) {
     this.props.moveToken(
@@ -142,13 +144,16 @@ class Map extends React.Component {
     const tokens = this.props.tokens || {};
     const players = !this.props.players
       ? {}
-      : Object.keys(this.props.players).reduce((acc, playerKey) => ({
-        ...acc,
-        [playerKey]: {
-          ...this.props.players[playerKey],
-          key: playerKey,
-        },
-      }), {});
+      : Object.keys(this.props.players).reduce(
+          (acc, playerKey) => ({
+            ...acc,
+            [playerKey]: {
+              ...this.props.players[playerKey],
+              key: playerKey,
+            },
+          }),
+          {},
+        );
     const tokensList = Object.keys(tokens).map(key => Object.assign({}, tokens[key], { key }));
     return (
       <Frame centerPx={this.props.board.centerPx}>

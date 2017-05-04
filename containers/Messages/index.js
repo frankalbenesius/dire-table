@@ -15,7 +15,10 @@ const styles = {
     height: '100%',
     padding: '0 1rem',
   }),
-  scrollTarget: style({}),
+  scrollTarget: style({
+    height: '0.5rem',
+    width: '100%',
+  }),
 };
 
 const byTimestamp = (a, b) => a.timestamp - b.timestamp;

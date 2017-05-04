@@ -21,11 +21,12 @@ const Roster = ({ player, players, onPlayerClick }) => {
     fontFamily: 'Vulf Mono Regular',
     fontSize: '0.8rem',
     userSelect: 'none',
-    pointerEvents: 'auto',
+    pointerEvents: 'none',
     cursor: 'default',
     paddingBottom: '0.5rem',
   };
   if (player.gm) {
+    nameStyles.pointerEvents = 'auto';
     nameStyles[':hover'] = {
       cursor: 'pointer',
       textDecoration: 'underline',
