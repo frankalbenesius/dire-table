@@ -140,6 +140,7 @@ class Map extends React.Component {
 
   render() {
     const tokens = this.props.tokens || {};
+    const players = this.props.players || {};
     const tokensList = Object.keys(tokens).map(key => Object.assign({}, tokens[key], { id: key }));
     return (
       <Frame centerPx={this.props.board.centerPx}>
@@ -157,16 +158,19 @@ class Map extends React.Component {
             startCoord={this.state.startCoord}
           />
           <Grid squarePx={this.props.board.squarePx} />
-          <TokenLayer
-            tool={this.props.tool}
-            board={this.props.board}
-            cursor={this.state.cursor}
-            onDrag={this.handleTokenDrag}
-            onShiftClick={this.handleTokenShiftClick}
-            player={this.props.player}
-            tokens={tokensList}
-            newTokenPlayerId={this.props.newTokenPlayerId}
-          />
+          {players && tokens
+            ? <TokenLayer
+              tool={this.props.tool}
+              board={this.props.board}
+              cursor={this.state.cursor}
+              onDrag={this.handleTokenDrag}
+              onShiftClick={this.handleTokenShiftClick}
+              players={players}
+              player={players[this.props.player]}
+              tokens={tokensList}
+              newTokenPlayer={players[this.props.newTokenPlayerId]}
+            />
+            : null}
         </Board>
       </Frame>
     );
@@ -175,6 +179,7 @@ class Map extends React.Component {
 Map.propTypes = {
   areas: PropTypes.array, // firebase prop ... why array?
   tokens: PropTypes.object, // firebase prop
+  players: PropTypes.object, // firebase prop
   addToken: PropTypes.func, // firebase function
   moveToken: PropTypes.func, // firebase function
   removeToken: PropTypes.func, // firebase function
@@ -194,6 +199,7 @@ Map.propTypes = {
 const mapFirebaseToProps = ({ table }, ref) => ({
   areas: `tables/${table}/areas`,
   tokens: `tables/${table}/tokens`,
+  players: `tables/${table}/players`,
   setAreas: (areas) => {
     ref(`tables/${table}/areas`).set(areas);
   },

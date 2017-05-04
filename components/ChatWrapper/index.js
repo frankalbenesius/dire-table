@@ -11,7 +11,7 @@ const styles = {
     flexDirection: 'column',
     overflow: 'hidden',
     zIndex: zIndexes.chat,
-    boxShadow: `0 0 ${sizes.shadow} ${colors.black}`,
+    boxShadow: `0 0 1rem ${colors.black}`,
     '@media(max-width: 850px)': {
       display: 'none',
     },

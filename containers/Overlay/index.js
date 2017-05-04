@@ -16,7 +16,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onToolbarOptionClick: toolId => dispatch(selectTool(toolId)),
-  onPlayerClick: tokenId => dispatch(selectTool('token', tokenId)),
+  onPlayerClick: playerId => dispatch(selectTool('token', playerId)),
 });
 
 class Overlay extends React.Component {

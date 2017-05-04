@@ -62,7 +62,7 @@ class TokenLayer extends React.Component {
             <Token
               key={i}
               id={token.id}
-              playerId={token.player}
+              player={this.props.players[token.player]}
               icon={token.icon}
               cx={cx}
               cy={cy}
@@ -78,7 +78,7 @@ class TokenLayer extends React.Component {
           active={this.props.tool === 'token'}
           board={this.props.board}
           cursor={this.props.cursor}
-          newTokenPlayerId={this.props.newTokenPlayerId}
+          newTokenPlayer={this.props.newTokenPlayer}
         />
       </g>
     );
@@ -93,8 +93,9 @@ TokenLayer.propTypes = {
   }),
   onShiftClick: PropTypes.func,
   onDrag: PropTypes.func,
-  player: PropTypes.string,
-  newTokenPlayerId: PropTypes.string,
+  player: PropTypes.object,
+  players: PropTypes.object,
+  newTokenPlayer: PropTypes.object,
   tokens: PropTypes.array,
 };
 

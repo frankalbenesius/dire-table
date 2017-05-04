@@ -13,7 +13,7 @@ const styles = {
     left: sizes.overlayPadding,
     top: sizes.overlayPadding,
     border: `2px solid ${colors.black}`,
-    boxShadow: `0 0 ${sizes.shadow} ${colors.black}`,
+    boxShadow: `0 0 0.6rem ${colors.black}`,
     fill: '#000',
   }),
 };

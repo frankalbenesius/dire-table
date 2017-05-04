@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { style } from 'glamor';
-import { colors, sizes, noPx, opacity } from '../constants';
+import { sizes, noPx, opacity } from '../constants';
 import Icon from '../Icon';
 
 const tokenStyles = {
@@ -49,7 +49,7 @@ const Token = (props) => {
         cx={props.cx}
         cy={props.cy}
         r={props.radius - noPx(sizes.tokenPadding)}
-        fill={colors.player[props.player]}
+        fill={props.player.color}
       />
       <svg
         x={props.cx - iconRadius}
@@ -66,7 +66,7 @@ Token.propTypes = {
   onClick: PropTypes.func,
   onMouseUp: PropTypes.func,
   onMouseDown: PropTypes.func,
-  player: PropTypes.string,
+  player: PropTypes.object,
   icon: PropTypes.string,
   radius: PropTypes.number,
   draggable: PropTypes.bool,

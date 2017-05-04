@@ -1,6 +1,6 @@
 import * as types from '../constants/actions';
 
-export const selectTool = (id, newTokenPlayerId = 0) => ({
+export const selectTool = (id, newTokenPlayerId = '') => ({
   type: types.SELECT_TOOL,
   payload: {
     id,

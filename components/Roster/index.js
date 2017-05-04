@@ -27,6 +27,7 @@ const Roster = ({ players, onPlayerClick }) => {
       pointerEvents: 'none',
       border: `2px solid ${colors.black}`,
       backgroundColor: colors.tools,
+      boxShadow: `0 0 0.6rem ${colors.black}`,
       textAlign: 'center',
     }),
     header: css({

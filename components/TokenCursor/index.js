@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import Token from '../../components/Token';
 import { toCircle, toCoordinate } from '../../util/board';
 
-const TokenCursor = ({ active, cursor, board, newTokenPlayerId }) => {
+const TokenCursor = ({ active, cursor, board, newTokenPlayer }) => {
   if (active) {
     const { radius, cx, cy } = toCircle(board, toCoordinate(board, cursor));
-    return (
-      <Token playerId={newTokenPlayerId} icon="smile" cx={cx} cy={cy} radius={radius} cursor />
-    );
+    return <Token player={newTokenPlayer} icon="smile" cx={cx} cy={cy} radius={radius} cursor />;
   }
   return null;
 };
@@ -19,7 +17,7 @@ TokenCursor.propTypes = {
     x: PropTypes.number,
     y: PropTypes.number,
   }),
-  newTokenPlayerId: PropTypes.string,
+  newTokenPlayer: PropTypes.object,
 };
 
 export default TokenCursor;
