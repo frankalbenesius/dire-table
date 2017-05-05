@@ -1,25 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { style } from 'glamor';
+import glamorous from 'glamorous';
+import formatDate from 'date-fns/format';
 import { connect } from 'react-firebase';
 
 import { sizes } from '../../components/constants';
 import Message from '../../components/Message';
 
-const styles = {
-  messages: style({
-    fontSize: sizes.text,
-    fontFamily: 'Vulf Mono Light',
-    lineHeight: '1.618em',
-    overflowY: 'scroll',
-    height: '100%',
-    padding: '0 1rem',
-  }),
-  scrollTarget: style({
-    height: '0.5rem',
-    width: '100%',
-  }),
-};
+const MessagesWrapper = glamorous.div({
+  fontSize: sizes.text,
+  fontFamily: 'Vulf Mono Light',
+  lineHeight: '1.618em',
+  overflowY: 'scroll',
+  height: '100%',
+  padding: '0.5rem 1rem 0',
+});
 
 const byTimestamp = (a, b) => a.timestamp - b.timestamp;
 
@@ -45,24 +40,39 @@ class Messages extends React.Component {
           .sort(byTimestamp)
       : [];
     return (
-      <div className={styles.messages}>
-        {messagesList.map((m, i, arr) => (
-          <Message
-            key={m.key}
-            showHeader={i === 0 || arr[i - 1].player !== m.player}
-            content={m.content}
-            player={this.props.players[m.player]}
-            timestamp={m.timestamp}
-            type={m.type}
-          />
-        ))}
+      <MessagesWrapper>
+        <Message
+          content={{
+            player: '1234',
+          }}
+          timestamp={1494015026162}
+          type={'intro'}
+        />
+        {messagesList.map((m, i, arr) => {
+          const player = this.props.players[m.player];
+          const MessageHeader = glamorous.div({
+            margin: '1rem 0 0',
+            fontFamily: 'Vulf Mono Bold',
+            color: player.color,
+          });
+          return (
+            <div key={m.key} title={formatDate(m.timestamp, 'M/D/YY h:mm A')}>
+              {(m.player && i === 0) || arr[i - 1].player !== m.player
+                ? <MessageHeader>
+                  {player.gm ? <span>{'GM '}</span> : null}
+                  {player.name}
+                </MessageHeader>
+                : null}
+              <Message content={m.content} player={player} type={m.type} />
+            </div>
+          );
+        })}
         <div
-          className={styles.scrollTarget}
           ref={(c) => {
             this.scrollTarget = c;
           }}
         />
-      </div>
+      </MessagesWrapper>
     );
   }
 }

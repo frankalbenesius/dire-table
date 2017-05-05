@@ -15,42 +15,45 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onToolbarOptionClick: toolId => dispatch(selectTool(toolId)),
-  onPlayerClick: playerId => dispatch(selectTool('token', playerId)),
+  handleToolClick: (toolId, newTokenPlayerId) => dispatch(selectTool(toolId, newTokenPlayerId)),
+  handleRosterClick: playerId => dispatch(selectTool('token', playerId)),
 });
 
 class Overlay extends React.Component {
   componentDidMount() {}
   render() {
-    return (
-      <div>
-        {this.props.players && this.props.players[this.props.playerKey].gm
-          ? <Toolbar>
-            {tools.map((tool, i) => (
-              <ToolbarOption
-                key={i}
-                icon={tool.icon}
-                selected={tool.id === this.props.selectedTool}
-                onClick={() => this.props.onToolbarOptionClick(tool.id)}
-              />
-              ))}
-          </Toolbar>
-          : null}
-        {this.props.players
-          ? <Roster
-            player={this.props.players[this.props.playerKey]}
+    if (this.props.players) {
+      const player = this.props.players[this.props.playerKey];
+      player.key = this.props.playerKey;
+      return (
+        <div>
+          {player.gm
+            ? <Toolbar>
+              {tools.map((tool, i) => (
+                <ToolbarOption
+                  key={i}
+                  icon={tool.icon}
+                  selected={tool.id === this.props.selectedTool}
+                  onClick={() => this.props.handleToolClick(tool.id, player.key)}
+                />
+                ))}
+            </Toolbar>
+            : null}
+          <Roster
+            player={player}
             players={this.props.players}
-            onPlayerClick={this.props.onPlayerClick}
+            onPlayerClick={this.props.handleRosterClick}
           />
-          : null}
-      </div>
-    );
+        </div>
+      );
+    }
+    return null;
   }
 }
 Overlay.propTypes = {
   selectedTool: PropTypes.string,
-  onToolbarOptionClick: PropTypes.func,
-  onPlayerClick: PropTypes.func,
+  handleToolClick: PropTypes.func,
+  handleRosterClick: PropTypes.func,
   players: PropTypes.object,
   playerKey: PropTypes.string,
 };

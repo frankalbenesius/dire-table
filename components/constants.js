@@ -11,6 +11,7 @@ const green = palette.green[7];
 const orange = palette.orange[6];
 const pink = palette.fuschia[5];
 const cyan = palette.cyan[5];
+const pureBlack = '#000';
 export const colors = {
   brand: palette.base, // red
   black,
@@ -22,14 +23,14 @@ export const colors = {
   orange,
   pink,
   cyan,
-  text: '#000',
+  text: pureBlack,
   foreground: palette[scheme][2],
   background: palette[scheme][7],
   fog: palette[scheme][9],
   chat: palette.gray[2],
   tools: palette.gray[2],
   selection: palette.cyan[2],
-  gm: white,
+  gm: pureBlack,
   player: [red, blue, green, orange, pink, cyan],
   disconnected: gray,
 };

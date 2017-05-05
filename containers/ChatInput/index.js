@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { style } from 'glamor';
 import { connect } from 'react-firebase';
 
-import createMessage from './createMessage';
+import parseInput from './parseInput';
 import { colors, sizes } from '../../components/constants';
 
 const propTypes = {
@@ -88,7 +88,7 @@ ChatInput.propTypes = propTypes;
 
 export default connect(({ table }, ref) => ({
   sendMessage: (player, text) => {
-    const message = createMessage(player, text);
+    const message = parseInput(player, text);
     if (message.type !== 'error') {
       ref(`tables/${table}/messages`).push(message);
     } else {

@@ -1,65 +1,70 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { style } from 'glamor';
-import formatDate from 'date-fns/format';
+import glamorous from 'glamorous';
 import { colors, sizes } from '../constants';
 
 const lineHeight = 0.9;
-const styles = {
-  wrapper: style({
-    lineHeight: `${lineHeight}rem`,
-  }),
-  content: style({
-    margin: '0.4rem 0',
-  }),
-  text: style({}),
-  playerHeader: style({
-    margin: '1rem 0 0',
-    fontFamily: 'Vulf Mono Bold',
-  }),
-  roll: style({
-    border: `1px solid ${colors.gray}`,
+const MessageWrapper = glamorous.div({
+  lineHeight: `${lineHeight}rem`,
+  margin: '0.4rem 0',
+});
+
+const Text = glamorous.div({});
+
+const RollFormula = glamorous.div({
+  color: colors.black,
+});
+const RollEvaluation = glamorous.div({
+  color: colors.black,
+  maxHeight: `${lineHeight * 8}rem`,
+  paddingBottom: '0.3rem',
+  overflowY: 'auto',
+});
+const RollValue = glamorous.div({
+  color: colors.text,
+  fontSize: '1rem',
+  fontFamily: 'Vulf Mono Bold',
+});
+const Roll = ({ roll, player }) => {
+  const RollWrapper = glamorous.div({
+    border: `1px solid ${player.color}`,
     borderRadius: sizes.radius,
     padding: '0.5rem',
+    marginBottom: '0.5rem',
     backgroundColor: colors.white,
-  }),
-  rollFormula: style({
-    color: colors.black,
-  }),
-  rollEvaluation: style({
-    color: colors.black,
-    maxHeight: `${lineHeight * 8}rem`,
-    paddingBottom: '0.3rem',
-    overflowY: 'auto',
-  }),
-  rollValue: style({
-    color: colors.text,
-    fontSize: '1rem',
-    fontFamily: 'Vulf Mono Bold',
-  }),
+  });
+  return (
+    <RollWrapper>
+      <RollFormula>{roll.formula}</RollFormula>
+      <RollEvaluation>{roll.evaluation}</RollEvaluation>
+      <RollValue>{roll.value}</RollValue>
+    </RollWrapper>
+  );
 };
-
-const Text = ({ children }) => <div className={styles.text}>{children}</div>;
-Text.propTypes = { children: PropTypes.node };
-
-const Roll = ({ roll }) => (
-  <div className={styles.roll}>
-    <div className={styles.rollFormula}>{roll.formula}</div>
-    <div className={styles.rollEvaluation}>{roll.evaluation}</div>
-    <div className={styles.rollValue}>{roll.value}</div>
-  </div>
-);
 Roll.propTypes = {
+  player: PropTypes.object,
   roll: PropTypes.object,
 };
 
-const createMessageContent = (type, content) => {
+const SystemMessage = glamorous.div({
+  fontFamily: 'Vulf Mono Light Italic',
+  textAlign: 'center',
+  padding: '0 1rem',
+  color: colors.black,
+  marginTop: '1rem',
+});
+// "Welcome to Dire Table! Your table's invite link is https://table.dire.tools/1234"
+
+const createMessageContent = (type, content, player) => {
   switch (type) {
     case 'roll': {
-      return <Roll roll={content} />;
+      return <Roll roll={content} player={player} />;
     }
     case 'text': {
       return <Text>{content}</Text>;
+    }
+    case 'system': {
+      return <SystemMessage>{content}</SystemMessage>;
     }
     default: {
       return null;
@@ -67,27 +72,14 @@ const createMessageContent = (type, content) => {
   }
 };
 
-const Message = ({ showHeader, content, player, timestamp, type }) => (
-  <div title={formatDate(timestamp, 'M/D/YY h:mm A')} className={styles.wrapper}>
-    {showHeader
-      ? <div
-        className={styles.playerHeader}
-        style={{ color: player.gm ? colors.text : player.color }}
-      >
-        {player.gm ? <span>{'GM '}</span> : null}
-        {player.name}
-      </div>
-      : null}
-    <div className={styles.content}>
-      {createMessageContent(type, content)}
-    </div>
-  </div>
+const Message = ({ content, player, type }) => (
+  <MessageWrapper>
+    {createMessageContent(type, content, player)}
+  </MessageWrapper>
 );
 Message.propTypes = {
-  showHeader: PropTypes.bool,
   content: PropTypes.any, //eslint-disable-line
   player: PropTypes.object,
-  timestamp: PropTypes.number,
   type: PropTypes.string,
 };
 

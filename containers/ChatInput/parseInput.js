@@ -1,7 +1,7 @@
 import roller from 'rpgdicejs';
 import trim from 'lodash/trim';
 
-export default (myId, text) => {
+export default (player, text, timestamp = Date.now()) => {
   const commandRegex = /^\/([a-zA-Z]+)( .*)?/g; // matches /letters and optional argument
   const match = commandRegex.exec(text);
   if (match) {
@@ -11,8 +11,8 @@ export default (myId, text) => {
       try {
         const result = roller.eval(argument);
         return {
-          player: myId,
-          timestamp: Date.now(),
+          player,
+          timestamp,
           type: 'roll',
           content: {
             formula: argument,
@@ -23,8 +23,8 @@ export default (myId, text) => {
       } catch (e) {
         // Error: failed to parse roll
         return {
-          player: myId,
-          timestamp: Date.now(),
+          player,
+          timestamp,
           type: 'error',
           content: 'Failed to parse roll.',
         };
@@ -32,15 +32,15 @@ export default (myId, text) => {
     }
     // Error: command doesn't exist
     return {
-      player: myId,
-      timestamp: Date.now(),
+      player,
+      timestamp,
       type: 'error',
       content: "Command doesn't exist.",
     };
   }
   return {
-    player: myId,
-    timestamp: Date.now(),
+    player,
+    timestamp,
     type: 'text',
     content: text,
   };

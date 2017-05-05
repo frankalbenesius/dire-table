@@ -87,6 +87,7 @@ export const joinTable = proposedKey =>
     });
     myPlayerRef.onDisconnect().update({
       connected: false,
+      disconnectedAt: firebase.database.ServerValue.TIMESTAMP,
     });
     // player update done as a transaction in order to
     // avoid name & color collisions
