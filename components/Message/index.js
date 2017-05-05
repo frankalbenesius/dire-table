@@ -9,7 +9,9 @@ const MessageWrapper = glamorous.div({
   margin: '0.4rem 0',
 });
 
-const Text = glamorous.div({});
+const Text = glamorous.div({
+  padding: '0 0.5rem',
+});
 
 const RollFormula = glamorous.div({
   color: colors.black,
