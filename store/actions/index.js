@@ -1,16 +1,12 @@
 import * as types from '../constants/actions';
 
-export const selectTool = (id, newTokenPlayerId = '') => {
-  console.log('id', id);
-  console.log('newTokenPlayerId', newTokenPlayerId);
-  return {
-    type: types.SELECT_TOOL,
-    payload: {
-      id,
-      newTokenPlayerId,
-    },
-  };
-};
+export const selectTool = (id, newTokenPlayerId = '') => ({
+  type: types.SELECT_TOOL,
+  payload: {
+    id,
+    newTokenPlayerId,
+  },
+});
 
 export const setPlayer = id => ({ type: types.SET_PLAYER, payload: { id } });
 export const setRoster = roster => ({ type: types.SET_ROSTER, payload: { roster } });

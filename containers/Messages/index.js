@@ -41,13 +41,6 @@ class Messages extends React.Component {
       : [];
     return (
       <MessagesWrapper>
-        <Message
-          content={{
-            player: '1234',
-          }}
-          timestamp={1494015026162}
-          type={'intro'}
-        />
         {messagesList.map((m, i, arr) => {
           const player = this.props.players[m.player];
           const MessageHeader = glamorous.div({
