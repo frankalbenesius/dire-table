@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import glamorous from 'glamorous';
 
+import RollMessage from './RollMessage';
 import WelcomeMessage from './WelcomeMessage';
 import Tag from '../Tag';
 import { colors, sizes } from '../constants';
@@ -18,41 +19,6 @@ const Text = glamorous.div({});
 const DisplayName = glamorous.span({
   fontFamily: 'Vulf Mono Bold Italic',
 });
-
-const RollFormula = glamorous.div({
-  color: colors.black,
-});
-const RollEvaluation = glamorous.div({
-  color: colors.black,
-  maxHeight: `${lineHeight * 8}rem`,
-  paddingBottom: '0.3rem',
-  overflowY: 'auto',
-});
-const RollValue = glamorous.div({
-  color: colors.text,
-  fontSize: '1rem',
-  fontFamily: 'Vulf Mono Bold',
-});
-const Roll = ({ roll, player }) => {
-  const RollWrapper = glamorous.div({
-    border: `1px solid ${player.color}`,
-    borderRadius: sizes.radius,
-    padding: '0.5rem',
-    marginBottom: '0.5rem',
-    backgroundColor: colors.white,
-  });
-  return (
-    <RollWrapper>
-      <RollFormula>{roll.formula}</RollFormula>
-      <RollEvaluation>{roll.evaluation}</RollEvaluation>
-      <RollValue>{roll.value}</RollValue>
-    </RollWrapper>
-  );
-};
-Roll.propTypes = {
-  player: PropTypes.object,
-  roll: PropTypes.object,
-};
 
 const SystemMessage = glamorous.div({
   fontFamily: 'Vulf Mono Light Italic',
@@ -87,11 +53,16 @@ ConnectionMessage.propTypes = {
   tableKey: PropTypes.string,
 };
 
-const Message = ({ type, content, fromPlayer, thisPlayer, tableKey, players }) => {
+const Message = ({ type, content, fromPlayer, thisPlayer, tableKey, players, resend }) => {
   let innerMessage;
+  const resendRoll = (formula) => {
+    resend(`/r ${formula}`);
+  };
   switch (type) {
     case 'roll': {
-      innerMessage = <Roll roll={content} player={fromPlayer} />;
+      innerMessage = (
+        <RollMessage onFormulaClick={resendRoll} roll={content} fromPlayer={fromPlayer} />
+      );
       break;
     }
     case 'text': {
@@ -126,6 +97,7 @@ Message.propTypes = {
   players: PropTypes.object,
   thisPlayer: PropTypes.object,
   tableKey: PropTypes.string,
+  resend: PropTypes.func,
 };
 
 export default Message;

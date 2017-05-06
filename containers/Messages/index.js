@@ -2,9 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import glamorous from 'glamorous';
 import formatDate from 'date-fns/format';
+import firebase from 'firebase';
 import { connect } from 'react-firebase';
 
 import { colors, sizes } from '../../components/constants';
+
+import parseInput from '../../containers/ChatInput/parseInput';
 import Message from '../../components/Message';
 import Tag from '../../components/Tag';
 
@@ -71,6 +74,7 @@ class Messages extends React.Component {
                 fromPlayer={fromPlayer}
                 thisPlayer={thisPlayer}
                 type={m.type}
+                resend={this.props.resend}
               />
             </div>
           );
@@ -89,9 +93,16 @@ Messages.propTypes = {
   players: PropTypes.object,
   playerKey: PropTypes.string,
   tableKey: PropTypes.string, // for connecting to firebase
+  resend: PropTypes.func,
 };
 
-export default connect(({ tableKey }) => ({
+export default connect(({ tableKey, playerKey }, ref) => ({
+  resend: (text) => {
+    // resend a message from this player
+    const messagesRef = ref(`tables/${tableKey}/messages`);
+    const message = parseInput(playerKey, text, firebase.database.ServerValue.TIMESTAMP);
+    messagesRef.push(message);
+  },
   messages: `tables/${tableKey}/messages`,
   players: `tables/${tableKey}/players`,
 }))(Messages);
