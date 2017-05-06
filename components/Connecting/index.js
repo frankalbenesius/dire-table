@@ -4,9 +4,6 @@ import glamorous from 'glamorous';
 import { colors } from '../constants';
 
 const Blackout = glamorous.div({
-  position: 'absolute',
-  top: '0',
-  left: '0',
   width: '100%',
   height: '100%',
   backgroundColor: colors.background,
