@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import glamorous from 'glamorous';
 
 import WelcomeMessage from './WelcomeMessage';
+import Tag from '../Tag';
 import { colors, sizes } from '../constants';
 
 const lineHeight = 0.9;
@@ -61,7 +62,6 @@ const SystemMessage = glamorous.div({
   borderRadius: sizes.radius,
   padding: '0.5rem',
   border: `1px solid ${colors.gray}`,
-  // backgroundColor: colors.gray,
 });
 
 const ConnectionMessage = (props) => {
@@ -75,8 +75,8 @@ const ConnectionMessage = (props) => {
   return (
     <SystemMessage>
       <DisplayName style={{ color: props.connectedPlayer.color }}>
-        {props.connectedPlayer.gm ? 'GM ' : null}
         {props.connectedPlayer.name}
+        {props.connectedPlayer.gm ? <Tag>{'GM'}</Tag> : null}
       </DisplayName> has joined.
     </SystemMessage>
   );

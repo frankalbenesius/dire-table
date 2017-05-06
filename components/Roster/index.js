@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'glamor';
 
+import Tag from '../Tag';
 import { colors, sizes } from '../constants';
 
 const Roster = ({ player, players, onPlayerClick }) => {
@@ -72,8 +73,8 @@ const Roster = ({ player, players, onPlayerClick }) => {
           onMouseDown={handleClick(p)}
           className={styles.playerName}
         >
-          {p.gm ? <span>{'GM '}</span> : null}
           {p.name}
+          {p.gm ? <Tag>{'GM'}</Tag> : null}
         </div>
       ))}
     </div>

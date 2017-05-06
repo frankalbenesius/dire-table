@@ -6,6 +6,7 @@ import { connect } from 'react-firebase';
 
 import { colors, sizes } from '../../components/constants';
 import Message from '../../components/Message';
+import Tag from '../../components/Tag';
 
 const MessagesWrapper = glamorous.div({
   fontSize: sizes.text,
@@ -48,7 +49,7 @@ class Messages extends React.Component {
             thisPlayer.key = this.props.playerKey;
           }
           const MessageHeader = glamorous.div({
-            margin: '1rem 0 0',
+            padding: '1rem 0 0',
             fontFamily: 'Vulf Mono Bold',
             color: fromPlayer ? fromPlayer.color : colors.black,
           });
@@ -59,8 +60,8 @@ class Messages extends React.Component {
             <div key={m.key} title={formatDate(m.timestamp, 'M/D/YY h:mm A')}>
               {shouldShowHeader
                 ? <MessageHeader>
-                  {fromPlayer.gm ? <span>{'GM '}</span> : null}
                   {fromPlayer.name}
+                  {fromPlayer.gm ? <Tag>{'GM'}</Tag> : null}
                 </MessageHeader>
                 : null}
               <Message
