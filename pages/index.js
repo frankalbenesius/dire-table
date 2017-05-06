@@ -11,6 +11,7 @@ import Map from '../containers/Map';
 import Chat from '../containers/Chat';
 import Overlay from '../containers/Overlay';
 
+import Connecting from '../components/Connecting';
 import Wrapper from '../components/Wrapper';
 
 export default class Index extends React.Component {
@@ -60,7 +61,7 @@ export default class Index extends React.Component {
         </Provider>
       );
     }
-    return <span>Connecting...</span>;
+    return <Connecting />;
   }
 }
 Index.propTypes = {
