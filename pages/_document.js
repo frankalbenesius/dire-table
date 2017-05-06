@@ -24,7 +24,7 @@ export default class MyDocument extends Document {
       <html lang="en-US">
         <Head>
           <style dangerouslySetInnerHTML={{ __html: this.props.css }} />
-          <title>Dire Tools: Table</title>
+          <title>Dire Table</title>
           <link rel="stylesheet" href="/static/css/index.css" />
           <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon" />
           <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
