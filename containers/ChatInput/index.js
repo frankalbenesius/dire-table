@@ -78,7 +78,7 @@ class ChatInput extends React.Component {
         <form onSubmit={this.submit}>
           <textarea
             rows={3}
-            placeholder={'Type "/roll 1d20" to roll.'}
+            placeholder={'Send "/roll 1d20" to roll.'}
             className={styles.input}
             onChange={this.handleChange}
             onKeyPress={this.checkForEnterKey}
