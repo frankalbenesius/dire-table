@@ -6,6 +6,7 @@ import firebase from 'firebase';
 
 import parseInput from './parseInput';
 import { colors, sizes } from '../../components/constants';
+import getPlayerColor from '../../database/getPlayerColor';
 
 const propTypes = {
   playerKey: PropTypes.string,
@@ -90,13 +91,62 @@ class ChatInput extends React.Component {
 }
 ChatInput.propTypes = propTypes;
 
-export default connect(({ tableKey }, ref) => ({
+export default connect(({ tableKey, playerKey }, ref) => ({
   sendMessage: (player, text) => {
     const message = parseInput(player, text, firebase.database.ServerValue.TIMESTAMP);
-    if (message.type !== 'error') {
-      ref(`tables/${tableKey}/messages`).push(message);
-    } else {
-      // TODO: do something with the error
+    switch (message.type) {
+      case 'command': {
+        // do something unique, sometimes on db
+        const { command, argument } = message.content;
+        switch (command) {
+          case 'color': {
+            const playersRef = ref(`tables/${tableKey}/players`);
+            try {
+              playersRef.transaction((players) => {
+                if (players) {
+                  // otherwise there are no players (shouldn't happen)
+                  const myPlayer = players[playerKey];
+                  if (!myPlayer.gm) {
+                    const currentColors = Object.values(players)
+                      .filter(p => !!p.color)
+                      .map(p => p.color);
+                    myPlayer.color = getPlayerColor(myPlayer.gm, currentColors);
+                  } else {
+                    throw new Error('unfortunately, gms cannot change their color');
+                  }
+                }
+                return players;
+              });
+            } catch (e) {
+              // TODO: errors on command execution
+              console.warn(e); // eslint-disable-line no-console
+            }
+            break;
+          }
+          case 'name': {
+            const playerRef = ref(`tables/${tableKey}/players/${playerKey}`);
+            playerRef.update({
+              name: argument,
+            });
+            break;
+          }
+          default: {
+            // eslint-disable-next-line no-console
+            console.error('accepted a command with no logic', `/${command} ${argument}`);
+          }
+        }
+        break;
+      }
+      case 'error': {
+        // TODO: errors on command recognition
+        console.warn(message.content); // eslint-disable-line no-console
+        break;
+      }
+      default: {
+        // push to database
+        ref(`tables/${tableKey}/messages`).push(message);
+        break;
+      }
     }
   },
 }))(ChatInput);

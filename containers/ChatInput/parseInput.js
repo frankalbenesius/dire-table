@@ -30,12 +30,42 @@ export default (player, text, timestamp = Date.now()) => {
         };
       }
     }
+    if (command === 'name' || command === 'n') {
+      if (argument) {
+        return {
+          player,
+          timestamp,
+          type: 'command',
+          content: {
+            command: 'name',
+            argument,
+          },
+        };
+      }
+      return {
+        player,
+        timestamp,
+        type: 'error',
+        content: 'Error: name command requires a valid name.',
+      };
+    }
+    if (command === 'color' || command === 'c') {
+      return {
+        player,
+        timestamp,
+        type: 'command',
+        content: {
+          command: 'color',
+          argument,
+        },
+      };
+    }
     // Error: command doesn't exist
     return {
       player,
       timestamp,
       type: 'error',
-      content: "Command doesn't exist.",
+      content: `Unrecognized command: ${command}`,
     };
   }
   return {

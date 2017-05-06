@@ -6,6 +6,7 @@ import { connect as fbConnect } from 'react-firebase';
 import { selectTool } from '../../store/actions';
 import { getCurrentToolId, tools } from '../../store/reducers/tool';
 
+// import PlayerColorTest from '../../components/PlayerColorTest';
 import Toolbar from '../../components/Toolbar';
 import ToolbarOption from '../../components/ToolbarOption';
 import Roster from '../../components/Roster';
@@ -27,6 +28,7 @@ class Overlay extends React.Component {
       player.key = this.props.playerKey;
       return (
         <div>
+          {/* <PlayerColorTest /> */}
           {player.gm
             ? <Toolbar>
               {tools.map((tool, i) => (
