@@ -52,7 +52,7 @@ class Messages extends React.Component {
             thisPlayer.key = this.props.playerKey;
           }
           const MessageHeader = glamorous.div({
-            padding: '1rem 0 0',
+            padding: '0.5rem 0 0',
             fontFamily: 'Vulf Mono Bold',
             color: fromPlayer ? fromPlayer.color : colors.black,
           });
