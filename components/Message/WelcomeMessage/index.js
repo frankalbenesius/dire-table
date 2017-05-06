@@ -37,7 +37,9 @@ class WelcomeMessage extends React.Component {
     this.tableLink = `${window.location.origin}/${this.props.tableKey}`;
   }
   handleClick = () => {
-    this.setState({ copied: true }, copy(this.tableLink));
+    this.setState({ copied: true }, () => {
+      copy(this.tableLink);
+    });
   };
   render() {
     return (

@@ -7,7 +7,6 @@ const black = palette.black;
 const gray = palette.gray[5];
 const red = palette.red[5];
 const orange = palette.orange[6];
-// const yellow = palette.yellow[7]; // too light
 // const lime = palette.lime[6]; // too close to green
 const green = palette.green[6];
 const teal = palette.teal[8];

@@ -6,6 +6,7 @@ import glamorous from 'glamorous';
 
 import RollMessage from './RollMessage';
 import WelcomeMessage from './WelcomeMessage';
+import ErrorMessage from './ErrorMessage';
 import Tag from '../Tag';
 import { colors, sizes } from '../constants';
 
@@ -81,6 +82,10 @@ const Message = ({ type, content, fromPlayer, thisPlayer, tableKey, players, res
           thisPlayer={thisPlayer}
         />
       );
+      break;
+    }
+    case 'error': {
+      innerMessage = <ErrorMessage>{content}</ErrorMessage>;
       break;
     }
     default: {

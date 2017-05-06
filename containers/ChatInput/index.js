@@ -11,6 +11,7 @@ import getPlayerColor from '../../database/getPlayerColor';
 const propTypes = {
   playerKey: PropTypes.string,
   sendMessage: PropTypes.func,
+  // onError: PropTypes.func, // for firebase functions
   // table: PropTypes.string // connected to firebase
 };
 
@@ -91,7 +92,7 @@ class ChatInput extends React.Component {
 }
 ChatInput.propTypes = propTypes;
 
-export default connect(({ tableKey, playerKey }, ref) => ({
+export default connect(({ tableKey, playerKey, onError }, ref) => ({
   sendMessage: (player, text) => {
     const message = parseInput(player, text, firebase.database.ServerValue.TIMESTAMP);
     switch (message.type) {
@@ -112,14 +113,19 @@ export default connect(({ tableKey, playerKey }, ref) => ({
                       .map(p => p.color);
                     myPlayer.color = getPlayerColor(myPlayer.gm, currentColors);
                   } else {
-                    throw new Error('unfortunately, gms cannot change their color');
+                    throw new Error('GMs cannot change their color.');
                   }
                 }
                 return players;
               });
             } catch (e) {
-              // TODO: errors on command execution
-              console.warn(e); // eslint-disable-line no-console
+              // gms cannot change color
+              onError({
+                player: playerKey,
+                timestamp: Date.now(),
+                type: 'error',
+                content: e.message,
+              });
             }
             break;
           }
@@ -131,19 +137,26 @@ export default connect(({ tableKey, playerKey }, ref) => ({
             break;
           }
           default: {
-            // eslint-disable-next-line no-console
-            console.error('accepted a command with no logic', `/${command} ${argument}`);
+            onError({
+              player: playerKey,
+              timestamp: Date.now(),
+              type: 'error',
+              content: `Allowed an unrecognized command: /${command}`,
+            });
           }
         }
         break;
       }
       case 'error': {
-        // TODO: errors on command recognition
-        console.warn(message.content); // eslint-disable-line no-console
+        onError({
+          player: playerKey,
+          timestamp: Date.now(),
+          type: 'error',
+          content: message.content,
+        });
         break;
       }
       default: {
-        // push to database
         ref(`tables/${tableKey}/messages`).push(message);
         break;
       }

@@ -8,13 +8,29 @@ import ChatHeader from '../../components/ChatHeader';
 import ChatWrapper from '../../components/ChatWrapper';
 
 // TODO: Messages & ChatInput #containerSplit
-const Chat = ({ playerKey, table }) => (
-  <ChatWrapper>
-    <ChatHeader />
-    <Messages tableKey={table} playerKey={playerKey} />
-    <ChatInput tableKey={table} playerKey={playerKey} />
-  </ChatWrapper>
-);
+class Chat extends React.Component {
+  state = { errors: [] };
+  handleError = (error) => {
+    this.setState({
+      errors: [...this.state.errors, error],
+    });
+  };
+  render() {
+    const { table, playerKey } = this.props;
+    return (
+      <ChatWrapper>
+        <ChatHeader />
+        <Messages
+          errors={this.state.errors}
+          onError={this.handleError}
+          tableKey={table}
+          playerKey={playerKey}
+        />
+        <ChatInput onError={this.handleError} tableKey={table} playerKey={playerKey} />
+      </ChatWrapper>
+    );
+  }
+}
 Chat.propTypes = {
   table: PropTypes.string,
   playerKey: PropTypes.string,

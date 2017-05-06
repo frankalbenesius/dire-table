@@ -35,14 +35,13 @@ class Messages extends React.Component {
     }, 10); // there may be a better way to do this, like on a callback or something
   }
   render() {
-    const messagesList = this.props.messages
-      ? Object.keys(this.props.messages)
-          .map(key => ({
-            key,
-            ...this.props.messages[key],
-          }))
-          .sort(byTimestamp)
+    const messages = this.props.messages
+      ? Object.keys(this.props.messages).map(key => ({
+        key,
+        ...this.props.messages[key],
+      }))
       : [];
+    const messagesList = messages.concat(this.props.errors).sort(byTimestamp);
     return (
       <MessagesWrapper>
         {messagesList.map((m, i, arr) => {
@@ -60,7 +59,7 @@ class Messages extends React.Component {
           const isRepeatedPlayer = i >= 1 ? m.player === arr[i - 1].player : false;
           const shouldShowHeader = isBroadcastedType && !isRepeatedPlayer;
           return (
-            <div key={m.key} title={formatDate(m.timestamp, 'M/D/YY h:mm A')}>
+            <div key={`${m.player}${m.timestamp}`} title={formatDate(m.timestamp, 'M/D/YY h:mm A')}>
               {shouldShowHeader
                 ? <MessageHeader>
                   {fromPlayer.name}
@@ -90,6 +89,14 @@ class Messages extends React.Component {
 }
 Messages.propTypes = {
   messages: PropTypes.object,
+  errors: PropTypes.arrayOf(
+    PropTypes.shape({
+      player: PropTypes.string,
+      content: PropTypes.string,
+      timestamp: PropTypes.number,
+      type: PropTypes.string,
+    }),
+  ),
   players: PropTypes.object,
   playerKey: PropTypes.string,
   tableKey: PropTypes.string, // for connecting to firebase

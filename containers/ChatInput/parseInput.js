@@ -26,7 +26,7 @@ export default (player, text, timestamp = Date.now()) => {
           player,
           timestamp,
           type: 'error',
-          content: 'Failed to parse roll.',
+          content: `Couldn't understand roll: "${argument}"`,
         };
       }
     }
@@ -42,11 +42,19 @@ export default (player, text, timestamp = Date.now()) => {
           },
         };
       }
+      if (argument) {
+        return {
+          player,
+          timestamp,
+          type: 'error',
+          content: `"${argument}" isn't a valid name."`,
+        };
+      }
       return {
         player,
         timestamp,
         type: 'error',
-        content: 'Error: name command requires a valid name.',
+        content: 'You must provide a new name, like "/name Frank".',
       };
     }
     if (command === 'color' || command === 'c') {
@@ -60,12 +68,11 @@ export default (player, text, timestamp = Date.now()) => {
         },
       };
     }
-    // Error: command doesn't exist
     return {
       player,
       timestamp,
       type: 'error',
-      content: `Unrecognized command: ${command}`,
+      content: `Unrecognized command: "/${command}"`,
     };
   }
   return {
