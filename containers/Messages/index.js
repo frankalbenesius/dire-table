@@ -4,7 +4,7 @@ import glamorous from 'glamorous';
 import formatDate from 'date-fns/format';
 import { connect } from 'react-firebase';
 
-import { sizes } from '../../components/constants';
+import { colors, sizes } from '../../components/constants';
 import Message from '../../components/Message';
 
 const MessagesWrapper = glamorous.div({
@@ -42,21 +42,31 @@ class Messages extends React.Component {
     return (
       <MessagesWrapper>
         {messagesList.map((m, i, arr) => {
-          const player = this.props.players[m.player];
+          const fromPlayer = this.props.players[m.player];
           const MessageHeader = glamorous.div({
             margin: '1rem 0 0',
             fontFamily: 'Vulf Mono Bold',
-            color: player.color,
+            color: fromPlayer ? fromPlayer.color : colors.black,
           });
+          const isBroadcastedType = ['text', 'roll'].indexOf(m.type) > -1;
+          const isRepeatedPlayer = i >= 1 ? m.player === arr[i - 1].player : false;
+          const shouldShowHeader = isBroadcastedType && !isRepeatedPlayer;
           return (
             <div key={m.key} title={formatDate(m.timestamp, 'M/D/YY h:mm A')}>
-              {(m.player && i === 0) || arr[i - 1].player !== m.player
+              {shouldShowHeader
                 ? <MessageHeader>
-                  {player.gm ? <span>{'GM '}</span> : null}
-                  {player.name}
+                  {fromPlayer.gm ? <span>{'GM '}</span> : null}
+                  {fromPlayer.name}
                 </MessageHeader>
                 : null}
-              <Message content={m.content} player={player} type={m.type} />
+              <Message
+                content={m.content}
+                players={this.props.players}
+                tableKey={this.props.tableKey}
+                fromPlayer={fromPlayer}
+                playerKey={this.props.playerKey}
+                type={m.type}
+              />
             </div>
           );
         })}
@@ -72,10 +82,11 @@ class Messages extends React.Component {
 Messages.propTypes = {
   messages: PropTypes.object,
   players: PropTypes.object,
-  // table: PropTypes.string, connected to firebase
+  playerKey: PropTypes.string,
+  tableKey: PropTypes.string, // for connecting to firebase
 };
 
-export default connect(({ table }) => ({
-  messages: `tables/${table}/messages`,
-  players: `tables/${table}/players`,
+export default connect(({ tableKey }) => ({
+  messages: `tables/${tableKey}/messages`,
+  players: `tables/${tableKey}/players`,
 }))(Messages);

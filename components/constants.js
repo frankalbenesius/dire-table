@@ -30,6 +30,8 @@ export const colors = {
   chat: palette.gray[2],
   tools: palette.gray[2],
   selection: palette.cyan[2],
+  button: palette.blue[5],
+  buttonActive: palette.blue[7],
   gm: pureBlack,
   player: [red, blue, green, orange, pink, cyan],
   disconnected: gray,

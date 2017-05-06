@@ -11,8 +11,8 @@ import ChatWrapper from '../../components/ChatWrapper';
 const Chat = ({ playerKey, table }) => (
   <ChatWrapper>
     <ChatHeader />
-    <Messages table={table} />
-    <ChatInput table={table} playerKey={playerKey} />
+    <Messages tableKey={table} playerKey={playerKey} />
+    <ChatInput tableKey={table} playerKey={playerKey} />
   </ChatWrapper>
 );
 Chat.propTypes = {

@@ -79,12 +79,23 @@ export const joinTable = proposedKey =>
     }
 
     const playersRef = database.ref(`tables/${tableKey}/players`);
-    const myPlayerKey = getStoredId(tableKey) || playersRef.push().key;
+    const storedId = getStoredId(tableKey);
+    const myPlayerKey = storedId || playersRef.push().key;
     setStoredId(tableKey, myPlayerKey);
     const myPlayerRef = database.ref(`tables/${tableKey}/players/${myPlayerKey}`);
     myPlayerRef.update({
       connected: true,
     });
+    if (!storedId && myPlayerKey) {
+      // this player will be new, send an intro message
+      const messagesRef = database.ref(`tables/${tableKey}/messages`);
+      messagesRef.push({
+        content: myPlayerKey,
+        player: '',
+        timestamp: firebase.database.ServerValue.TIMESTAMP,
+        type: 'connected',
+      });
+    }
     myPlayerRef.onDisconnect().update({
       connected: false,
       disconnectedAt: firebase.database.ServerValue.TIMESTAMP,
@@ -93,6 +104,7 @@ export const joinTable = proposedKey =>
     // avoid name & color collisions
     playersRef.transaction((players) => {
       if (players) {
+        // otherwise there are no players (shouldn't happen)
         const myPlayer = players[myPlayerKey];
         if (myPlayer.gm === undefined) {
           // I'm the first player, become the GM!
@@ -108,7 +120,6 @@ export const joinTable = proposedKey =>
         }
         // TODO: figure out player limit
       }
-      // there are no players (shouldn't happen);
       return players;
     });
     return {

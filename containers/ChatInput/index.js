@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { style } from 'glamor';
 import { connect } from 'react-firebase';
+import firebase from 'firebase';
 
 import parseInput from './parseInput';
 import { colors, sizes } from '../../components/constants';
@@ -36,6 +37,9 @@ const styles = {
     color: colors.white,
     fontFamily: 'Vulf Mono Italic',
     borderRadius: sizes.radius,
+    ':active': {
+      backgroundColor: colors.buttonActive,
+    },
   }),
 };
 
@@ -86,11 +90,11 @@ class ChatInput extends React.Component {
 }
 ChatInput.propTypes = propTypes;
 
-export default connect(({ table }, ref) => ({
+export default connect(({ tableKey }, ref) => ({
   sendMessage: (player, text) => {
-    const message = parseInput(player, text);
+    const message = parseInput(player, text, firebase.database.ServerValue.TIMESTAMP);
     if (message.type !== 'error') {
-      ref(`tables/${table}/messages`).push(message);
+      ref(`tables/${tableKey}/messages`).push(message);
     } else {
       // TODO: do something with the error
     }
