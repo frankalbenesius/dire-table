@@ -13,7 +13,7 @@ const MessagesWrapper = glamorous.div({
   lineHeight: '1.618em',
   overflowY: 'scroll',
   height: '100%',
-  padding: '0.5rem 1rem 0',
+  padding: '0 1rem',
 });
 
 const byTimestamp = (a, b) => a.timestamp - b.timestamp;
@@ -43,6 +43,10 @@ class Messages extends React.Component {
       <MessagesWrapper>
         {messagesList.map((m, i, arr) => {
           const fromPlayer = this.props.players[m.player];
+          const thisPlayer = this.props.players[this.props.playerKey];
+          if (thisPlayer) {
+            thisPlayer.key = this.props.playerKey;
+          }
           const MessageHeader = glamorous.div({
             margin: '1rem 0 0',
             fontFamily: 'Vulf Mono Bold',
@@ -64,7 +68,7 @@ class Messages extends React.Component {
                 players={this.props.players}
                 tableKey={this.props.tableKey}
                 fromPlayer={fromPlayer}
-                playerKey={this.props.playerKey}
+                thisPlayer={thisPlayer}
                 type={m.type}
               />
             </div>

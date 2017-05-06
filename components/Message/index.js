@@ -3,8 +3,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import glamorous from 'glamorous';
-import copy from 'copy-to-clipboard';
 
+import WelcomeMessage from './WelcomeMessage';
 import { colors, sizes } from '../constants';
 
 const lineHeight = 0.9;
@@ -14,6 +14,9 @@ const MessageWrapper = glamorous.div({
 });
 
 const Text = glamorous.div({});
+const DisplayName = glamorous.span({
+  fontFamily: 'Vulf Mono Bold Italic',
+});
 
 const RollFormula = glamorous.div({
   color: colors.black,
@@ -55,73 +58,36 @@ const SystemMessage = glamorous.div({
   textAlign: 'center',
   color: colors.black,
   marginTop: '1rem',
-  padding: '0 0.5rem',
-});
-const PaddedDiv = glamorous.div({
-  marginBottom: '0.5rem',
-});
-const InheritLink = glamorous.a({
-  color: 'inherit',
-});
-const Button = glamorous.button({
-  border: 0,
-  padding: '0.25rem 0.5rem',
-  backgroundColor: colors.button,
-  color: colors.white,
-  fontFamily: 'Vulf Mono Italic',
   borderRadius: sizes.radius,
-  ':active': {
-    backgroundColor: colors.buttonActive,
-  },
+  padding: '0.5rem',
+  border: `1px solid ${colors.gray}`,
+  // backgroundColor: colors.gray,
 });
-class ConnectionMessage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { copied: false };
-    this.tableLink = `${window.location.origin}/${this.props.tableKey}`;
-  }
-  handleClick = () => {
-    this.setState({ copied: true }, copy(this.tableLink));
-  };
-  render() {
-    if (this.props.connectedPlayer.key === this.props.playerKey) {
-      return (
-        <SystemMessage>
-          <div>
-            <PaddedDiv>
-              Welcome to <span style={{ color: colors.brand }}>Dire Table</span>!
-            </PaddedDiv>
-            <PaddedDiv>
-              Share the
-              {' '}
-              <InheritLink href={this.tableLink}>Table Link</InheritLink>
-              {' '}
-              with your friends to invite them.
-            </PaddedDiv>
-            <Button onClick={this.handleClick}>
-              Copy Table Link
-            </Button>
-          </div>
-        </SystemMessage>
-      );
-    }
+
+const ConnectionMessage = (props) => {
+  if (props.connectedPlayer.key === props.thisPlayer.key) {
     return (
       <SystemMessage>
-        <span style={{ color: this.props.connectedPlayer.color }}>
-          {this.props.connectedPlayer.gm ? 'GM ' : null}
-          {this.props.connectedPlayer.name}
-        </span> has joined.
+        <WelcomeMessage tableKey={props.tableKey} player={props.thisPlayer} />
       </SystemMessage>
     );
   }
-}
+  return (
+    <SystemMessage>
+      <DisplayName style={{ color: props.connectedPlayer.color }}>
+        {props.connectedPlayer.gm ? 'GM ' : null}
+        {props.connectedPlayer.name}
+      </DisplayName> has joined.
+    </SystemMessage>
+  );
+};
 ConnectionMessage.propTypes = {
   connectedPlayer: PropTypes.object,
-  playerKey: PropTypes.string,
+  thisPlayer: PropTypes.object,
   tableKey: PropTypes.string,
 };
 
-const Message = ({ type, content, fromPlayer, playerKey, tableKey, players }) => {
+const Message = ({ type, content, fromPlayer, thisPlayer, tableKey, players }) => {
   let innerMessage;
   switch (type) {
     case 'roll': {
@@ -141,7 +107,7 @@ const Message = ({ type, content, fromPlayer, playerKey, tableKey, players }) =>
         <ConnectionMessage
           connectedPlayer={connectedPlayer}
           tableKey={tableKey}
-          playerKey={playerKey}
+          thisPlayer={thisPlayer}
         />
       );
       break;
@@ -158,7 +124,7 @@ Message.propTypes = {
   content: PropTypes.any, //eslint-disable-line
   fromPlayer: PropTypes.object,
   players: PropTypes.object,
-  playerKey: PropTypes.string,
+  thisPlayer: PropTypes.object,
   tableKey: PropTypes.string,
 };
 

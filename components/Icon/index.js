@@ -9,12 +9,11 @@ const iconClass = style({
   verticalAlign: 'middle',
 });
 
-const Icon = ({ icon = 'neutral', styles }) => (
-  <svg className={iconClass} styles={styles} viewBox="0 1 19 19">{iconPaths[icon]}</svg>
+const Icon = ({ icon = 'neutral' }) => (
+  <svg className={iconClass} viewBox="0 1 19 19">{iconPaths[icon]}</svg>
 );
 Icon.propTypes = {
   icon: PropTypes.string,
-  styles: PropTypes.object,
 };
 
 export default Icon;
