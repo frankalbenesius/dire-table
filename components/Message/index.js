@@ -14,7 +14,11 @@ const MessageWrapper = glamorous.div({
   margin: '0.4rem 0',
 });
 
-const Text = glamorous.div({});
+const Text = glamorous.div(
+  {
+    // padding: '0 1rem',
+  },
+);
 
 const Message = ({ type, content, fromPlayer, thisPlayer, tableKey, players, resend }) => {
   let innerMessage;

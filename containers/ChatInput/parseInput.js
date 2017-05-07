@@ -1,7 +1,7 @@
 import roller from 'rpgdicejs';
 import trim from 'lodash/trim';
 
-export default (player, text, timestamp = Date.now()) => {
+export default (text) => {
   const commandRegex = /^\/([a-zA-Z]+)( .*)?/g; // matches /letters and optional argument
   const match = commandRegex.exec(text);
   if (match) {
@@ -11,8 +11,6 @@ export default (player, text, timestamp = Date.now()) => {
       try {
         const result = roller.eval(argument);
         return {
-          player,
-          timestamp,
           type: 'roll',
           content: {
             formula: argument,
@@ -21,10 +19,7 @@ export default (player, text, timestamp = Date.now()) => {
           },
         };
       } catch (e) {
-        // Error: failed to parse roll
         return {
-          player,
-          timestamp,
           type: 'error',
           content: `Couldn't understand roll: "${argument}"`,
         };
@@ -33,8 +28,6 @@ export default (player, text, timestamp = Date.now()) => {
     if (command === 'name' || command === 'n') {
       if (argument) {
         return {
-          player,
-          timestamp,
           type: 'command',
           content: {
             command: 'name',
@@ -44,23 +37,17 @@ export default (player, text, timestamp = Date.now()) => {
       }
       if (argument) {
         return {
-          player,
-          timestamp,
           type: 'error',
           content: `"${argument}" isn't a valid name."`,
         };
       }
       return {
-        player,
-        timestamp,
         type: 'error',
         content: 'You must provide a new name, like "/name Frank".',
       };
     }
     if (command === 'color' || command === 'c') {
       return {
-        player,
-        timestamp,
         type: 'command',
         content: {
           command: 'color',
@@ -70,8 +57,6 @@ export default (player, text, timestamp = Date.now()) => {
     }
     if (command === 'clear') {
       return {
-        player,
-        timestamp,
         type: 'command',
         content: {
           command,
@@ -80,15 +65,11 @@ export default (player, text, timestamp = Date.now()) => {
       };
     }
     return {
-      player,
-      timestamp,
       type: 'error',
       content: `Unrecognized command: "/${command}"`,
     };
   }
   return {
-    player,
-    timestamp,
     type: 'text',
     content: text,
   };

@@ -11,7 +11,7 @@ import getPlayerColor from '../../database/getPlayerColor';
 const propTypes = {
   playerKey: PropTypes.string,
   sendMessage: PropTypes.func,
-  // onError: PropTypes.func, // for firebase functions
+  // pushMessage: PropTypes.func, // for firebase functions
   // table: PropTypes.string // connected to firebase
 };
 
@@ -92,9 +92,17 @@ class ChatInput extends React.Component {
 }
 ChatInput.propTypes = propTypes;
 
-export default connect(({ tableKey, playerKey, onError }, ref) => ({
+export default connect(({ tableKey, playerKey }, ref) => ({
   sendMessage: (player, text) => {
-    const message = parseInput(player, text, firebase.database.ServerValue.TIMESTAMP);
+    const message = parseInput(text);
+    const pushMessage = (m) => {
+      const wholeMessage = {
+        ...m,
+        timestamp: firebase.database.ServerValue.TIMESTAMP,
+        player: playerKey,
+      };
+      ref(`tables/${tableKey}/messages`).push(wholeMessage);
+    };
     switch (message.type) {
       case 'command': {
         // do something unique, sometimes on db
@@ -120,9 +128,7 @@ export default connect(({ tableKey, playerKey, onError }, ref) => ({
               });
             } catch (e) {
               // gms cannot change color
-              onError({
-                player: playerKey,
-                timestamp: Date.now(),
+              pushMessage({
                 type: 'error',
                 content: e.message,
               });
@@ -149,9 +155,7 @@ export default connect(({ tableKey, playerKey, onError }, ref) => ({
                 };
                 tableRef.update(updates);
               } else {
-                onError({
-                  player: playerKey,
-                  timestamp: Date.now(),
+                pushMessage({
                   type: 'error',
                   content: 'Only GMs can clear the board.',
                 });
@@ -160,9 +164,7 @@ export default connect(({ tableKey, playerKey, onError }, ref) => ({
             break;
           }
           default: {
-            onError({
-              player: playerKey,
-              timestamp: Date.now(),
+            pushMessage({
               type: 'error',
               content: `Allowed an unrecognized command: /${command}`,
             });
@@ -171,16 +173,11 @@ export default connect(({ tableKey, playerKey, onError }, ref) => ({
         break;
       }
       case 'error': {
-        onError({
-          player: playerKey,
-          timestamp: Date.now(),
-          type: 'error',
-          content: message.content,
-        });
+        pushMessage(message);
         break;
       }
       default: {
-        ref(`tables/${tableKey}/messages`).push(message);
+        pushMessage(message);
         break;
       }
     }

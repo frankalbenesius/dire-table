@@ -16,7 +16,7 @@ const SystemMessage = glamorous.div({
   fontFamily: 'Vulf Mono Light Italic',
   textAlign: 'center',
   color: colors.black,
-  marginTop: '1rem',
+  marginTop: '0.5rem',
   borderRadius: sizes.radius,
   padding: '0.5rem',
   border: `1px solid ${colors.gray}`,

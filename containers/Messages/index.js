@@ -17,10 +17,16 @@ const MessagesWrapper = glamorous.div({
   lineHeight: '1.618em',
   overflowY: 'scroll',
   height: '100%',
-  padding: '0 1rem',
+  padding: '0.5rem 1rem',
 });
 
 const byTimestamp = (a, b) => a.timestamp - b.timestamp;
+const onlyPlayerError = playerKey => (message) => {
+  if (message.type !== 'error') {
+    return true;
+  }
+  return message.player === playerKey;
+};
 
 class Messages extends React.Component {
   componentDidMount() {
@@ -41,10 +47,11 @@ class Messages extends React.Component {
         ...this.props.messages[key],
       }))
       : [];
+    const onMyErrors = onlyPlayerError(this.props.playerKey);
     const messagesList = messages.concat(this.props.errors).sort(byTimestamp);
     return (
       <MessagesWrapper>
-        {messagesList.map((m, i, arr) => {
+        {messagesList.filter(onMyErrors).map((m, i, arr) => {
           const fromPlayer = this.props.players[m.player];
           const thisPlayer = this.props.players[this.props.playerKey];
           if (thisPlayer) {
@@ -106,9 +113,14 @@ Messages.propTypes = {
 export default connect(({ tableKey, playerKey }, ref) => ({
   resend: (text) => {
     // resend a message from this player
+    const message = parseInput(text);
+    const wholeMessage = {
+      ...message,
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
+      player: playerKey,
+    };
     const messagesRef = ref(`tables/${tableKey}/messages`);
-    const message = parseInput(playerKey, text, firebase.database.ServerValue.TIMESTAMP);
-    messagesRef.push(message);
+    messagesRef.push(wholeMessage);
   },
   messages: `tables/${tableKey}/messages`,
   players: `tables/${tableKey}/players`,
