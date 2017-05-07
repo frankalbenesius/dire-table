@@ -7,7 +7,7 @@ import { colors, sizes } from '../../constants';
 const RollFormula = glamorous.div({
   color: colors.black,
   display: 'inline-block',
-  cursor: 'pointer',
+  cursor: 'default',
   ':hover': {
     textDecoration: 'underline',
   },

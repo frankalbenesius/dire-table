@@ -36,9 +36,9 @@ class Map extends React.Component {
       },
       startCoord: null,
     };
-    this.handleMouseDown = this.handleMouseDown.bind(this);
-    this.handleMouseUp = this.handleMouseUp.bind(this);
-    this.handleMouseMove = this.handleMouseMove.bind(this);
+    this.handleBoardMouseDown = this.handleBoardMouseDown.bind(this);
+    this.handleBoardMouseUp = this.handleBoardMouseUp.bind(this);
+    this.handleBoardMouseMove = this.handleBoardMouseMove.bind(this);
     this.handleTokenDrag = this.handleTokenDrag.bind(this);
     this.handleTokenShiftClick = this.handleTokenShiftClick.bind(this);
   }
@@ -52,7 +52,7 @@ class Map extends React.Component {
     }
   }
 
-  handleMouseMove(e) {
+  handleBoardMouseMove(e) {
     e.preventDefault();
     e.stopPropagation();
     this.setState({
@@ -63,7 +63,7 @@ class Map extends React.Component {
     });
   }
 
-  handleMouseDown(e) {
+  handleBoardMouseDown(e) {
     if (e.nativeEvent.which === 1) {
       e.preventDefault();
       e.stopPropagation();
@@ -89,7 +89,7 @@ class Map extends React.Component {
     }
   }
 
-  handleMouseUp(e) {
+  handleBoardMouseUp(e) {
     if (e.nativeEvent.which === 1) {
       e.preventDefault();
       e.stopPropagation();
@@ -159,9 +159,9 @@ class Map extends React.Component {
       <Frame centerPx={this.props.board.centerPx}>
         <Board
           boardPx={this.props.board.boardPx}
-          onMouseMove={this.handleMouseMove}
-          onMouseDown={this.handleMouseDown}
-          onMouseUp={this.handleMouseUp}
+          onMouseMove={this.handleBoardMouseMove}
+          onMouseDown={this.handleBoardMouseDown}
+          onMouseUp={this.handleBoardMouseUp}
         >
           <AreaLayer
             tool={this.props.tool}

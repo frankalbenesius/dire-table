@@ -3,18 +3,22 @@ import { SELECT_TOOL } from '../../constants/actions';
 const options = {
   cursor: {
     id: 'cursor',
+    name: 'Cursor',
     icon: 'pointerUp',
   },
   token: {
     id: 'token',
+    name: 'Add Token',
     icon: 'plusCircle',
   },
   add: {
     id: 'add',
+    name: 'Add Area',
     icon: 'combine',
   },
   remove: {
     id: 'remove',
+    name: 'Remove Area',
     icon: 'subtract',
   },
 };

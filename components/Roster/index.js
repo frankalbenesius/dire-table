@@ -29,7 +29,6 @@ const Roster = ({ player, players, onPlayerClick }) => {
   if (player.gm) {
     nameStyles.pointerEvents = 'auto';
     nameStyles[':hover'] = {
-      cursor: 'pointer',
       textDecoration: 'underline',
     };
   }
@@ -43,7 +42,7 @@ const Roster = ({ player, players, onPlayerClick }) => {
       pointerEvents: 'none',
       border: `2px solid ${colors.black}`,
       backgroundColor: colors.tools,
-      boxShadow: `0 0 0.6rem ${colors.black}`,
+      boxShadow: `0 0.1rem 0.6rem ${colors.black}`,
       textAlign: 'center',
     }),
     header: css({

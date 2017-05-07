@@ -36,7 +36,7 @@ const Token = (props) => {
   if (props.cursor) {
     tokenClass = styles.cursor;
   }
-  const player = props.player;
+  const player = props.player || { color: '#000' };
   return (
     <g
       className={tokenClass}

@@ -1,29 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { css } from 'glamor';
+import glamorous from 'glamorous';
 
 import { colors, sizes } from '../constants';
 
-const styles = {
-  wrapper: css({
-    boxSizing: 'border-box',
-    width: '50px',
-    display: 'flex',
-    position: 'absolute',
-    left: sizes.overlayPadding,
-    top: sizes.overlayPadding,
-    border: `2px solid ${colors.black}`,
-    boxShadow: `0 0 0.6rem ${colors.black}`,
-    fill: '#000',
-  }),
-};
+const Wrapper = glamorous.div({
+  border: `2px solid ${colors.black}`,
+  boxShadow: `0 0.1rem 0.6rem ${colors.black}`,
+  fill: '#000',
+  backgroundColor: colors.tools,
+  position: 'absolute',
+  width: '50px',
+  left: sizes.overlayPadding,
+  top: sizes.overlayPadding,
+});
 
 const Toolbar = ({ children }) => (
-  <div className={styles.wrapper}>
-    <div>
-      {children}
-    </div>
-  </div>
+  <Wrapper>
+    {children}
+  </Wrapper>
 );
 Toolbar.propTypes = {
   children: PropTypes.node,
