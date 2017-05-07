@@ -36,6 +36,7 @@ class Overlay extends React.Component {
                   key={i}
                   icon={tool.icon}
                   name={tool.name}
+                  info={tool.info}
                   selected={tool.id === this.props.selectedTool}
                   onClick={() => this.props.handleToolClick(tool.id, player.key)}
                 />
