@@ -78,7 +78,7 @@ class ChatInput extends React.Component {
         <form onSubmit={this.submit}>
           <textarea
             rows={3}
-            placeholder={'Enter a message or command here.'}
+            placeholder={'Enter a message or command.'}
             className={styles.input}
             onChange={this.handleChange}
             onKeyPress={this.checkForEnterKey}
@@ -131,8 +131,9 @@ export default connect(({ tableKey, playerKey, onError }, ref) => ({
           }
           case 'name': {
             const playerRef = ref(`tables/${tableKey}/players/${playerKey}`);
+            const maxNameLength = 20;
             playerRef.update({
-              name: argument,
+              name: argument.substring(0, maxNameLength),
             });
             break;
           }
