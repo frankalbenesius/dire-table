@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 import glamorous from 'glamorous';
 import copy from 'copy-to-clipboard';
 
-import { colors, sizes } from '../../constants';
+import { colors, sizes } from '../../../constants';
 
-const PaddedDiv = glamorous.div({
-  marginBottom: '0.5rem',
+const Paragraph = glamorous.div({
+  padding: '0.25rem 0',
 });
 const InheritLink = glamorous.a({
   color: 'inherit',
@@ -44,27 +44,27 @@ class WelcomeMessage extends React.Component {
   render() {
     return (
       <div>
-        <PaddedDiv>
+        <Paragraph>
           Welcome to <span style={{ color: colors.brand }}>Dire Table</span>!
-        </PaddedDiv>
-        <PaddedDiv>
+        </Paragraph>
+        <Paragraph>
           Share the
           {' '}
           <InheritLink href={this.tableLink}>Table Link</InheritLink>
           {' '}
           with your friends to invite them.
-        </PaddedDiv>
-        <PaddedDiv>
+        </Paragraph>
+        <Paragraph>
           <Button onClick={this.handleClick}>
             Copy Table Link
           </Button>
-        </PaddedDiv>
-        <PaddedDiv>
+        </Paragraph>
+        <Paragraph>
           Your display name is:
           <DisplayName style={{ color: this.props.player.color }}>
             {' '}{this.props.player.name}
           </DisplayName>
-        </PaddedDiv>
+        </Paragraph>
       </div>
     );
   }

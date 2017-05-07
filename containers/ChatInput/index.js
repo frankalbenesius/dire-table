@@ -78,7 +78,7 @@ class ChatInput extends React.Component {
         <form onSubmit={this.submit}>
           <textarea
             rows={3}
-            placeholder={'Send "/roll 1d20" to roll.'}
+            placeholder={'Enter a message or command here.'}
             className={styles.input}
             onChange={this.handleChange}
             onKeyPress={this.checkForEnterKey}
@@ -134,6 +134,15 @@ export default connect(({ tableKey, playerKey, onError }, ref) => ({
             playerRef.update({
               name: argument,
             });
+            break;
+          }
+          case 'clear': {
+            const tableRef = ref(`tables/${tableKey}`);
+            const updates = {
+              '/areas': null,
+              '/tokens': null,
+            };
+            tableRef.update(updates);
             break;
           }
           default: {

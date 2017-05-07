@@ -68,6 +68,17 @@ export default (player, text, timestamp = Date.now()) => {
         },
       };
     }
+    if (command === 'clear') {
+      return {
+        player,
+        timestamp,
+        type: 'command',
+        content: {
+          command,
+          argument,
+        },
+      };
+    }
     return {
       player,
       timestamp,
