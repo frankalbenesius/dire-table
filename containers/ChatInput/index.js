@@ -137,12 +137,25 @@ export default connect(({ tableKey, playerKey, onError }, ref) => ({
             break;
           }
           case 'clear': {
-            const tableRef = ref(`tables/${tableKey}`);
-            const updates = {
-              '/areas': null,
-              '/tokens': null,
-            };
-            tableRef.update(updates);
+            const playerRef = ref(`tables/${tableKey}/players/${playerKey}`);
+            playerRef.once('value', (snapshot) => {
+              const isGm = snapshot.val().gm;
+              if (isGm) {
+                const tableRef = ref(`tables/${tableKey}`);
+                const updates = {
+                  '/areas': null,
+                  '/tokens': null,
+                };
+                tableRef.update(updates);
+              } else {
+                onError({
+                  player: playerKey,
+                  timestamp: Date.now(),
+                  type: 'error',
+                  content: 'Only GMs can clear the board.',
+                });
+              }
+            });
             break;
           }
           default: {
