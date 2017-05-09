@@ -78,10 +78,10 @@ Token.propTypes = {
   onMouseDown: PropTypes.func, // from props, could refactor further
   draggingKey: PropTypes.string, // from props, could refactor further
   cursor: PropTypes.object, // from props
-  // ownerKey: PropTypes.string, // from props
-  tokenKey: PropTypes.string, // from props
-  // tableKey: PropTypes.string, // from redux
-  // playerKey: PropTypes.string, // from redux
+  // ownerKey: PropTypes.string, // from props -> gets firebase data
+  tokenKey: PropTypes.string, // from props -> gets firebase data
+  // tableKey: PropTypes.string, // from redux -> gets firebase data
+  // playerKey: PropTypes.string, // from redux -> gets firebase data
   board: PropTypes.object, // from redux
   tool: PropTypes.string, // from redux
   token: PropTypes.object, // from firebase
