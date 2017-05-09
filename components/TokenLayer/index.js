@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 
 import Token from '../../components/Token';
 import TokenCursor from '../../components/TokenCursor';
-import { toCircle } from '../../util/board';
 
 const tokenSort = draggingTokenId => (a, b) => {
   if (a.size !== b.size) return b.size - a.size; // size is highest priority
-  if (a.id === draggingTokenId) return 1; // dragging is next highest priority
-  if (b.id === draggingTokenId) return null;
+  if (a.key === draggingTokenId) return 1; // dragging is next highest priority
+  if (b.key === draggingTokenId) return null;
   return a.lastUpdated - b.lastUpdated; // last priority is most recently touched
 };
 
@@ -47,31 +46,23 @@ class TokenLayer extends React.Component {
   render() {
     return (
       <g>
-        {this.props.tokens.sort(tokenSort(this.state.draggingTokenId)).map((token) => {
-          const circle = toCircle(this.props.board, token.location, token.size);
-          const editable =
-            this.props.tool === 'cursor' &&
-            (this.props.player.gm || this.props.player.key === token.player);
-          const onMouseDown = editable ? this.createHandleMouseDown(token.key) : null;
-          const onMouseUp = editable ? this.handleMouseUp : null;
-          const dragging = token.key === this.state.draggingTokenId;
-          const cx = dragging ? this.props.cursor.x : circle.cx;
-          const cy = dragging ? this.props.cursor.y : circle.cy;
-          return (
+        {this.props.tokens
+          .sort(tokenSort(this.state.draggingTokenId))
+          .map(token => (
             <Token
               key={token.key}
-              player={this.props.players[token.player]}
-              icon={token.icon}
-              cx={cx}
-              cy={cy}
-              draggable={editable}
-              dragging={dragging}
-              radius={circle.radius}
-              onMouseDown={onMouseDown}
-              onMouseUp={onMouseUp}
+              draggingKey={this.state.draggingTokenId}
+              cursor={this.props.cursor}
+              onMouseDown={this.createHandleMouseDown(token.key)}
+              onMouseUp={this.handleMouseUp}
+              board={this.props.board}
+              tool={this.props.tool}
+              ownerKey={token.player}
+              tableKey={this.props.tableKey}
+              playerKey={this.props.playerKey}
+              tokenKey={token.key}
             />
-          );
-        })}
+          ))}
         <TokenCursor
           active={this.props.tool === 'token'}
           board={this.props.board}
@@ -91,10 +82,10 @@ TokenLayer.propTypes = {
   }),
   onShiftClick: PropTypes.func,
   onDrag: PropTypes.func,
-  player: PropTypes.object,
-  players: PropTypes.object,
   newTokenPlayer: PropTypes.object,
   tokens: PropTypes.array,
+  tableKey: PropTypes.string,
+  playerKey: PropTypes.string,
 };
 
 export default TokenLayer;

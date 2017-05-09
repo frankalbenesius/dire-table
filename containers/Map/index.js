@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { connect as fbConnect } from 'react-firebase';
+import firebase from 'firebase';
 
 import { getBoard } from '../../store/reducers/board';
 import { getCurrentToolId, getNewTokenPlayerId } from '../../store/reducers/tool';
@@ -141,7 +142,6 @@ class Map extends React.Component {
   }
 
   render() {
-    const tokens = this.props.tokens || {};
     const players = !this.props.players
       ? {}
       : Object.keys(this.props.players).reduce(
@@ -154,6 +154,7 @@ class Map extends React.Component {
           }),
           {},
         );
+    const tokens = this.props.tokens || {};
     const tokensList = Object.keys(tokens).map(key => Object.assign({}, tokens[key], { key }));
     return (
       <Frame centerPx={this.props.board.centerPx}>
@@ -178,9 +179,9 @@ class Map extends React.Component {
               cursor={this.state.cursor}
               onDrag={this.handleTokenDrag}
               onShiftClick={this.handleTokenShiftClick}
-              players={players}
-              player={players[this.props.playerKey]}
               tokens={tokensList}
+              playerKey={this.props.playerKey}
+              tableKey={this.props.tableKey}
               newTokenPlayer={players[this.props.newTokenPlayerId]}
             />
             : null}
@@ -203,21 +204,21 @@ Map.propTypes = {
     size: PropTypes.number,
     squarePx: PropTypes.number,
   }),
-  playerKey: PropTypes.string,
   newTokenPlayerId: PropTypes.string,
   tool: PropTypes.string,
-  // table: PropTypes.string, // just for firebase connect
+  playerKey: PropTypes.string,
+  tableKey: PropTypes.string, // just for firebase connect
 };
 
-const mapFirebaseToProps = ({ table }, ref) => ({
-  areas: `tables/${table}/areas`,
-  tokens: `tables/${table}/tokens`,
-  players: `tables/${table}/players`,
+const mapFirebaseToProps = ({ tableKey }, ref) => ({
+  areas: `tables/${tableKey}/areas`,
+  tokens: `tables/${tableKey}/tokens`,
+  players: `tables/${tableKey}/players`,
   setAreas: (areas) => {
-    ref(`tables/${table}/areas`).set(areas);
+    ref(`tables/${tableKey}/areas`).set(areas);
   },
   setTokens: (tokens) => {
-    ref(`tables/${table}/tokens`).set(tokens);
+    ref(`tables/${tableKey}/tokens`).set(tokens);
   },
   addToken: (player, location) => {
     const newToken = {
@@ -225,17 +226,17 @@ const mapFirebaseToProps = ({ table }, ref) => ({
       location,
       icon: 'smile',
       size: 1,
-      lastUpdated: Date.now(),
+      lastUpdated: firebase.database.ServerValue.TIMESTAMP,
     };
-    ref(`tables/${table}/tokens`).push(newToken);
+    ref(`tables/${tableKey}/tokens`).push(newToken);
   },
   removeToken: (id) => {
-    ref(`tables/${table}/tokens/${id}`).remove();
+    ref(`tables/${tableKey}/tokens/${id}`).remove();
   },
   moveToken: (id, location) => {
-    ref(`tables/${table}/tokens/${id}`).update({
+    ref(`tables/${tableKey}/tokens/${id}`).update({
       location,
-      lastUpdated: Date.now(),
+      lastUpdated: firebase.database.ServerValue.TIMESTAMP,
     });
   },
 });

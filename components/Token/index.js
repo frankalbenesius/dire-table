@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { style } from 'glamor';
+import { connect } from 'react-firebase';
+
+import { toCircle } from '../../util/board';
 import { colors, sizes, noPx, opacity } from '../constants';
 import Icon from '../Icon';
 
@@ -28,54 +31,69 @@ const styles = {
 };
 
 const Token = (props) => {
-  const iconRadius = props.radius - Math.sqrt(props.radius * 3); // not sure why this works so well
-  let tokenClass = styles.undraggable;
-  if (props.draggable) {
-    tokenClass = props.dragging ? styles.dragging : styles.draggable;
+  if (props.token && props.owner) {
+    const dragging = props.draggingKey === props.tokenKey;
+
+    const circle = toCircle(props.board, props.token.location, props.token.size);
+    const cx = dragging ? props.cursor.x : circle.cx;
+    const cy = dragging ? props.cursor.y : circle.cy;
+    const radius = circle.radius;
+    const iconRadius = radius - Math.sqrt(circle.radius * 3); // not sure why this works so well
+
+    const draggable =
+      props.tool === 'cursor' && (props.player.gm || props.player.key === props.owner.key);
+
+    let tokenClass = styles.undraggable;
+    if (draggable) {
+      tokenClass = dragging ? styles.dragging : styles.draggable;
+    }
+    if (props.transparent) {
+      tokenClass = styles.cursor;
+    }
+    // const onMouseDown = draggable ? this.createHandleMouseDown(token.key) : null;
+    // const onMouseUp = draggable ? this.handleMouseUp : null;
+    // const dragging = token.key === this.state.draggingTokenId;
+
+    return (
+      <g className={tokenClass} onMouseDown={props.onMouseDown} onMouseUp={props.onMouseUp}>
+        <circle
+          draggable="true"
+          filter="url(#dropshadow)"
+          cx={cx}
+          cy={cy}
+          r={circle.radius - noPx(sizes.tokenPadding)}
+          fill={props.owner.gm ? colors.white : props.owner.color}
+        />
+        <svg x={cx - iconRadius} y={cy - iconRadius} width={iconRadius * 2} height={iconRadius * 2}>
+          <Icon icon={props.token.icon} />
+        </svg>
+      </g>
+    );
   }
-  if (props.cursor) {
-    tokenClass = styles.cursor;
-  }
-  const player = props.player || { color: '#000' };
-  return (
-    <g
-      className={tokenClass}
-      onClick={props.onClick}
-      onMouseDown={props.onMouseDown}
-      onMouseUp={props.onMouseUp}
-    >
-      <circle
-        draggable="true"
-        filter="url(#dropshadow)"
-        cx={props.cx}
-        cy={props.cy}
-        r={props.radius - noPx(sizes.tokenPadding)}
-        fill={player.gm ? colors.white : player.color}
-      />
-      <svg
-        x={props.cx - iconRadius}
-        y={props.cy - iconRadius}
-        width={iconRadius * 2}
-        height={iconRadius * 2}
-      >
-        <Icon icon={props.icon} />
-      </svg>
-    </g>
-  );
+  return null;
 };
 Token.propTypes = {
-  onClick: PropTypes.func,
   onMouseUp: PropTypes.func,
   onMouseDown: PropTypes.func,
+  draggingKey: PropTypes.string,
+  transparent: PropTypes.bool,
+  // ownerKey: PropTypes.string,
+  // tableKey: PropTypes.string,
+  // playerKey: PropTypes.string,
+  tokenKey: PropTypes.string,
+  board: PropTypes.object,
+  tool: PropTypes.string,
+  cursor: PropTypes.object,
+  token: PropTypes.object,
   player: PropTypes.object,
-  icon: PropTypes.string,
-  radius: PropTypes.number,
-  draggable: PropTypes.bool,
-  dragging: PropTypes.bool,
-  cursor: PropTypes.bool,
-  cx: PropTypes.number,
-  cy: PropTypes.number,
+  owner: PropTypes.object,
 };
 Token.defaultProps = {};
 
-export default Token;
+const MapFirebaseToProps = ({ tableKey, ownerKey, playerKey, tokenKey }) => ({
+  owner: `tables/${tableKey}/players/${ownerKey}`,
+  player: `tables/${tableKey}/players/${playerKey}`,
+  token: `tables/${tableKey}/tokens/${tokenKey}`,
+});
+
+export default connect(MapFirebaseToProps)(Token);
