@@ -73,20 +73,20 @@ const Token = (props) => {
   return null;
 };
 Token.propTypes = {
-  onMouseUp: PropTypes.func,
-  onMouseDown: PropTypes.func,
-  draggingKey: PropTypes.string,
-  transparent: PropTypes.bool,
-  // ownerKey: PropTypes.string,
-  // tableKey: PropTypes.string,
-  // playerKey: PropTypes.string,
-  tokenKey: PropTypes.string,
-  board: PropTypes.object,
-  tool: PropTypes.string,
-  cursor: PropTypes.object,
-  token: PropTypes.object,
-  player: PropTypes.object,
-  owner: PropTypes.object,
+  transparent: PropTypes.bool, // tokenCursor uses this
+  onMouseUp: PropTypes.func, // from props, could refactor further
+  onMouseDown: PropTypes.func, // from props, could refactor further
+  draggingKey: PropTypes.string, // from props, could refactor further
+  cursor: PropTypes.object, // from props
+  // ownerKey: PropTypes.string, // from props
+  tokenKey: PropTypes.string, // from props
+  // tableKey: PropTypes.string, // from redux
+  // playerKey: PropTypes.string, // from redux
+  board: PropTypes.object, // from redux
+  tool: PropTypes.string, // from redux
+  token: PropTypes.object, // from firebase
+  player: PropTypes.object, // from firebase
+  owner: PropTypes.object, // from firebase
 };
 Token.defaultProps = {};
 
