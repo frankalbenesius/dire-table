@@ -72,7 +72,7 @@ const ToolbarOption = ({ name, info, icon, onClick, selected }) => (
     <Icon icon={icon} />
     <Tooltip>
       <TooltipTitle>{name}</TooltipTitle>
-      {info.map(nugget => <TooltipNugget>{nugget}</TooltipNugget>)}
+      {info.map((nugget, i) => <TooltipNugget key={i}>{nugget}</TooltipNugget>)}
     </Tooltip>
   </button>
 );
