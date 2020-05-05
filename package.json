@@ -21,7 +21,7 @@
     "glamor": "^2.20.24",
     "glamorous": "^3.13.3",
     "js-clipper": "^1.0.1",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.13",
     "next": "^2.2.0",
     "path-match": "^1.2.4",
     "polygon": "^1.0.2",
