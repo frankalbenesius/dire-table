@@ -28,7 +28,8 @@ export default class Index extends React.Component {
   }
 
   componentDidMount() {
-    const proposedKey = this.props.url.query.key; // may be undefined
+    const urlParams = new URLSearchParams(window.location.search);
+    const proposedKey = urlParams.get("key");
     joinTable(proposedKey).then(({ table, player }) => {
       Router.replace({
         pathname: "/",
