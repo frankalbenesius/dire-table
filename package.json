@@ -17,7 +17,7 @@
     "clipper-js": "^0.0.6",
     "copy-to-clipboard": "^3.0.6",
     "date-fns": "^1.22.0",
-    "firebase": "^3.9.0",
+    "firebase": "^7.14.2",
     "glamor": "^2.20.24",
     "glamorous": "^3.13.3",
     "js-clipper": "^1.0.1",
