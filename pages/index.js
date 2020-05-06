@@ -30,16 +30,10 @@ export default class Index extends React.Component {
   componentDidMount() {
     const proposedKey = this.props.url.query.key; // may be undefined
     joinTable(proposedKey).then(({ table, player }) => {
-      Router.replace(
-        {
-          pathname: "/",
-          query: { key: table },
-        },
-        {
-          pathname: `/${table}`,
-          query: {},
-        }
-      );
+      Router.replace({
+        pathname: "/",
+        query: { key: table },
+      });
       this.setState({ table, player });
     });
     // TODO: just put this in redux?
