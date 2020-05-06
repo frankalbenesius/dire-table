@@ -28,6 +28,7 @@ export default class Index extends React.Component {
   }
 
   componentDidMount() {
+    console.log("did mount");
     const proposedKey = this.props.url.query.key; // may be undefined
     joinTable(proposedKey).then(({ table, player }) => {
       Router.replace(
