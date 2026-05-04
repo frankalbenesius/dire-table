@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    uses: frankalbenesius/homelab/.github/workflows/static-site.yml@main
+    uses: frankalbenesius/homelab-deploy/.github/workflows/static-site.yml@main
     with:
       build: true
       site-name: table
