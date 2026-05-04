@@ -1,0 +1,16 @@
+name: Deploy
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    uses: frankalbenesius/homelab/.github/workflows/static-site.yml@main
+    with:
+      build: true
+      site-name: table
+    secrets:
+      SSH_KEY: ${{ secrets.HOMELAB_DEPLOY_SSH_KEY }}
+      KNOWN_HOSTS: ${{ secrets.HOMELAB_KNOWN_HOSTS }}
